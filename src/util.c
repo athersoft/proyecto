@@ -2,7 +2,7 @@
 #include "string.h"
 #include <ctype.h>
 
-char buf[1000000000];
+char buf[10000];
 
 // castea un puntero (void *) a (Song *)
 
