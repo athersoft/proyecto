@@ -1,9 +1,16 @@
 #ifndef GAME_H
 #define GAME_H
 
+struct enemy{
+    char name;
+    int hp;
+    int atk;
+    int def;
+}
+
 struct square{ //Casilla
-    char *tipo;
-    char simbolo;
+    char *type;
+    char symbol;
     //Color nfsfekfne
     bool colision;
 
@@ -17,8 +24,8 @@ struct lvl{
     square map[100][100];
 };
 
-lvl createLvl();
-square createSquare();
+lvl *createLvl();
+square *createSquare();
 
 void showLvl();
 
