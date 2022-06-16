@@ -1,9 +1,17 @@
 #ifndef GAME_H
 #define GAME_H
 
+struct player{
+    int hp;
+    int hpMax;
+    int atk;
+    int def;
+}
+
 struct enemy{
     char name;
     int hp;
+    int hpMax;
     int atk;
     int def;
 }
