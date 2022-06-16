@@ -3,8 +3,9 @@
 square *createSquare(){
     square *Square = (square* ) malloc(sizeof(square));
     strcpy(Square -> type, "vacio");
-    Square -> symbol = "0";
+    Square -> symbol = '0';
     Square -> colision = false;
+    return Square;
 }
 
 lvl *createLevel(){
@@ -14,7 +15,7 @@ lvl *createLevel(){
     Lvl -> posx = 0;
     Lvl -> posy = 0;
     for (int i = 0; i<100; i++){
-        for (int j = 0; j<100, j++){
+        for (int j = 0; j<100; j++){
             Lvl -> map[i][j] = createSquare();
         }
     }

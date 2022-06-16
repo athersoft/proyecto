@@ -1,37 +1,38 @@
 #ifndef GAME_H
 #define GAME_H
+#include <util.h>
 
-struct player{
+typedef struct player{
     int lvl;
     int hp;
     int hpMax;
     int atk;
     int def;
-}
+}player;
 
-struct enemy{
+typedef struct enemy{
     char name;
     int hp;
-    int hpMax;
     int atk;
     int def;
-}
+}enemy;
 
-struct square{ //Casilla
+typedef struct square{ //Casilla
     char *type;
     char symbol;
     //Color nfsfekfne
     bool colision;
 
-}
+}square;
 
-struct lvl{ 
+
+typedef struct lvl{ 
     int height;
     int width;
     int posx;
     int posy;
-    square map[100][100];
-};
+    square *map[100][100];
+}lvl;
 
 lvl *createLvl();
 square *createSquare();
