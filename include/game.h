@@ -36,7 +36,7 @@ struct lvl{
 lvl *createLvl();
 square *createSquare();
 
-void updateLvl();
+void updateLvl(lvl *Lvl);
 void showLvl(lvl *Lvl);
 
 int movementX(char in);
