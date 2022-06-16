@@ -27,6 +27,7 @@ struct lvl{
 lvl *createLvl();
 square *createSquare();
 
+void updateLvl();
 void showLvl();
 
 lvl initLvl();

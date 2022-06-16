@@ -20,3 +20,12 @@ lvl *createLevel(){
     }
     return Lvl;
 }
+
+void showLvl(lvl *Lvl){
+    for(int i = 0, i<Lvl -> width; i++){
+        for(int j = 0; j< Lvl -> height; j++){
+            printf("%c", lvl -> map[j][i]);
+        }
+        printf("\n");
+    }
+}
