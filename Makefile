@@ -4,10 +4,6 @@ SRC=$(wildcard src/*.c)
 INCLUDES=-Iinclude
 OBJS=$(patsubst src/%.c, out/%.o, $(SRC))
 INCLUDE=$(wildcard include/*)
-TESTS=$(wildcard tests/*)
-TESTS=$(wildcard tests/*)
-
-all: tests prepare $(OBJS) $(NAME) tests/map tests/list
 
 
 
