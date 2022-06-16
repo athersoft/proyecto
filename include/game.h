@@ -2,6 +2,14 @@
 #define GAME_H
 #include <util.h>
 
+typedef struct player{
+    int lvl;
+    int hp;
+    int hpMax;
+    int atk;
+    int def;
+}player;
+
 typedef struct enemy{
     char name;
     int hp;
@@ -29,7 +37,11 @@ typedef struct lvl{
 lvl *createLvl();
 square *createSquare();
 
-void showLvl();
+void updateLvl();
+void showLvl(lvl *Lvl);
+
+int movementX(char in);
+int movementY(char in);
 
 lvl initLvl();
 

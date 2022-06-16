@@ -21,3 +21,36 @@ lvl *createLevel(){
     }
     return Lvl;
 }
+
+void showLvl(lvl *Lvl){
+    for(int i = 0, i<Lvl -> width; i++){
+        for(int j = 0; j< Lvl -> height; j++){
+            printf("%c", lvl -> map[j][i]);
+        }
+        printf("\n");
+    }
+}
+
+int movementX(char in){
+    switch in{
+        case 'A':
+            return -1;
+            break;
+        case 'D'
+            return 1;
+            break;
+    }       
+    return 0;
+}
+
+int movementY(char in){
+    switch in{
+        case 'W':
+            return -1;
+            break;
+        case 'S'
+            return 1;
+            break;
+    }       
+    return 0;
+}
