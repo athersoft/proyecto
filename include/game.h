@@ -2,6 +2,7 @@
 #define GAME_H
 
 struct player{
+    int lvl;
     int hp;
     int hpMax;
     int atk;
@@ -36,7 +37,10 @@ lvl *createLvl();
 square *createSquare();
 
 void updateLvl();
-void showLvl();
+void showLvl(lvl *Lvl);
+
+int movementX(char in);
+int movementY(char in);
 
 lvl initLvl();
 
