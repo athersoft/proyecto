@@ -54,3 +54,15 @@ int movementY(char in){
     }       
     return 0;
 }
+
+void updateLvl(lvl *Lvl){
+    char in = '\0';
+    fflush(stdin);
+    scanf("%c", &in);
+    getchar();
+
+    lvl -> map[posx + movementX(in)][posy + movementY(in)] = lvl -> map[posx][posy];
+    lvl -> map[posx][posy] = createSquare();
+    lvl -> posx += movementX(in);
+    lvl -> posy += movementY(in);
+}
