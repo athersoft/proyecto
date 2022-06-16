@@ -23,34 +23,32 @@ lvl *createLevel(){
 }
 
 void showLvl(lvl *Lvl){
-    for(int i = 0, i<Lvl -> width; i++){
+    for(int i = 0; i<Lvl -> width; i++){
         for(int j = 0; j< Lvl -> height; j++){
-            printf("%c", lvl -> map[j][i]);
+            printf("%c", Lvl -> map[j][i] ->symbol);
         }
         printf("\n");
     }
 }
 
 int movementX(char in){
-    switch in{
+    switch (in){
         case 'A':
             return -1;
-            break;
-        case 'D'
+        case 'D':
             return 1;
-            break;
     }       
     return 0;
 }
 
 int movementY(char in){
-    switch in{
+    switch (in){
         case 'W':
             return -1;
-            break;
-        case 'S'
+
+        case 'S':
             return 1;
-            break;
+
     }       
     return 0;
 }
@@ -61,8 +59,8 @@ void updateLvl(lvl *Lvl){
     scanf("%c", &in);
     getchar();
 
-    lvl -> map[posx + movementX(in)][posy + movementY(in)] = lvl -> map[posx][posy];
-    lvl -> map[posx][posy] = createSquare();
-    lvl -> posx += movementX(in);
-    lvl -> posy += movementY(in);
+    Lvl -> map[Lvl -> posx + movementX(in)][Lvl -> posy + movementY(in)] = Lvl -> map[Lvl -> posx][Lvl ->posy];
+    Lvl -> map[Lvl ->posx][Lvl ->posy] = createSquare();
+    Lvl -> posx += movementX(in);
+    Lvl -> posy += movementY(in);
 }
