@@ -59,8 +59,12 @@ void updateLvl(lvl *Lvl){
     scanf("%c", &in);
     getchar();
 
-    Lvl -> map[Lvl -> posx + movementX(in)][Lvl -> posy + movementY(in)] = Lvl -> map[Lvl -> posx][Lvl ->posy];
-    Lvl -> map[Lvl ->posx][Lvl ->posy] = createSquare();
-    Lvl -> posx += movementX(in);
-    Lvl -> posy += movementY(in);
+    if(Lvl -> map[Lvl -> posx + movementX(in)][[Lvl -> posy + movementY(in)] -> colision == false){
+        Lvl -> map[Lvl -> posx + movementX(in)][Lvl -> posy + movementY(in)] = Lvl -> map[Lvl -> posx][Lvl ->posy];
+        Lvl -> map[Lvl ->posx][Lvl ->posy] = createSquare();
+        Lvl -> posx += movementX(in);
+        Lvl -> posy += movementY(in);
+    }
+
+    showLvl(Lvl);
 }
