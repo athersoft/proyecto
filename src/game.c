@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <string.h>
 #include "game.h"
 
 square *createSquare(){
@@ -8,12 +10,12 @@ square *createSquare(){
     return Square;
 }
 
-lvl *createLevel(){
+lvl *createLvl(){
     lvl *Lvl = (lvl*) malloc(sizeof(lvl));
-    Lvl -> height = 0;
-    Lvl -> width = 0;
-    Lvl -> posx = 0;
-    Lvl -> posy = 0;
+    Lvl -> height = 100;
+    Lvl -> width = 100;
+    Lvl -> posx = 50;
+    Lvl -> posy = 99;
     for (int i = 0; i<100; i++){
         for (int j = 0; j<100; j++){
             Lvl -> map[i][j] = createSquare();
@@ -59,7 +61,7 @@ void updateLvl(lvl *Lvl){
     scanf("%c", &in);
     getchar();
 
-    if(Lvl -> map[Lvl -> posx + movementX(in)][[Lvl -> posy + movementY(in)] -> colision == false){
+    if(Lvl -> map[Lvl -> posx + movementX(in)][Lvl -> posy + movementY(in)] -> colision == false){
         Lvl -> map[Lvl -> posx + movementX(in)][Lvl -> posy + movementY(in)] = Lvl -> map[Lvl -> posx][Lvl ->posy];
         Lvl -> map[Lvl ->posx][Lvl ->posy] = createSquare();
         Lvl -> posx += movementX(in);
