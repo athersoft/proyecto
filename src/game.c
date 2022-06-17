@@ -32,23 +32,25 @@ lvl *createLvl(){
 }
 
 void showLvl(lvl *Lvl){
-    /*
+    
     for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
         for(int j = Lvl->posx-7; j<Lvl->posx+7; j++){
-            if(i >= Lvl -> height){
+            if(i >= Lvl -> height || j >= Lvl -> width){
                 break;
             }
             printf("%c", Lvl -> map[i][j] ->symbol);
         }
         printf("\n");
     }
-    */
+    
+   /*
     for(int i = 0; i < Lvl -> height; i++){
         for(int j = 0; j < Lvl -> width; j++){
             printf("%c", Lvl -> map[i][j] -> symbol);
         }
         printf("\n");
     }
+    */
 }
 
 int movementX(char in){
@@ -81,8 +83,8 @@ void updateLvl(lvl *Lvl){
     clrscr();
 
     if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
-        Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> symbol = 'J';
-        Lvl -> map[Lvl ->posy][Lvl ->posx]->symbol = '0';
+        Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
+        Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
         Lvl -> posx += movementX(in);
         Lvl -> posy += movementY(in);
     }
