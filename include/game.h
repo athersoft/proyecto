@@ -22,7 +22,8 @@ typedef struct square{ //Casilla
     char symbol;
     //Color nfsfekfne
     bool colision;
-
+    bool isText;
+    char *text;
 }square;
 
 
