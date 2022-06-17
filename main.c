@@ -9,7 +9,7 @@
 #include "search.h"
 #include "list.h" 
 #include "map.h"
-
+#include "game.h"
 
 
 
@@ -26,8 +26,10 @@ int main(){
         //getchar();
 
         switch(in) {
-            case (1): // Nuevo Juego
-
+            case (1): ; // Nuevo Juego
+                lvl *Lvl;
+                Lvl = createLvl();
+                updateLvl(Lvl);
                 break;
             case (2): // Cargar Partida
 
