@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "game.h"
 
 square *createSquare(){
     square *Square = (square* ) malloc(sizeof(square));
-    Square -> type = (char *) malloc(sizeof(char)*10);
+    Square -> type = (char *) malloc(sizeof(char)*20);
     strcpy(Square -> type, "vacio");
     Square -> symbol = '0';
     Square -> colision = false;
     Square -> isText = false;
-    Square -> text = (char *) malloc(sizeof(char)*10);
+    Square -> text = (char *) malloc(sizeof(char)*20);
     strcpy(Square -> text, "");
     return Square;
 }
@@ -25,14 +26,15 @@ lvl *createLvl(){
             Lvl -> map[i][j] = createSquare();
         }
     }
-    strcpy(Lvl -> map[Lvl -> posx][Lvl -> posy]->type, "Player");
+    strcpy(Lvl -> map[Lvl -> posx][Lvl -> posy]->type, "player");
     Lvl -> map[Lvl -> posx][Lvl -> posy]->symbol = 'J';
     Lvl -> map[Lvl -> posx][Lvl -> posy]->colision = true;
     return Lvl;
 }
 
 void showLvl(lvl *Lvl){
-    
+    /*
+    Mostrar camara
     for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
         for(int j = Lvl->posx-7; j<Lvl->posx+7; j++){
             if(i >= Lvl -> height || j >= Lvl -> width){
@@ -42,15 +44,15 @@ void showLvl(lvl *Lvl){
         }
         printf("\n");
     }
-    
-   /*
+    */
+
+   //Descomentar para mostrar todo el mapa
     for(int i = 0; i < Lvl -> height; i++){
         for(int j = 0; j < Lvl -> width; j++){
             printf("%c", Lvl -> map[i][j] -> symbol);
         }
         printf("\n");
     }
-    */
 }
 
 int movementX(char in){
@@ -75,6 +77,59 @@ int movementY(char in){
     return 0;
 }
 
+square *createObstacle(){ //Crea un obstaculo estandar
+    square *Square = createSquare();
+    Square -> symbol = 'x';
+    strcpy(Square -> type, "colision");
+    Square -> colision = true;
+
+    return Square;
+}
+
+void initLvl(){
+    lvl *Lvl;
+    Lvl = createLvl();
+
+    //Generacion de bordes
+    for(int i = 0; i < Lvl -> width; i++){ //Borde superior
+        Lvl -> map[0][i] = createObstacle();
+    }
+    for(int i = 0; i < Lvl -> width; i++){ //Borde inferior
+        Lvl -> map[Lvl ->height -1][i] = createObstacle();
+    }
+    for(int i = 0; i < Lvl -> width; i++){ //Borde izquierdo
+        Lvl -> map[i][0] = createObstacle();
+    }
+    for(int i = 0; i < Lvl -> width; i++){ //Borde derecho
+        Lvl -> map[i][Lvl ->width -1] = createObstacle();
+    }
+
+    //Repartir obstaculos de forma aleatoria
+    srand((unsigned) __TIME__);
+
+    int x = rand() % Lvl->width-1;
+    int y = rand() % Lvl->height-1;
+    printf("%i%i", x, y);
+    
+    int reps = 0;
+    reps = rand() % 60;
+
+    for(int i = 0; i < reps; i++){
+        while(1){
+            if(strcmp(Lvl -> map[x][y] -> type, "vacio") == 0){
+                Lvl -> map[x][y] = createObstacle();
+                break;
+            }else{
+                x = rand() % Lvl->width-1;
+                y = rand() % Lvl->height-1;
+            }
+        }
+    }
+
+    showLvl(Lvl);
+    updateLvl(Lvl);
+}
+
 void updateLvl(lvl *Lvl){
     char in = '\0';
     fflush(stdin);
@@ -82,6 +137,7 @@ void updateLvl(lvl *Lvl){
     getchar();
     clrscr();
 
+    //Movimiento jugador
     if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
         Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
         Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
@@ -89,8 +145,9 @@ void updateLvl(lvl *Lvl){
         Lvl -> posy += movementY(in);
     }
 
-    showLvl(Lvl);
+    //Si se igresa un 0 se termina la partida
     if(in != '0'){
+        showLvl(Lvl);
         updateLvl(Lvl);
     }
 }

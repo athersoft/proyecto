@@ -27,9 +27,7 @@ int main(){
 
         switch(in) {
             case (1): ; // Nuevo Juego
-                lvl *Lvl;
-                Lvl = createLvl();
-                updateLvl(Lvl);
+                initLvl();
                 break;
             case (2): // Cargar Partida
 
