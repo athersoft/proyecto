@@ -25,14 +25,14 @@ lvl *createLvl(){
             Lvl -> map[i][j] = createSquare();
         }
     }
-    strcpy(Lvl -> map[Lvl -> posx][Lvl -> posy]->type, "Player");
+    strcpy(Lvl -> map[Lvl -> posx][Lvl -> posy]->type, "player");
     Lvl -> map[Lvl -> posx][Lvl -> posy]->symbol = 'J';
     Lvl -> map[Lvl -> posx][Lvl -> posy]->colision = true;
     return Lvl;
 }
 
 void showLvl(lvl *Lvl){
-    
+    /*
     for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
         for(int j = Lvl->posx-7; j<Lvl->posx+7; j++){
             if(i >= Lvl -> height || j >= Lvl -> width){
@@ -42,15 +42,14 @@ void showLvl(lvl *Lvl){
         }
         printf("\n");
     }
-    
-   /*
+    */
+
     for(int i = 0; i < Lvl -> height; i++){
         for(int j = 0; j < Lvl -> width; j++){
             printf("%c", Lvl -> map[i][j] -> symbol);
         }
         printf("\n");
     }
-    */
 }
 
 int movementX(char in){
@@ -73,6 +72,37 @@ int movementY(char in){
 
     }       
     return 0;
+}
+
+square *createObstacle(){ //Crea un obstaculo estandar
+    square *Square = createSquare();
+    Square -> symbol = 'x';
+    strcpy(Square -> type, "colision");
+    Square -> colision = true;
+
+    return Square;
+}
+
+void initLvl(){
+    lvl *Lvl;
+    Lvl = createLvl();
+
+    //Generacion de bordes
+    for(int i = 0; i < Lvl -> width; i++){ //Borde superior
+        Lvl -> map[0][i] = createObstacle();
+    }
+    for(int i = 0; i < Lvl -> width; i++){ //Borde inferior
+        Lvl -> map[Lvl ->height -1][i] = createObstacle();
+    }
+    for(int i = 0; i < Lvl -> width; i++){ //Borde izquierdo
+        Lvl -> map[i][0] = createObstacle();
+    }
+    for(int i = 0; i < Lvl -> width; i++){ //Borde derecho
+        Lvl -> map[i][Lvl ->width -1] = createObstacle();
+    }
+    
+    showLvl(Lvl);
+    updateLvl(Lvl);
 }
 
 void updateLvl(lvl *Lvl){

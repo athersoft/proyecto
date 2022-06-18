@@ -36,7 +36,10 @@ typedef struct lvl{
 }lvl;
 
 lvl *createLvl();
+void initLvl();
+
 square *createSquare();
+square *createObstacle();
 
 void updateLvl(lvl *Lvl);
 void showLvl(lvl *Lvl);
@@ -44,6 +47,6 @@ void showLvl(lvl *Lvl);
 int movementX(char in);
 int movementY(char in);
 
-lvl initLvl();
+
 
 #endif
