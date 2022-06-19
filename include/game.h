@@ -8,6 +8,7 @@ typedef struct player{
     int hpMax;
     int atk;
     int def;
+    int exp;
 }player;
 
 typedef struct enemy{

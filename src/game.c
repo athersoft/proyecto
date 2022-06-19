@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "game.h"
+#include <time.h>
 
 square *createSquare(){
     square *Square = (square* ) malloc(sizeof(square));
@@ -35,10 +36,24 @@ lvl *createLvl(){
 }
 
 enemy *createEnemy(){
+    srand(time(NULL));
+    player* jugador = (player*) malloc(sizeof(player));
     enemy *Enemy = (enemy *) malloc(sizeof(enemy));
+    int valor = (jugador->lvl % 10) + (jugador->lvl /10);
+    int numero;
+
     Enemy -> hp = 1;
+    numero = rand() % jugador->hp;
+    Enemy->hp = numero + valor;
+    
     Enemy -> atk = 1;
+    numero = rand() % jugador->atk;
+    Enemy->hp = numero + valor;
+
     Enemy -> def = 0;
+    numero = rand() % jugador->def;
+    Enemy->hp = numero + valor;
+
     Enemy -> name = malloc(sizeof(char) * 20);
     strcpy(Enemy -> name, "Enemigo prueba");
 
@@ -110,7 +125,13 @@ square *createSquareEnemy(){
 
     return Square;
 }
+/*void combate(){
 
+    if (enemy->def <= 0){
+        enemy->hp = enemy->hp - player->atk;
+    }
+    
+}*/
 void initLvl(){
     lvl *Lvl;
     Lvl = createLvl();
@@ -195,3 +216,4 @@ void updateLvl(lvl *Lvl){
         updateLvl(Lvl);
     }
 }
+
