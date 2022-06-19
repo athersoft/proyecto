@@ -11,7 +11,7 @@ typedef struct player{
 }player;
 
 typedef struct enemy{
-    char name;
+    char *name;
     int hp;
     int atk;
     int def;
@@ -24,6 +24,7 @@ typedef struct square{ //Casilla
     bool colision;
     bool isText;
     char *text;
+    enemy *Enemy;
 }square;
 
 

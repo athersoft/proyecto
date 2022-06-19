@@ -12,6 +12,8 @@ square *createSquare(){
     Square -> isText = false;
     Square -> text = (char *) malloc(sizeof(char)*20);
     strcpy(Square -> text, "");
+    Square -> Enemy = NULL;
+
     return Square;
 }
 
@@ -32,9 +34,20 @@ lvl *createLvl(){
     return Lvl;
 }
 
+enemy *createEnemy(){
+    enemy *Enemy = (enemy *) malloc(sizeof(enemy));
+    Enemy -> hp = 1;
+    Enemy -> atk = 1;
+    Enemy -> def = 0;
+    Enemy -> name = malloc(sizeof(char) * 20);
+    strcpy(Enemy -> name, "Enemigo prueba");
+
+    return Enemy;
+}
+
 void showLvl(lvl *Lvl){
-    /*
-    Mostrar camara
+    
+    //Mostrar camara
     for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
         for(int j = Lvl->posx-7; j<Lvl->posx+7; j++){
             if(i >= Lvl -> height || j >= Lvl -> width){
@@ -44,8 +57,9 @@ void showLvl(lvl *Lvl){
         }
         printf("\n");
     }
-    */
+    
 
+   /*
    //Descomentar para mostrar todo el mapa
     for(int i = 0; i < Lvl -> height; i++){
         for(int j = 0; j < Lvl -> width; j++){
@@ -53,6 +67,7 @@ void showLvl(lvl *Lvl){
         }
         printf("\n");
     }
+    */
 }
 
 int movementX(char in){
@@ -79,9 +94,19 @@ int movementY(char in){
 
 square *createObstacle(){ //Crea un obstaculo estandar
     square *Square = createSquare();
-    Square -> symbol = 'x';
+    Square -> symbol = 'X';
     strcpy(Square -> type, "colision");
     Square -> colision = true;
+
+    return Square;
+}
+
+square *createSquareEnemy(){
+    square *Square = createSquare();
+    Square -> symbol = 'E';
+    strcpy(Square -> type, "enemy");
+    Square -> colision = true;
+    Square -> Enemy = createEnemy();
 
     return Square;
 }
@@ -109,7 +134,6 @@ void initLvl(){
 
     int x = rand() % Lvl->width-1;
     int y = rand() % Lvl->height-1;
-    printf("%i%i", x, y);
     
     int reps = 0;
     reps = rand() % 60;
@@ -118,6 +142,26 @@ void initLvl(){
         while(1){
             if(strcmp(Lvl -> map[x][y] -> type, "vacio") == 0){
                 Lvl -> map[x][y] = createObstacle();
+                break;
+            }else{
+                x = rand() % Lvl->width-1;
+                y = rand() % Lvl->height-1;
+            }
+        }
+    }
+
+    //Repartir enemigos de forma aleatoria
+
+    x = rand() % Lvl->width-1;
+    y = rand() % Lvl->height-1;
+    
+    reps = 0;
+    reps = rand() % 20;
+
+    for(int i = 0; i < reps; i++){
+        while(1){
+            if(strcmp(Lvl -> map[x][y] -> type, "vacio") == 0){
+                Lvl -> map[x][y] = createSquareEnemy();
                 break;
             }else{
                 x = rand() % Lvl->width-1;
