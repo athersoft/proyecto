@@ -49,6 +49,7 @@ player *createPlayer(){
 }
 
 enemy *createEnemy(lvl *Lvl){
+    
     srand(time(NULL));
     player* jugador = Lvl -> Player;
     enemy *Enemy = (enemy *) malloc(sizeof(enemy));
@@ -70,7 +71,10 @@ enemy *createEnemy(lvl *Lvl){
     Enemy -> name = malloc(sizeof(char) * 20);
     strcpy(Enemy -> name, "Enemigo prueba");
 
+    Enemy -> dead = false;
+
     return Enemy;
+    
 }
 
 void showLvl(lvl *Lvl){
@@ -221,6 +225,31 @@ void updateLvl(lvl *Lvl){
         Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
         Lvl -> posx += movementX(in);
         Lvl -> posy += movementY(in);
+    }
+
+    //Ataque jugador
+    if(in == 'e'){
+        if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }else if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        } else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }
+    }
+
+    //Recorrer mapa para hacer comprobaciones
+    for(int i = 0; i < Lvl -> height-1; i++){
+        for(int j = 0; j < Lvl -> width-1; j++){
+            if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
+                //Comprobar si sigue vivo
+                if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
+                    Lvl -> map[i][j] = createSquare();
+                }
+            }
+        }
     }
 
     //Si se igresa un 0 se termina la partida
