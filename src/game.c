@@ -32,12 +32,25 @@ lvl *createLvl(){
     strcpy(Lvl -> map[Lvl -> posx][Lvl -> posy]->type, "player");
     Lvl -> map[Lvl -> posx][Lvl -> posy]->symbol = 'J';
     Lvl -> map[Lvl -> posx][Lvl -> posy]->colision = true;
+    Lvl -> Player = createPlayer();
     return Lvl;
 }
 
-enemy *createEnemy(){
+player *createPlayer(){
+    player *Player = (player *) malloc(sizeof(player));
+    Player -> lvl = 1;
+    Player -> atk = 1;
+    Player -> def = 1;
+    Player -> exp = 0;
+    Player -> expMax = 5;
+    Player -> hpMax = 10;
+    Player -> hp = 10;
+    return Player;
+}
+
+enemy *createEnemy(lvl *Lvl){
     srand(time(NULL));
-    player* jugador = (player*) malloc(sizeof(player));
+    player* jugador = Lvl -> Player;
     enemy *Enemy = (enemy *) malloc(sizeof(enemy));
     int valor = (jugador->lvl % 10) + (jugador->lvl /10);
     int numero;
@@ -116,12 +129,12 @@ square *createObstacle(){ //Crea un obstaculo estandar
     return Square;
 }
 
-square *createSquareEnemy(){
+square *createSquareEnemy(lvl *Lvl){
     square *Square = createSquare();
     Square -> symbol = 'E';
     strcpy(Square -> type, "enemy");
     Square -> colision = true;
-    Square -> Enemy = createEnemy();
+    Square -> Enemy = createEnemy(Lvl);
 
     return Square;
 }
@@ -182,7 +195,7 @@ void initLvl(){
     for(int i = 0; i < reps; i++){
         while(1){
             if(strcmp(Lvl -> map[x][y] -> type, "vacio") == 0){
-                Lvl -> map[x][y] = createSquareEnemy();
+                Lvl -> map[x][y] = createSquareEnemy(Lvl);
                 break;
             }else{
                 x = rand() % Lvl->width-1;

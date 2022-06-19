@@ -9,6 +9,7 @@ typedef struct player{
     int atk;
     int def;
     int exp;
+    int expMax;
 }player;
 
 typedef struct enemy{
@@ -34,6 +35,7 @@ typedef struct lvl{
     int width;
     int posx;
     int posy;
+    player *Player;
     square *map[100][100];
 }lvl;
 
@@ -42,6 +44,10 @@ void initLvl();
 
 square *createSquare();
 square *createObstacle();
+
+enemy *createEnemy(lvl *Lvl);
+
+player *createPlayer();
 
 void updateLvl(lvl *Lvl);
 void showLvl(lvl *Lvl);
