@@ -3,7 +3,7 @@
 
 /* manipulación de Strings */
 #include <string.h>
-/*Probando*/
+
 #include "menu.h"
 #include "util.h"
 #include "search.h"
@@ -17,6 +17,8 @@
 int main(){
 
     int in;
+    //list *gameHistory = createList();
+    //map *bestiary = createMap();
 
     while(in != 0 ){
         mostrarMenu();

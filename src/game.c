@@ -4,6 +4,14 @@
 #include "game.h"
 #include <time.h>
 
+stats createStats(){
+    stats *Stats = (stats* ) malloc(sizeof(stats));
+    Stats->kills = 0;
+    Stats->maxLvl = 1;
+    Stats->steps = 0;
+    return Stats;
+}
+
 square *createSquare(){
     square *Square = (square* ) malloc(sizeof(square));
     Square -> type = (char *) malloc(sizeof(char)*20);
@@ -85,7 +93,9 @@ void showLvl(lvl *Lvl){
             if(i >= Lvl -> height || j >= Lvl -> width){
                 break;
             }
-            printf("%c", Lvl -> map[i][j] ->symbol);
+            if(i >= 0 && j >= 0){
+                printf("%c", Lvl->map[i][j]->symbol);
+            }
         }
         printf("\n");
     }
@@ -253,9 +263,13 @@ void updateLvl(lvl *Lvl){
     }
 
     //Si se igresa un 0 se termina la partida
-    if(in != '0'){
+    if(in != '0' && Lvl -> Player -> hp > 0){
         showLvl(Lvl);
         updateLvl(Lvl);
+    }
+
+    if(Lvl -> Player -> hp <= 0){
+
     }
 }
 

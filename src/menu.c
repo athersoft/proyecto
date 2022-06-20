@@ -13,6 +13,9 @@ void mostrarMenu(){
     printf("1-Nuevo Juego\n");
     printf("2-Cargar Partida\n");
     printf("3-Estadisticas\n");
+    printf("4-Historial de partidas\n");
+    printf("5-Bestiario\n");
+
 
 
     printf("0-Salir\n");
