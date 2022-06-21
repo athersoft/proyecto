@@ -17,6 +17,7 @@ typedef struct enemy{
     int hp;
     int atk;
     int def;
+    int exp;
     bool dead;
 }enemy;
 

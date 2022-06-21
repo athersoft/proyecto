@@ -67,7 +67,8 @@ enemy *createEnemy(lvl *Lvl){
     Enemy -> def = 0;
     numero = rand() % jugador->def;
     Enemy->hp = numero + valor;
-
+    
+    Enemy->exp = (rand() % jugador->expMax) - 5;
     Enemy -> name = malloc(sizeof(char) * 20);
     strcpy(Enemy -> name, "Enemigo prueba");
 
@@ -75,6 +76,21 @@ enemy *createEnemy(lvl *Lvl){
 
     return Enemy;
     
+}
+
+void experiencia(lvl* Lvl, square* Square){
+    player* jugador = Lvl->Player;
+    jugador->exp += Square->Enemy->exp;
+    if (jugador->exp == jugador->expMax){
+      jugador->lvl += 1;
+      jugador->exp = 0;
+      jugador->expMax *= 2;
+    }
+    if(jugador->exp > jugador->expMax){
+      jugador->lvl += 1;
+      jugador->exp -= jugador->expMax;
+      jugador->expMax *= 2;
+    }
 }
 
 void showLvl(lvl *Lvl){
@@ -246,6 +262,7 @@ void updateLvl(lvl *Lvl){
             if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
                 //Comprobar si sigue vivo
                 if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
+                    experiencia(Lvl, Lvl->map[i][j]);
                     Lvl -> map[i][j] = createSquare();
                 }
             }
