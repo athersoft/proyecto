@@ -16,7 +16,7 @@
 /* main function */
 int main(){
     List *gameHistory = listCreate();
-    //map *bestiary = createMap();
+    Map *bestiary = createMap(is_equal, lower_than);
 
     int in;
 
@@ -29,7 +29,7 @@ int main(){
 
         switch(in) {
             case (1): ; // Nuevo Juego
-                initLvl(gameHistory);
+                initLvl(gameHistory, bestiary);
                 break;
             case (2): // Cargar Partida
 

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "game.h"
 #include <time.h>
+#include "map.h"
 
 stats *createStats(){
     stats *Stats = (stats* ) malloc(sizeof(stats));
@@ -159,7 +160,7 @@ square *createSquareEnemy(lvl *Lvl){
     }
     
 }*/
-void initLvl(List *gameHistory){
+void initLvl(List *gameHistory, Map *bestiary){
     lvl *Lvl;
     Lvl = createLvl();
 
@@ -238,10 +239,10 @@ void initLvl(List *gameHistory){
 
     stats *Stats = createStats();
     showLvl(Lvl);
-    updateLvl(Lvl, gameHistory, Stats);
+    updateLvl(Lvl, gameHistory, Stats, bestiary);
 }
 
-void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
+void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats, Map *bestiary){
     char in = '\0';
     fflush(stdin);
     scanf("%c", &in);
@@ -285,7 +286,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     //Si se igresa un 0 se termina la partida
     if(in != '0' && Lvl -> Player -> hp > 0){
         showLvl(Lvl);
-        updateLvl(Lvl, gameHistory, Stats);
+        updateLvl(Lvl, gameHistory, Stats, bestiary);
     }else if(Lvl -> Player -> hp <= 0){
         listPushFront(gameHistory, Stats);
     }

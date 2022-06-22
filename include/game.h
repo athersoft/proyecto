@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include <util.h>
+#include <map.h>
 
 typedef struct stats{
     int steps;
@@ -50,7 +51,7 @@ typedef struct lvl{
 stats *createStats();
 
 lvl *createLvl();
-void initLvl(List *gameHistory);
+void initLvl(List *gameHistory, Map *bestiary);
 
 square *createSquare();
 square *createObstacle();
@@ -59,7 +60,7 @@ enemy *createEnemy(lvl *Lvl);
 
 player *createPlayer();
 
-void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats);
+void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats, Map *bestiary);
 void showLvl(lvl *Lvl);
 
 int movementX(char in);
