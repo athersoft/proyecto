@@ -101,7 +101,16 @@ void showLvl(lvl *Lvl){
             if(i >= Lvl -> height || j >= Lvl -> width){
                 break;
             }
-            printf("%c", Lvl -> map[i][j] ->symbol);
+            if (strcmp(Lvl->map[i][j]->type, "colision")){
+                printf(COLOR_YELLOW"%c"COLOR_RESET, Lvl -> map[i][j] ->symbol);
+            }
+            if (strcmp(Lvl->map[i][j]->type, "enemy")){
+                printf(COLOR_RED"%c"COLOR_RESET, Lvl -> map[i][j] ->symbol);
+            }
+            if (strcmp(Lvl->map[i][j]->type, "player")){
+                printf(COLOR_GREEN"%c"COLOR_RESET, Lvl -> map[i][j] ->symbol);
+            }
+            //printf("%c", Lvl -> map[i][j] ->symbol);
         }
         printf("\n");
     }
