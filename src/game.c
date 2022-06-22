@@ -142,7 +142,7 @@ int movementY(char in){
 
 square *createObstacle(){ //Crea un obstaculo estandar
     square *Square = createSquare();
-    Square -> symbol = 'X';
+    Square -> symbol = 219;
     strcpy(Square -> type, "colision");
     Square -> colision = true;
 
