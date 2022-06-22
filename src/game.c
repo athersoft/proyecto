@@ -4,6 +4,14 @@
 #include "game.h"
 #include <time.h>
 
+stats *createStats(){
+    stats *Stats = (stats* ) malloc(sizeof(stats));
+    Stats->kills = 0;
+    Stats->maxLvl = 1;
+    Stats->steps = 0;
+    return Stats;
+}
+
 square *createSquare(){
     square *Square = (square* ) malloc(sizeof(square));
     Square -> type = (char *) malloc(sizeof(char)*20);
@@ -85,7 +93,9 @@ void showLvl(lvl *Lvl){
             if(i >= Lvl -> height || j >= Lvl -> width){
                 break;
             }
-            printf("%c", Lvl -> map[i][j] ->symbol);
+            if(i >= 0 && j >= 0){
+                printf("%c", Lvl->map[i][j]->symbol);
+            }
         }
         printf("\n");
     }
@@ -149,7 +159,7 @@ square *createSquareEnemy(lvl *Lvl){
     }
     
 }*/
-void initLvl(){
+void initLvl(List *gameHistory){
     lvl *Lvl;
     Lvl = createLvl();
 
@@ -170,11 +180,19 @@ void initLvl(){
     //Repartir obstaculos de forma aleatoria
     srand((unsigned) __TIME__);
 
-    int x = rand() % Lvl->width-1;
-    int y = rand() % Lvl->height-1;
+    int x;
+    int y;
+    do{
+        x = rand() % Lvl->width;
+    }while(x >= Lvl -> width);
+
+    do{
+        y = rand() % Lvl->height;
+    }while(y >= Lvl -> height);
+
     
     int reps = 0;
-    reps = rand() % 60;
+    reps = rand() % 100;
 
     for(int i = 0; i < reps; i++){
         while(1){
@@ -182,8 +200,13 @@ void initLvl(){
                 Lvl -> map[x][y] = createObstacle();
                 break;
             }else{
-                x = rand() % Lvl->width-1;
-                y = rand() % Lvl->height-1;
+                do{
+                    x = rand() % Lvl->width;
+                }while(x >= Lvl -> width);
+
+                do{
+                    y = rand() % Lvl->height;
+                }while(y >= Lvl -> height);
             }
         }
     }
@@ -202,17 +225,23 @@ void initLvl(){
                 Lvl -> map[x][y] = createSquareEnemy(Lvl);
                 break;
             }else{
-                x = rand() % Lvl->width-1;
-                y = rand() % Lvl->height-1;
+                do{
+                    x = rand() % Lvl->width;
+                }while(x >= Lvl -> width);
+
+                do{
+                    y = rand() % Lvl->height;
+                }while(y >= Lvl -> height);
             }
         }
     }
 
+    stats *Stats = createStats();
     showLvl(Lvl);
-    updateLvl(Lvl);
+    updateLvl(Lvl, gameHistory, Stats);
 }
 
-void updateLvl(lvl *Lvl){
+void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     char in = '\0';
     fflush(stdin);
     scanf("%c", &in);
@@ -243,6 +272,7 @@ void updateLvl(lvl *Lvl){
     //Recorrer mapa para hacer comprobaciones
     for(int i = 0; i < Lvl -> height-1; i++){
         for(int j = 0; j < Lvl -> width-1; j++){
+            //Comprobacion enemigos
             if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
                 //Comprobar si sigue vivo
                 if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
@@ -253,9 +283,11 @@ void updateLvl(lvl *Lvl){
     }
 
     //Si se igresa un 0 se termina la partida
-    if(in != '0'){
+    if(in != '0' && Lvl -> Player -> hp > 0){
         showLvl(Lvl);
-        updateLvl(Lvl);
+        updateLvl(Lvl, gameHistory, Stats);
+    }else if(Lvl -> Player -> hp <= 0){
+        listPushFront(gameHistory, Stats);
     }
 }
 
