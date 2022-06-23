@@ -10,6 +10,9 @@
 #include "list.h" 
 #include "map.h"
 #include "game.h"
+#include <windows.h>
+#include <conio.h>
+
 
 
 
@@ -17,17 +20,21 @@
 int main(){
     List *gameHistory = listCreate();
     //map *bestiary = createMap();
-    printf("hasta aqui bien\n");
+
     int in=1;
 
     while(in != 0 ){
-        printf("entra\n");
+
         mostrarMenu();
         fflush(stdin);
-        printf("Ingrese su seleccion: ");
-        scanf("%i", &in);
-        getchar();
-
+        printf(WHITE COLOR_BLACK"Ingrese su seleccion: "COLOR_RESET);
+        scanf("%i ", &in );
+        //getchar();
+        
+        if (in == 0){
+            printf(COLOR_RESET"Bye bye\n"COLOR_RESET);
+            return 0;
+        }
         switch(in) {
             case (1): ; // Nuevo Juego
                 initLvl(gameHistory);
@@ -38,26 +45,15 @@ int main(){
             case(3): // Estadisticas
 
                 break;
-            case('B'): // Mostrar palabras mas frecuentes
-
-                break;
-            case('A'): // Mostrar palabras mas relevantes
-
-                break;
             case(11): // Debug
 
                 break;
-            case('C'):
-            
-
-                break;
-            
             default:
                 break;
           } 
 
     } // while (in != q)
-    printf("Bye bye\n");
+    printf(COLOR_RESET"Bye bye\n"COLOR_RESET);
     return 0;
 }
 

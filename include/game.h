@@ -30,6 +30,7 @@ typedef struct enemy{
 typedef struct square{ //Casilla
     char *type;
     char symbol;
+
     //Color nfsfekfne
     bool colision;
     bool isText;

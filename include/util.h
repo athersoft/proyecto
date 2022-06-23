@@ -15,6 +15,16 @@
 #define COLOR_CYAN "\033[36m"
 #define COLOR_WHITE "\033[37m"
 
+
+#define BLACK "\033[40m"       
+#define RED "\033[41m"         
+#define GREEN "\033[42m"       
+#define YELLOW "\033[43m"      
+#define BLUE "\033[44m"        
+#define PURPLE "\033[45m"      
+#define CYAN "\033[46m"        
+#define WHITE "\033[47m"       
+
 extern char buf[];
 void clrscr();
 

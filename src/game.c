@@ -4,6 +4,7 @@
 #include "game.h"
 #include <time.h>
 #include <conio.h>
+#include <windows.h>
 
 stats *createStats(){
     stats *Stats = (stats* ) malloc(sizeof(stats));
@@ -39,6 +40,7 @@ lvl *createLvl(){
         }
     }
     strcpy(Lvl -> map[Lvl -> posx][Lvl -> posy]->type, "player");
+    
     Lvl -> map[Lvl -> posx][Lvl -> posy]->symbol = 'J';
     Lvl -> map[Lvl -> posx][Lvl -> posy]->colision = true;
     Lvl -> Player = createPlayer();
@@ -124,16 +126,16 @@ void showLvl(lvl *Lvl){
                 printf("%c", Lvl->map[i][j]->symbol);
             }*/
             if (strcmp(Lvl->map[i][j]->type, "colision") == 0){
-                printf("%c ", Lvl -> map[i][j] ->symbol);
+                printf("%c  ", Lvl -> map[i][j] ->symbol);
             }else{
                 if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
-                    printf(COLOR_RED"%c "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                    printf(COLOR_RED"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
                 }else{
                     if (strcmp(Lvl->map[i][j]->type, "player")== 0){
-                        printf(COLOR_CYAN"%c "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                        printf(COLOR_CYAN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
                     }else{
                         if (strcmp(Lvl->map[i][j]->type, "vacio")== 0){
-                            printf(COLOR_GREEN"%c "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                            printf(COLOR_GREEN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
                         }
                     }
                 }
@@ -145,6 +147,7 @@ void showLvl(lvl *Lvl){
         }
         printf("\n");    //printf("%c", Lvl -> map[i][j] ->symbol);
     }
+    //printf("\ndebería estar al final\n");
         
 }
     
@@ -294,6 +297,23 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     char in;
     fflush(stdin);
     in =getch();
+    if (GetAsyncKeyState(VK_UP) ){
+        in = 'w';
+    }else{
+        if(GetAsyncKeyState(VK_DOWN)){
+            in = 's';
+        }else{
+            if(GetAsyncKeyState(VK_LEFT)){
+                in = 'a';
+            }else{
+
+                if(GetAsyncKeyState(VK_RIGHT)){
+                    in = 'd';
+                }
+            }
+        }
+    }
+    
     //getchar();
     clrscr();
 
