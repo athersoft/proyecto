@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "game.h"
 #include <time.h>
+#include <conio.h>
 
 stats *createStats(){
     stats *Stats = (stats* ) malloc(sizeof(stats));
@@ -290,10 +291,10 @@ void initLvl(List *gameHistory){
 }
 
 void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
-    char in = '\0';
+    char in;
     fflush(stdin);
-    scanf("%c", &in);
-    getchar();
+    in =getch();
+    //getchar();
     clrscr();
 
     //Movimiento jugador
