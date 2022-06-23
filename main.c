@@ -17,15 +17,16 @@
 int main(){
     List *gameHistory = listCreate();
     //map *bestiary = createMap();
-
-    int in;
+    printf("hasta aqui bien\n");
+    int in=1;
 
     while(in != 0 ){
+        printf("entra\n");
         mostrarMenu();
         fflush(stdin);
         printf("Ingrese su seleccion: ");
         scanf("%i", &in);
-        //getchar();
+        getchar();
 
         switch(in) {
             case (1): ; // Nuevo Juego

@@ -16,7 +16,7 @@ square *createSquare(){
     square *Square = (square* ) malloc(sizeof(square));
     Square -> type = (char *) malloc(sizeof(char)*20);
     strcpy(Square -> type, "vacio");
-    Square -> symbol = '0';
+    Square -> symbol = '=';
     Square -> colision = false;
     Square -> isText = false;
     Square -> text = (char *) malloc(sizeof(char)*20);
@@ -85,7 +85,7 @@ enemy *createEnemy(lvl *Lvl){
     
 }
 
-void showLvl(lvl *Lvl){
+/*void showLvl(lvl *Lvl){
     
     //Mostrar camara
     for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
@@ -99,6 +99,53 @@ void showLvl(lvl *Lvl){
         }
         printf("\n");
     }
+    */
+
+   /*
+   //Descomentar para mostrar todo el mapa
+    for(int i = 0; i < Lvl -> height; i++){
+        for(int j = 0; j < Lvl -> width; j++){
+            printf("%c", Lvl -> map[i][j] -> symbol);
+        }
+        printf("\n");
+    }
+    */
+//}
+void showLvl(lvl *Lvl){
+    
+    //Mostrar camara
+    for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
+        for(int j = Lvl->posx-7; j<Lvl->posx+7; j++){
+            if(i >= Lvl -> height || j >= Lvl -> width){
+                break;
+            }
+            /*if(i >= 0 && j >= 0){
+                printf("%c", Lvl->map[i][j]->symbol);
+            }*/
+            if (strcmp(Lvl->map[i][j]->type, "colision") == 0){
+                printf("%c ", Lvl -> map[i][j] ->symbol);
+            }else{
+                if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
+                    printf(COLOR_RED"%c "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                }else{
+                    if (strcmp(Lvl->map[i][j]->type, "player")== 0){
+                        printf(COLOR_CYAN"%c "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                    }else{
+                        if (strcmp(Lvl->map[i][j]->type, "vacio")== 0){
+                            printf(COLOR_GREEN"%c "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                        }
+                    }
+                }
+                
+            }
+            
+            
+            
+        }
+        printf("\n");    //printf("%c", Lvl -> map[i][j] ->symbol);
+    }
+        
+}
     
 
    /*
@@ -110,7 +157,8 @@ void showLvl(lvl *Lvl){
         printf("\n");
     }
     */
-}
+
+
 
 int movementX(char in){
     switch (in){
@@ -136,7 +184,7 @@ int movementY(char in){
 
 square *createObstacle(){ //Crea un obstaculo estandar
     square *Square = createSquare();
-    Square -> symbol = 'X';
+    Square -> symbol = 220;
     strcpy(Square -> type, "colision");
     Square -> colision = true;
 
@@ -145,7 +193,7 @@ square *createObstacle(){ //Crea un obstaculo estandar
 
 square *createSquareEnemy(lvl *Lvl){
     square *Square = createSquare();
-    Square -> symbol = 'E';
+    Square -> symbol = 21;
     strcpy(Square -> type, "enemy");
     Square -> colision = true;
     Square -> Enemy = createEnemy(Lvl);
