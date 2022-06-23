@@ -22,7 +22,7 @@ int main(){
     //map *bestiary = createMap();
 
     int in=1;
-
+    int i = 0;
     while(in != 0 ){
 
         mostrarMenu();
@@ -37,6 +37,14 @@ int main(){
         }
         switch(in) {
             case (1): ; // Nuevo Juego
+                printf("Cargando nivel, por favor espere");
+                while(i != 7){
+                    Sleep(100);
+                    printf(".");
+                    i++;
+                }
+                printf("\n");
+                Sleep(1000);
                 initLvl(gameHistory);
                 break;
             case (2): // Cargar Partida

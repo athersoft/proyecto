@@ -67,16 +67,16 @@ enemy *createEnemy(lvl *Lvl){
     int valor = (jugador->lvl % 10) + (jugador->lvl /10);
     int numero;
 
-    Enemy -> hp = 1;
-    numero = rand() % jugador->hp;
+    //Enemy -> hp = 1;
+    numero = (rand() % jugador->hp) + 1;
     Enemy->hp = numero + valor;
     
-    Enemy -> atk = 1;
-    numero = rand() % jugador->atk;
+    //Enemy -> atk = 1;
+    numero = (rand() % jugador->atk) + 1;
     Enemy->hp = numero + valor;
 
-    Enemy -> def = 0;
-    numero = rand() % jugador->def;
+    //Enemy -> def = 0;
+    numero = (rand() % jugador->def) + 1;
     Enemy->hp = numero + valor;
 
     Enemy -> name = malloc(sizeof(char) * 20);
@@ -125,8 +125,13 @@ void showLvl(lvl *Lvl){
             /*if(i >= 0 && j >= 0){
                 printf("%c", Lvl->map[i][j]->symbol);
             }*/
-            if (strcmp(Lvl->map[i][j]->type, "colision") == 0){
-                printf("%c  ", Lvl -> map[i][j] ->symbol);
+            if (strcmp(Lvl->map[i][j]->type, "colision") == 0 ){
+                if(Lvl->map[i][j]->isText){
+                    printf(COLOR_YELLOW"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                }else{
+                    printf("%c  ", Lvl -> map[i][j] ->symbol);
+                }
+                
             }else{
                 if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
                     printf(COLOR_RED"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
@@ -148,6 +153,22 @@ void showLvl(lvl *Lvl){
         printf("\n");    //printf("%c", Lvl -> map[i][j] ->symbol);
     }
     //printf("\ndebería estar al final\n");
+    printf("Salud: ");
+    for(int i = 0; i < Lvl->Player->hp; i++){
+        printf(COLOR_RED"%c ", 3);
+    }
+    printf(COLOR_RESET"\tAtaque: %i", Lvl->Player->atk);
+
+    printf("\n\tExp: %i / %i", Lvl->Player->exp, Lvl->Player->expMax);
+
+    /*printf("\n\n'a'- mover a la izquierda\t");
+    printf("\t'd'- mover a la derecha\n");
+    printf("'w'- mover hacia arriba\t");
+    printf("\t's'- mover hacia abajo\n");
+    printf("\t'e' - Atacar a enemigos cercanos");*/
+
+
+    //printf("\t0-Salir\n\n");
         
 }
     
