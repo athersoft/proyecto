@@ -79,6 +79,10 @@ enemy *createEnemy(lvl *Lvl){
     numero = (rand() % jugador->def) + 1;
     Enemy->hp = numero + valor;
 
+    Enemy->exp = (rand() % jugador->expMax) - 2;
+    if(Enemy->exp < 0){
+        Enemy->exp = 1;
+    }
     Enemy -> name = malloc(sizeof(char) * 20);
     strcpy(Enemy -> name, "Enemigo prueba");
 
@@ -182,6 +186,29 @@ void showLvl(lvl *Lvl){
         printf("\n");
     }
     */
+
+void UpLvl(lvl* Lvl, square* Square){
+    Lvl->Player->atk += 1;
+    Lvl->Player->hpMax += 2;
+    Lvl->Player->hp = Lvl->Player->hpMax;
+    Lvl->Player->def += 1;
+}
+void experiencia(lvl* Lvl, square* Square){
+    //player* jugador = Lvl->Player;
+    Lvl->Player->exp += Square->Enemy->exp;
+    if (Lvl->Player->exp == Lvl->Player->expMax){
+      Lvl->Player->lvl += 1;
+      Lvl->Player->exp = 0;
+      Lvl->Player->expMax *= 2;
+      UpLvl(Lvl, Square);
+    }
+    if(Lvl->Player->exp > Lvl->Player->expMax){
+      Lvl->Player->lvl += 1;
+      Lvl->Player->exp -= Lvl->Player->expMax;
+      Lvl->Player->expMax *= 2;
+      UpLvl(Lvl, Square);
+    }
+}
 
 
 
@@ -290,7 +317,7 @@ void initLvl(List *gameHistory){
     y = rand() % Lvl->height-1;
     
     reps = 0;
-    reps = rand() % 20;
+    reps = rand() % 70;
 
     for(int i = 0; i < reps; i++){
         while(1){
@@ -366,6 +393,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
             if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
                 //Comprobar si sigue vivo
                 if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
+                    experiencia(Lvl, Lvl->map[i][j]);
                     Lvl -> map[i][j] = createSquare();
                 }
             }

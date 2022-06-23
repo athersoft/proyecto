@@ -24,6 +24,7 @@ typedef struct enemy{
     int hp;
     int atk;
     int def;
+    int exp;
     bool dead;
 }enemy;
 
@@ -62,6 +63,10 @@ player *createPlayer();
 
 void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats);
 void showLvl(lvl *Lvl);
+
+void UpLvl(lvl* Lvl, square* Square);
+void experiencia(lvl* LvL, square* Square);
+
 
 int movementX(char in);
 int movementY(char in);

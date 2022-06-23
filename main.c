@@ -22,15 +22,15 @@ int main(){
     //map *bestiary = createMap();
 
     int in=1;
-    int i = 0;
+    
     while(in != 0 ){
 
         mostrarMenu();
         fflush(stdin);
         printf(WHITE COLOR_BLACK"Ingrese su seleccion: "COLOR_RESET);
-        scanf("%i ", &in );
+        scanf("%i", &in );
         //getchar();
-        
+        int i = 0;
         if (in == 0){
             printf(COLOR_RESET"Bye bye\n"COLOR_RESET);
             return 0;

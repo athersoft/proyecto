@@ -7,8 +7,8 @@
 
 void mostrarMenu(){
     clrscr();
-    printf("%s", buf);
-    strcpy(buf, "");
+    //printf("%s", buf);
+    //strcpy(buf, "");
 
     //printf("Chayanne Quest\n");
     /*for(int i = 0; i< 33; i++ ){
