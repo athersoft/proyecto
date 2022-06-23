@@ -62,11 +62,11 @@ enemy *createEnemy(lvl *Lvl){
     
     Enemy -> atk = 1;
     numero = rand() % jugador->atk;
-    Enemy->hp = numero + valor;
+    Enemy->atk = numero + valor;
 
     Enemy -> def = 0;
     numero = rand() % jugador->def;
-    Enemy->hp = numero + valor;
+    Enemy->def = numero + valor;
 
     Enemy -> name = malloc(sizeof(char) * 20);
     strcpy(Enemy -> name, "Enemigo prueba");
