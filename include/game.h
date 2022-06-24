@@ -2,6 +2,13 @@
 #define GAME_H
 #include <util.h>
 
+typedef struct stats{
+    int steps;
+    int kills;
+    int interaction;
+    int maxLvl;
+}stats;
+
 typedef struct player{
     int lvl;
     int hp;
@@ -13,8 +20,9 @@ typedef struct player{
 }player;
 
 typedef struct enemy{
-    char *name;
+    char* name;
     int hp;
+    int hpMax;
     int atk;
     int def;
     int exp;
@@ -24,6 +32,7 @@ typedef struct enemy{
 typedef struct square{ //Casilla
     char *type;
     char symbol;
+
     //Color nfsfekfne
     bool colision;
     bool isText;
@@ -41,8 +50,10 @@ typedef struct lvl{
     square *map[100][100];
 }lvl;
 
+stats *createStats();
+
 lvl *createLvl();
-void initLvl();
+void initLvl(List *gameHistory);
 
 square *createSquare();
 square *createObstacle();
@@ -51,8 +62,12 @@ enemy *createEnemy(lvl *Lvl);
 
 player *createPlayer();
 
-void updateLvl(lvl *Lvl);
+void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats);
 void showLvl(lvl *Lvl);
+
+void UpLvl(lvl* Lvl, square* Square);
+void experiencia(lvl* LvL, square* Square);
+
 
 int movementX(char in);
 int movementY(char in);

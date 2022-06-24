@@ -3,12 +3,22 @@
 #include <stdlib.h>
 #include "game.h"
 #include <time.h>
+#include <conio.h>
+#include <windows.h>
+
+stats *createStats(){
+    stats *Stats = (stats* ) malloc(sizeof(stats));
+    Stats->kills = 0;
+    Stats->maxLvl = 1;
+    Stats->steps = 0;
+    return Stats;
+}
 
 square *createSquare(){
     square *Square = (square* ) malloc(sizeof(square));
     Square -> type = (char *) malloc(sizeof(char)*20);
     strcpy(Square -> type, "vacio");
-    Square -> symbol = '0';
+    Square -> symbol = '=';
     Square -> colision = false;
     Square -> isText = false;
     Square -> text = (char *) malloc(sizeof(char)*20);
@@ -30,6 +40,7 @@ lvl *createLvl(){
         }
     }
     strcpy(Lvl -> map[Lvl -> posx][Lvl -> posy]->type, "player");
+    
     Lvl -> map[Lvl -> posx][Lvl -> posy]->symbol = 'J';
     Lvl -> map[Lvl -> posx][Lvl -> posy]->colision = true;
     Lvl -> Player = createPlayer();
@@ -51,26 +62,30 @@ player *createPlayer(){
 enemy *createEnemy(lvl *Lvl){
     
     srand(time(NULL));
-    player* jugador = Lvl -> Player;
+    //player* jugador = Lvl -> Player;
     enemy *Enemy = (enemy *) malloc(sizeof(enemy));
-    int valor = (jugador->lvl % 10) + (jugador->lvl /10);
+    int valor = (Lvl -> Player->lvl % 10) + (Lvl -> Player->lvl /10);
     int numero;
 
-    Enemy -> hp = 1;
-    numero = rand() % jugador->hp;
-    Enemy->hp = numero + valor;
+    //Enemy -> hp = 1;
+    numero = (rand() % Lvl -> Player->hp) + 1;
+    Enemy->hpMax = numero + valor;
+    Enemy->hp = Enemy->hpMax;
     
-    Enemy -> atk = 1;
-    numero = rand() % jugador->atk;
-    Enemy->hp = numero + valor;
+    //Enemy -> atk = 1;
+    numero = (rand() % Lvl -> Player->atk) + 1;
+    Enemy->atk = numero + valor;
 
-    Enemy -> def = 0;
-    numero = rand() % jugador->def;
-    Enemy->hp = numero + valor;
-    
-    Enemy->exp = (rand() % jugador->expMax) - 5;
+    //Enemy -> def = 0;
+    numero = (rand() % Lvl -> Player->def) + 1;
+    Enemy->def = numero + valor;
+
+    Enemy->exp = (rand() % Lvl -> Player->expMax) - 2;
+    if(Enemy->exp <= 0){
+        Enemy->exp = 1;
+    }
     Enemy -> name = malloc(sizeof(char) * 20);
-    strcpy(Enemy -> name, "Enemigo prueba");
+    //strcpy(Enemy -> name, "Enemigo prueba");
 
     Enemy -> dead = false;
 
@@ -78,22 +93,7 @@ enemy *createEnemy(lvl *Lvl){
     
 }
 
-void experiencia(lvl* Lvl, square* Square){
-    player* jugador = Lvl->Player;
-    jugador->exp += Square->Enemy->exp;
-    if (jugador->exp == jugador->expMax){
-      jugador->lvl += 1;
-      jugador->exp = 0;
-      jugador->expMax *= 2;
-    }
-    if(jugador->exp > jugador->expMax){
-      jugador->lvl += 1;
-      jugador->exp -= jugador->expMax;
-      jugador->expMax *= 2;
-    }
-}
-
-void showLvl(lvl *Lvl){
+/*void showLvl(lvl *Lvl){
     
     //Mostrar camara
     for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
@@ -101,19 +101,126 @@ void showLvl(lvl *Lvl){
             if(i >= Lvl -> height || j >= Lvl -> width){
                 break;
             }
-            if (strcmp(Lvl->map[i][j]->type, "colision")){
-                printf(COLOR_YELLOW"%c"COLOR_RESET, Lvl -> map[i][j] ->symbol);
+            if(i >= 0 && j >= 0){
+                printf("%c", Lvl->map[i][j]->symbol);
             }
-            if (strcmp(Lvl->map[i][j]->type, "enemy")){
-                printf(COLOR_RED"%c"COLOR_RESET, Lvl -> map[i][j] ->symbol);
-            }
-            if (strcmp(Lvl->map[i][j]->type, "player")){
-                printf(COLOR_GREEN"%c"COLOR_RESET, Lvl -> map[i][j] ->symbol);
-            }
-            //printf("%c", Lvl -> map[i][j] ->symbol);
         }
         printf("\n");
     }
+    */
+
+   /*
+   //Descomentar para mostrar todo el mapa
+    for(int i = 0; i < Lvl -> height; i++){
+        for(int j = 0; j < Lvl -> width; j++){
+            printf("%c", Lvl -> map[i][j] -> symbol);
+        }
+        printf("\n");
+    }
+    */
+//}
+void showLvl(lvl *Lvl){
+    system("cls");
+    //Mostrar camara
+    for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
+        for(int j = Lvl->posx-7; j<Lvl->posx+7; j++){
+            if(i >= Lvl -> height || j >= Lvl -> width){
+                break;
+            }
+            /*if(i >= 0 && j >= 0){
+                printf("%c", Lvl->map[i][j]->symbol);
+            }*/
+            if(i >= 0 && j >= 0){
+            if (strcmp(Lvl->map[i][j]->type, "colision") == 0 ){
+                if(Lvl->map[i][j]->isText){
+                    printf(COLOR_YELLOW"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                }else{
+                    printf("%c  ", Lvl -> map[i][j] ->symbol);
+                }
+                
+            }else{
+                if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
+                    printf(COLOR_RED"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                }else{
+                    if (strcmp(Lvl->map[i][j]->type, "player")== 0){
+                        printf(COLOR_CYAN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                    }else{
+                        if (strcmp(Lvl->map[i][j]->type, "vacio")== 0){
+                            printf(COLOR_GREEN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                        }
+                    }
+                }
+                
+            }
+            
+            }
+            
+        }
+        printf("\n");    //printf("%c", Lvl -> map[i][j] ->symbol);
+    }
+    //printf("\ndebería estar al final\n");
+    bool close = false;
+    printf("\n._______________\n");
+    printf("|Salud: \t\n|");
+    for(int i = 0; i < Lvl->Player->hp; i++){
+        printf(COLOR_RED"%c ", 3);
+        if (i > 1 && (i % 5) == 0){
+
+            printf(COLOR_RESET"     \n|");
+        }
+    }
+    printf(COLOR_RESET"\t\n|Ataque: %i\t", Lvl->Player->atk);
+
+    printf("\n|Exp: %i / %i\t", Lvl->Player->exp, Lvl->Player->expMax);
+    printf("Nivel: %i", Lvl->Player->lvl);
+
+    printf("\n|_______________\n|");
+    
+    for(int i = Lvl->posy-2; i<Lvl -> posy+2; i++){
+        for(int j = Lvl->posx-5; j<Lvl->posx+5; j++){
+            if(i >= 0 && j >= 0 && i < Lvl->width && j < Lvl->height){
+                if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
+                    close = true;
+                    printf("%s ", Lvl->map[i][j]->Enemy->name);
+                    printf("\t");
+                }
+            }
+        }
+    }
+    printf("\n|");
+    int cont = 0;
+    for(int i = Lvl->posy-2; i<Lvl -> posy+2; i++){
+        for(int j = Lvl->posx-5; j<Lvl->posx+5; j++){
+            if(i >= 0 && j >= 0 && i < Lvl->width && j < Lvl->height){
+                if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
+                    close = true;
+                    cont++;
+                    //printf("\n|%s", Lvl->map[i][j]->Enemy->name);
+                    printf("Vida restante: %i%c\t", (((Lvl->map[i][j]->Enemy->hp)*100)/Lvl->map[i][j]->Enemy->hpMax), 37);
+                }
+            }
+        }
+    }
+    printf("\n|");
+    for (int k = 0; k < cont; k++){
+        printf("____________________");
+    }
+    
+    if (close == true){
+        printf("\nEnemigo fue detectado");
+        
+    }
+
+    /*printf("\n\n'a'- mover a la izquierda\t");
+    printf("\t'd'- mover a la derecha\n");
+    printf("'w'- mover hacia arriba\t");
+    printf("\t's'- mover hacia abajo\n");
+    printf("\t'e' - Atacar a enemigos cercanos");*/
+
+
+    //printf("\t0-Salir\n\n");
+        
+}
     
 
    /*
@@ -125,7 +232,31 @@ void showLvl(lvl *Lvl){
         printf("\n");
     }
     */
+
+void UpLvl(lvl* Lvl, square* Square){
+    Lvl->Player->atk += 1;
+    Lvl->Player->hpMax += 2;
+    Lvl->Player->hp = Lvl->Player->hpMax;
+    Lvl->Player->def += 1;
 }
+void experiencia(lvl* Lvl, square* Square){
+    //player* jugador = Lvl->Player;
+    Lvl->Player->exp += Square->Enemy->exp;
+    if (Lvl->Player->exp == Lvl->Player->expMax){
+      Lvl->Player->lvl += 1;
+      Lvl->Player->exp = 0;
+      Lvl->Player->expMax *= 2;
+      UpLvl(Lvl, Square);
+    }
+    if(Lvl->Player->exp > Lvl->Player->expMax){
+      Lvl->Player->lvl += 1;
+      Lvl->Player->exp -= Lvl->Player->expMax;
+      Lvl->Player->expMax *= 2;
+      UpLvl(Lvl, Square);
+    }
+}
+
+
 
 int movementX(char in){
     switch (in){
@@ -151,7 +282,7 @@ int movementY(char in){
 
 square *createObstacle(){ //Crea un obstaculo estandar
     square *Square = createSquare();
-    Square -> symbol = 219;
+    Square -> symbol = 220;
     strcpy(Square -> type, "colision");
     Square -> colision = true;
 
@@ -160,10 +291,11 @@ square *createObstacle(){ //Crea un obstaculo estandar
 
 square *createSquareEnemy(lvl *Lvl){
     square *Square = createSquare();
-    Square -> symbol = 'E';
+    Square -> symbol = 21;
     strcpy(Square -> type, "enemy");
     Square -> colision = true;
     Square -> Enemy = createEnemy(Lvl);
+    strcpy(Square->Enemy-> name, "Enemigo prueba");
 
     return Square;
 }
@@ -174,7 +306,7 @@ square *createSquareEnemy(lvl *Lvl){
     }
     
 }*/
-void initLvl(){
+void initLvl(List *gameHistory){
     lvl *Lvl;
     Lvl = createLvl();
 
@@ -195,11 +327,19 @@ void initLvl(){
     //Repartir obstaculos de forma aleatoria
     srand((unsigned) __TIME__);
 
-    int x = rand() % Lvl->width-1;
-    int y = rand() % Lvl->height-1;
+    int x;
+    int y;
+    do{
+        x = rand() % Lvl->width;
+    }while(x >= Lvl -> width);
+
+    do{
+        y = rand() % Lvl->height;
+    }while(y >= Lvl -> height);
+
     
     int reps = 0;
-    reps = rand() % 60;
+    reps = rand() % 100;
 
     for(int i = 0; i < reps; i++){
         while(1){
@@ -207,8 +347,13 @@ void initLvl(){
                 Lvl -> map[x][y] = createObstacle();
                 break;
             }else{
-                x = rand() % Lvl->width-1;
-                y = rand() % Lvl->height-1;
+                do{
+                    x = rand() % Lvl->width;
+                }while(x >= Lvl -> width);
+
+                do{
+                    y = rand() % Lvl->height;
+                }while(y >= Lvl -> height);
             }
         }
     }
@@ -219,7 +364,7 @@ void initLvl(){
     y = rand() % Lvl->height-1;
     
     reps = 0;
-    reps = rand() % 20;
+    reps = rand() % 70;
 
     for(int i = 0; i < reps; i++){
         while(1){
@@ -227,21 +372,44 @@ void initLvl(){
                 Lvl -> map[x][y] = createSquareEnemy(Lvl);
                 break;
             }else{
-                x = rand() % Lvl->width-1;
-                y = rand() % Lvl->height-1;
+                do{
+                    x = rand() % Lvl->width;
+                }while(x >= Lvl -> width);
+
+                do{
+                    y = rand() % Lvl->height;
+                }while(y >= Lvl -> height);
             }
         }
     }
 
+    stats *Stats = createStats();
     showLvl(Lvl);
-    updateLvl(Lvl);
+    updateLvl(Lvl, gameHistory, Stats);
 }
 
-void updateLvl(lvl *Lvl){
-    char in = '\0';
+void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
+    char in;
     fflush(stdin);
-    scanf("%c", &in);
-    getchar();
+    in =getch();
+    if (GetAsyncKeyState(VK_UP) ){
+        in = 'w';
+    }else{
+        if(GetAsyncKeyState(VK_DOWN)){
+            in = 's';
+        }else{
+            if(GetAsyncKeyState(VK_LEFT)){
+                in = 'a';
+            }else{
+
+                if(GetAsyncKeyState(VK_RIGHT)){
+                    in = 'd';
+                }
+            }
+        }
+    }
+    
+    //getchar();
     clrscr();
 
     //Movimiento jugador
@@ -268,6 +436,7 @@ void updateLvl(lvl *Lvl){
     //Recorrer mapa para hacer comprobaciones
     for(int i = 0; i < Lvl -> height-1; i++){
         for(int j = 0; j < Lvl -> width-1; j++){
+            //Comprobacion enemigos
             if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
                 //Comprobar si sigue vivo
                 if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
@@ -279,9 +448,11 @@ void updateLvl(lvl *Lvl){
     }
 
     //Si se igresa un 0 se termina la partida
-    if(in != '0'){
+    if(in != '0' && Lvl -> Player -> hp > 0){
         showLvl(Lvl);
-        updateLvl(Lvl);
+        updateLvl(Lvl, gameHistory, Stats);
+    }else if(Lvl -> Player -> hp <= 0){
+        listPushFront(gameHistory, Stats);
     }
 }
 
