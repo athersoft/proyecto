@@ -32,7 +32,7 @@ typedef struct enemy{
 typedef struct square{ //Casilla
     char *type;
     char symbol;
-
+    bool marked;
     //Color nfsfekfne
     bool colision;
     bool isText;
