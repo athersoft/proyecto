@@ -5,6 +5,7 @@
 #include <time.h>
 #include <conio.h>
 #include <windows.h>
+#include <math.h>
 
 stats *createStats(){
     stats *Stats = (stats* ) malloc(sizeof(stats));
@@ -24,6 +25,7 @@ square *createSquare(){
     Square -> text = (char *) malloc(sizeof(char)*20);
     strcpy(Square -> text, "");
     Square -> Enemy = NULL;
+    Square -> marked = false;
 
     return Square;
 }
@@ -434,19 +436,62 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     }
 
     //Recorrer mapa para hacer comprobaciones
-    for(int i = 0; i < Lvl -> height-1; i++){
-        for(int j = 0; j < Lvl -> width-1; j++){
+    for(int i = 1; i < Lvl -> height-1; i++){
+        for(int j = 1; j < Lvl -> width-1; j++){
             //Comprobacion enemigos
-            if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
-                //Comprobar si sigue vivo
-                if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
-                    experiencia(Lvl, Lvl->map[i][j]);
-                    Lvl -> map[i][j] = createSquare();
+            if(Lvl -> map[i][j] -> marked == false){
+                if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
+                    //Comprobar si sigue vivo
+                    if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
+                        experiencia(Lvl, Lvl->map[i][j]);
+                        Lvl -> map[i][j] = createSquare();
+                    }
+                    //Comprobar si está en rango de ataque
+                    if(strcmp(Lvl -> map[i+1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i-1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i][j+1] -> type, "player") == 0 || strcmp(Lvl -> map[i][j-1] -> type, "player") == 0){
+                        Lvl -> Player -> hp -= 1;
+                    }else{
+                        //Comprobar si está en rango de movimiento
+                        if(abs(i - Lvl -> posy) < 5 && abs(i - Lvl -> posy) > 0){
+                            if(Lvl -> posx != i){
+                                if(Lvl -> posy > i){
+                                    Lvl -> map[i+1][j] = Lvl -> map[i][j];
+                                    Lvl -> map[i+1][j] -> marked = true;
+                                    Lvl -> map[i][j] = createSquare();
+                                }else{
+                                    Lvl -> map[i-1][j] = Lvl -> map[i][j];
+                                    Lvl -> map[i-1][j] -> marked = true;
+                                    Lvl -> map[i][j] = createSquare();
+                                }
+                            }
+                            
+                        }else if(abs(j - Lvl -> posx) < 5){
+                            if(Lvl -> posx != j){
+                                if(Lvl -> posx > j){
+                                    Lvl -> map[i][j+1] = Lvl -> map[i][j];
+                                    Lvl -> map[i][j+1] -> marked = true;
+                                    Lvl -> map[i][j] = createSquare();
+                                }else{
+                                    Lvl -> map[i][j-1] = Lvl -> map[i][j];
+                                    Lvl -> map[i][j-1] -> marked = true;
+                                    Lvl -> map[i][j] = createSquare();
+                                }
+                            }
+                            
+                            
+                        }
+                    }
+                // }
                 }
             }
         }
     }
 
+    //Desmarcar todas las casillas
+    for(int i = 0; i < Lvl -> height-1; i++){
+        for(int j = 0; j < Lvl -> width-1; j++){
+            Lvl->map[i][j]->marked = false;
+        }
+    }
     //Si se igresa un 0 se termina la partida
     if(in != '0' && Lvl -> Player -> hp > 0){
         showLvl(Lvl);
