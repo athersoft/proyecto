@@ -22,6 +22,7 @@ typedef struct player{
 typedef struct enemy{
     char* name;
     int hp;
+    int hpMax;
     int atk;
     int def;
     int exp;

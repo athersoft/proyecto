@@ -70,6 +70,7 @@ enemy *createEnemy(lvl *Lvl){
     //Enemy -> hp = 1;
     numero = (rand() % Lvl -> Player->hp) + 1;
     Enemy->hp = numero + valor;
+    Enemy->hpMax = Enemy->hp;
     
     //Enemy -> atk = 1;
     numero = (rand() % Lvl -> Player->atk) + 1;
@@ -129,6 +130,7 @@ void showLvl(lvl *Lvl){
             /*if(i >= 0 && j >= 0){
                 printf("%c", Lvl->map[i][j]->symbol);
             }*/
+            if(i >= 0 && j >= 0){
             if (strcmp(Lvl->map[i][j]->type, "colision") == 0 ){
                 if(Lvl->map[i][j]->isText){
                     printf(COLOR_YELLOW"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
@@ -151,7 +153,7 @@ void showLvl(lvl *Lvl){
                 
             }
             
-            
+            }
             
         }
         printf("\n");    //printf("%c", Lvl -> map[i][j] ->symbol);
@@ -172,16 +174,16 @@ void showLvl(lvl *Lvl){
     printf("\n|Exp: %i / %i\t", Lvl->Player->exp, Lvl->Player->expMax);
 
     printf("\n|_______________");
-
+    
     for(int i = Lvl->posy-2; i<Lvl -> posy+2; i++){
         for(int j = Lvl->posx-5; j<Lvl->posx+5; j++){
-            if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
-                close = true;
-                printf("\n|%s", Lvl->map[i][j]->Enemy->name);
-                printf("\n|Hp Enemigo: %i  |", Lvl->map[i][j]->Enemy->hp);
-                printf("\n|Ataque: %i\t|", Lvl->map[i][j]->Enemy->atk);
+            if(i >= 0 && j >= 0 && i < Lvl->width && j < Lvl->height){
+                if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
+                    close = true;
+                    printf("\n|%s", Lvl->map[i][j]->Enemy->name);
+                    printf("\n|Vida restante: %i|", (((Lvl->map[i][j]->Enemy->hp)/(Lvl->map[i][j]->Enemy->hpMax))*100));
+                }
             }
-            
         }
     }
     printf("\n|_______________|");
