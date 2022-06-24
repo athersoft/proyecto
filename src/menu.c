@@ -32,28 +32,39 @@ void mostrarMenu(){
     printf("| |_________\n");
     printf("|___________|\n");}*/
 
-    
-    printf(" _____ _\n");                                        
-    printf("/ ____| |\n");                                       
-    printf("| |    | |__   __ _ _   _  __ _ _ __  _ __   ___\n");
-    printf("| |    | '_ %c / _` | | | |/ _` | '_ %c| '_ %c / _ %c \n", 92, 92, 92, 92);
-    printf("| |____| | | | (_| | |_| | (_| | | | | | | |  __/ \n");
-    printf("%c_____|_| |_|%c__,_|%c__, |%c__,_|_| |_|_| |_|%c___|\n", 92, 92, 92, 92, 92);
-    printf("                    __/ |\n");                       
-    printf("                   |___/\n");                        
-    printf("  ____                 _ \n");                        
-    printf(" / __ %c               | |\n", 92);                        
-    printf("| |  | |_   _  ___ ___| |_\n");                       
-    printf("| |  | | | | |/ _ / __| __|  \n");                    
-    printf("| |__| | |_| |  __%c__ | |_\n", 92);                       
-    printf(" %c___%c_%c%c__,_|%c___|___/%c__|\n", 92, 92, 92, 92, 92, 92);                      
+    printf(RED);
+    printf(NEGRITA" _____  _                                           \n");      
+    Sleep(110);
+    printf("/ ____|| |                                          \n");   
+    Sleep(110);
+    printf("| |    | |__   __ _ _   _  __ _ _ __  _ __   ___    \n");
+    Sleep(110);
+    printf("| |    | '_ %c / _` | | | |/ _` | '_ %c| '_ %c / _ %c   \n", 92, 92, 92, 92);
+    Sleep(110);
+    printf("| |____| | | | (_| | |_| | (_| | | | | | | |  __/   \n");
+    Sleep(110);
+    printf("%c______|_| |_|%c__,_|%c__, |%c__,_|_| |_|_| |_|%c___|   \n", 92, 92, 92, 92, 92);
+    Sleep(110);
+    printf("                    __/ |                           \n");                       
+    Sleep(110);
+    printf("                   |___/                            \n");                        
+    Sleep(110);
+    printf("  ____                 _                            \n");                        
+    Sleep(110);
+    printf(" / __ %c               | |                           \n", 92);                        
+    Sleep(110);
+    printf("| |  | |_   _  ___ ___| |_                          \n");                       
+    Sleep(110);
+    printf("| |  | | | | |/ _ / __| __|                         \n");                    
+    Sleep(110);
+    printf("| |__| | |_| |  __%c__ | |_                          \n", 92);                       
+    Sleep(110);
+    printf(" %c___%c_%c%c__,_|%c___|___/%c__|                         ", 92, 92, 92, 92, 92, 92);                      
+    Sleep(110);
+    printf("\n                                                    \n"COLOR_RESET);
+    Sleep(1000);
 
-
-    
-    
-    
-
-    printf(COLOR_RESET"\n\n1-Nuevo Juego\t");
+    printf("\n\n1-Nuevo Juego\t");
     printf("\t2-Cargar Partida\n");
     printf("3-Estadisticas\t");
     printf("\t4-Historial de partidas\n");

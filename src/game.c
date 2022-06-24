@@ -120,7 +120,7 @@ enemy *createEnemy(lvl *Lvl){
     */
 //}
 void showLvl(lvl *Lvl){
-    system("clear");
+    system("cls");
     //Mostrar camara
     for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
         for(int j = Lvl->posx-7; j<Lvl->posx+7; j++){
@@ -172,6 +172,7 @@ void showLvl(lvl *Lvl){
     printf(COLOR_RESET"\t\n|Ataque: %i\t", Lvl->Player->atk);
 
     printf("\n|Exp: %i / %i\t", Lvl->Player->exp, Lvl->Player->expMax);
+    printf("Nivel: %i", Lvl->Player->lvl);
 
     printf("\n|_______________\n|");
     
@@ -187,18 +188,24 @@ void showLvl(lvl *Lvl){
         }
     }
     printf("\n|");
+    int cont = 0;
     for(int i = Lvl->posy-2; i<Lvl -> posy+2; i++){
         for(int j = Lvl->posx-5; j<Lvl->posx+5; j++){
             if(i >= 0 && j >= 0 && i < Lvl->width && j < Lvl->height){
                 if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
                     close = true;
+                    cont++;
                     //printf("\n|%s", Lvl->map[i][j]->Enemy->name);
                     printf("Vida restante: %i%c\t", (((Lvl->map[i][j]->Enemy->hp)*100)/Lvl->map[i][j]->Enemy->hpMax), 37);
                 }
             }
         }
     }
-    printf("\n|_______________");
+    printf("\n|");
+    for (int k = 0; k < cont; k++){
+        printf("____________________");
+    }
+    
     if (close == true){
         printf("\nEnemigo fue detectado");
         

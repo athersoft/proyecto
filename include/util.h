@@ -23,7 +23,10 @@
 #define BLUE "\033[44m"        
 #define PURPLE "\033[45m"      
 #define CYAN "\033[46m"        
-#define WHITE "\033[47m"       
+#define WHITE "\033[47m"    
+#define NEGRITA "\033[30m"
+
+#define ROJO_POTENTE "\033[101m"
 
 extern char buf[];
 void clrscr();
