@@ -20,7 +20,7 @@ typedef struct player{
 }player;
 
 typedef struct enemy{
-    char *name;
+    char* name;
     int hp;
     int atk;
     int def;

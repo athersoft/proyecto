@@ -62,29 +62,29 @@ player *createPlayer(){
 enemy *createEnemy(lvl *Lvl){
     
     srand(time(NULL));
-    player* jugador = Lvl -> Player;
+    //player* jugador = Lvl -> Player;
     enemy *Enemy = (enemy *) malloc(sizeof(enemy));
-    int valor = (jugador->lvl % 10) + (jugador->lvl /10);
+    int valor = (Lvl -> Player->lvl % 10) + (Lvl -> Player->lvl /10);
     int numero;
 
     //Enemy -> hp = 1;
-    numero = (rand() % jugador->hp) + 1;
+    numero = (rand() % Lvl -> Player->hp) + 1;
     Enemy->hp = numero + valor;
     
     //Enemy -> atk = 1;
-    numero = (rand() % jugador->atk) + 1;
-    Enemy->hp = numero + valor;
+    numero = (rand() % Lvl -> Player->atk) + 1;
+    Enemy->atk = numero + valor;
 
     //Enemy -> def = 0;
-    numero = (rand() % jugador->def) + 1;
-    Enemy->hp = numero + valor;
+    numero = (rand() % Lvl -> Player->def) + 1;
+    Enemy->def = numero + valor;
 
-    Enemy->exp = (rand() % jugador->expMax) - 2;
-    if(Enemy->exp < 0){
+    Enemy->exp = (rand() % Lvl -> Player->expMax) - 2;
+    if(Enemy->exp <= 0){
         Enemy->exp = 1;
     }
     Enemy -> name = malloc(sizeof(char) * 20);
-    strcpy(Enemy -> name, "Enemigo prueba");
+    //strcpy(Enemy -> name, "Enemigo prueba");
 
     Enemy -> dead = false;
 
@@ -119,7 +119,7 @@ enemy *createEnemy(lvl *Lvl){
     */
 //}
 void showLvl(lvl *Lvl){
-    
+    system("clear");
     //Mostrar camara
     for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
         for(int j = Lvl->posx-7; j<Lvl->posx+7; j++){
@@ -157,13 +157,38 @@ void showLvl(lvl *Lvl){
         printf("\n");    //printf("%c", Lvl -> map[i][j] ->symbol);
     }
     //printf("\ndebería estar al final\n");
-    printf("Salud: ");
+    bool close = false;
+    printf("\n._______________\n");
+    printf("|Salud: \t\n|");
     for(int i = 0; i < Lvl->Player->hp; i++){
         printf(COLOR_RED"%c ", 3);
-    }
-    printf(COLOR_RESET"\tAtaque: %i", Lvl->Player->atk);
+        if (i > 1 && (i % 5) == 0){
 
-    printf("\n\tExp: %i / %i", Lvl->Player->exp, Lvl->Player->expMax);
+            printf(COLOR_RESET"     \n|");
+        }
+    }
+    printf(COLOR_RESET"\t\n|Ataque: %i\t", Lvl->Player->atk);
+
+    printf("\n|Exp: %i / %i\t", Lvl->Player->exp, Lvl->Player->expMax);
+
+    printf("\n|_______________");
+
+    for(int i = Lvl->posy-2; i<Lvl -> posy+2; i++){
+        for(int j = Lvl->posx-5; j<Lvl->posx+5; j++){
+            if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
+                close = true;
+                printf("\n|%s", Lvl->map[i][j]->Enemy->name);
+                printf("\n|Hp Enemigo: %i  |", Lvl->map[i][j]->Enemy->hp);
+                printf("\n|Ataque: %i\t|", Lvl->map[i][j]->Enemy->atk);
+            }
+            
+        }
+    }
+    printf("\n|_______________|");
+    if (close == true){
+        printf("\nEnemigo fue detectado");
+        
+    }
 
     /*printf("\n\n'a'- mover a la izquierda\t");
     printf("\t'd'- mover a la derecha\n");
@@ -249,6 +274,7 @@ square *createSquareEnemy(lvl *Lvl){
     strcpy(Square -> type, "enemy");
     Square -> colision = true;
     Square -> Enemy = createEnemy(Lvl);
+    strcpy(Square->Enemy-> name, "Enemigo prueba");
 
     return Square;
 }
