@@ -1,0 +1,12 @@
+
+.ccls-cache
+out
+tarea1
+*.exe
+tests/test*
+
+.cache/clangd/index
+tests/list
+tests/map
+tarea2
+.cache/clangd/index
