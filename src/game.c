@@ -173,20 +173,32 @@ void showLvl(lvl *Lvl){
 
     printf("\n|Exp: %i / %i\t", Lvl->Player->exp, Lvl->Player->expMax);
 
-    printf("\n|_______________");
+    printf("\n|_______________\n|");
     
     for(int i = Lvl->posy-2; i<Lvl -> posy+2; i++){
         for(int j = Lvl->posx-5; j<Lvl->posx+5; j++){
             if(i >= 0 && j >= 0 && i < Lvl->width && j < Lvl->height){
                 if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
                     close = true;
-                    printf("\n|%s", Lvl->map[i][j]->Enemy->name);
-                    printf("\n|Vida restante: %i%c|", (((Lvl->map[i][j]->Enemy->hp)*100)/Lvl->map[i][j]->Enemy->hpMax), 37);
+                    printf("%s ", Lvl->map[i][j]->Enemy->name);
+                    printf("\t");
                 }
             }
         }
     }
-    printf("\n|_______________|");
+    printf("\n|");
+    for(int i = Lvl->posy-2; i<Lvl -> posy+2; i++){
+        for(int j = Lvl->posx-5; j<Lvl->posx+5; j++){
+            if(i >= 0 && j >= 0 && i < Lvl->width && j < Lvl->height){
+                if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
+                    close = true;
+                    //printf("\n|%s", Lvl->map[i][j]->Enemy->name);
+                    printf("Vida restante: %i%c\t", (((Lvl->map[i][j]->Enemy->hp)*100)/Lvl->map[i][j]->Enemy->hpMax), 37);
+                }
+            }
+        }
+    }
+    printf("\n|_______________");
     if (close == true){
         printf("\nEnemigo fue detectado");
         
