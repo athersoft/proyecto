@@ -69,8 +69,8 @@ enemy *createEnemy(lvl *Lvl){
 
     //Enemy -> hp = 1;
     numero = (rand() % Lvl -> Player->hp) + 1;
-    Enemy->hp = numero + valor;
-    Enemy->hpMax = Enemy->hp;
+    Enemy->hpMax = numero + valor;
+    Enemy->hp = Enemy->hpMax;
     
     //Enemy -> atk = 1;
     numero = (rand() % Lvl -> Player->atk) + 1;
@@ -181,7 +181,7 @@ void showLvl(lvl *Lvl){
                 if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
                     close = true;
                     printf("\n|%s", Lvl->map[i][j]->Enemy->name);
-                    printf("\n|Vida restante: %i|", (((Lvl->map[i][j]->Enemy->hp)/(Lvl->map[i][j]->Enemy->hpMax))*100));
+                    printf("\n|Vida restante: %i%c|", (((Lvl->map[i][j]->Enemy->hp)*100)/Lvl->map[i][j]->Enemy->hpMax), 37);
                 }
             }
         }
