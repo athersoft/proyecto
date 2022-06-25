@@ -152,6 +152,9 @@ void showLvl(lvl *Lvl){
                         }
                     }
                 }
+                if(strcmp(Lvl->map[i][j]->type, "vida")== 0){
+                    printf(COLOR_PURPLE"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                }
                 
             }
             
@@ -291,6 +294,14 @@ square *createObstacle(){ //Crea un obstaculo estandar
     return Square;
 }
 
+square *createItem(char *type, char symbol){
+    square *Square = createSquare();
+    Square -> symbol = 3;
+    strcpy(Square -> type, type);
+
+    return Square;
+}
+
 square *createSquareEnemy(lvl *Lvl){
     square *Square = createSquare();
     Square -> symbol = 21;
@@ -416,6 +427,12 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
 
     //Movimiento jugador
     if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
+        if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "vida") == 0){
+            Lvl -> Player -> hp += 2;
+            if(Lvl -> Player -> hpMax < Lvl -> Player -> hp){
+                Lvl -> Player -> hp = Lvl -> Player -> hpMax;
+            }
+        }
         Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
         Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
         Lvl -> posx += movementX(in);
@@ -445,7 +462,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                     //Comprobar si sigue vivo
                     if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
                         experiencia(Lvl, Lvl->map[i][j]);
-                        Lvl -> map[i][j] = createSquare();
+                        Lvl -> map[i][j] = createItem("vida", 'V');
                         Stats->kills++;
                     }
                     //Comprobar si está en rango de ataque
