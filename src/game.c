@@ -509,3 +509,41 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     }
 }
 
+void showHistory(List *gameHistory, int num){
+    char in;
+    int max = 0;
+    for(stats *i = listFirst(gameHistory); i!= NULL; i = listNext(gameHistory)){
+        max++;
+    }
+    stats *Stats = listFirst(gameHistory);
+    if(max > 0){
+        printf("Partida numero %i\n\n", num);
+        printf("Pasos dados: %i\n", Stats->steps);
+        printf("Enemigos eliminados: %i\n", Stats->kills);
+        printf("Nivel alcanzado: %i\n\n", Stats->maxLvl);
+    }
+    if(num > 1){
+        printf("a- Anterior   ");
+    }else{
+        printf("              ");
+    }
+
+    printf("q- Salir al menu   ");
+
+    if(num < max){
+        printf("d- Siguiente");
+    }
+
+    scanf("%c", &in);
+    getchar();
+    if(in == 'a' && num > 1){
+        showHistory(gameHistory, num-1);
+    }
+    if(in == 'd' && num < max){
+        showHistory(gameHistory, num+1);
+    }
+    //if(in == 'q'){
+
+    //}
+    
+}

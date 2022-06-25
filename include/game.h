@@ -72,6 +72,6 @@ void experiencia(lvl* LvL, square* Square);
 int movementX(char in);
 int movementY(char in);
 
-
+void showHistory(List *gameHistory, int num);
 
 #endif

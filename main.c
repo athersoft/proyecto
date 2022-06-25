@@ -58,13 +58,13 @@ int main(){
                 initLvl(gameHistory);
                 break;
             case (2): // Cargar Partida
-
+                
                 break;
             case(3): // Estadisticas
 
                 break;
-            case(11): // Debug
-
+            case(4): // Historial de partidas
+                showHistory(gameHistory, 1);
                 break;
             default:
                 break;
