@@ -454,26 +454,34 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                         if(abs(i - Lvl -> posy) < 5 && abs(i - Lvl -> posy) > 0){
                             if(Lvl -> posx != i){
                                 if(Lvl -> posy > i){
-                                    Lvl -> map[i+1][j] = Lvl -> map[i][j];
-                                    Lvl -> map[i+1][j] -> marked = true;
-                                    Lvl -> map[i][j] = createSquare();
+                                    if(strcmp(Lvl -> map[i+1][j] -> type, "vacio") == 0){
+                                        Lvl -> map[i+1][j] = Lvl -> map[i][j];
+                                        Lvl -> map[i+1][j] -> marked = true;
+                                        Lvl -> map[i][j] = createSquare();
+                                    }
                                 }else{
-                                    Lvl -> map[i-1][j] = Lvl -> map[i][j];
-                                    Lvl -> map[i-1][j] -> marked = true;
-                                    Lvl -> map[i][j] = createSquare();
+                                    if(strcmp(Lvl -> map[i-1][j] -> type, "vacio") == 0){
+                                        Lvl -> map[i-1][j] = Lvl -> map[i][j];
+                                        Lvl -> map[i-1][j] -> marked = true;
+                                        Lvl -> map[i][j] = createSquare();
+                                    }
                                 }
                             }
                             
                         }else if(abs(j - Lvl -> posx) < 5){
                             if(Lvl -> posx != j){
                                 if(Lvl -> posx > j){
-                                    Lvl -> map[i][j+1] = Lvl -> map[i][j];
-                                    Lvl -> map[i][j+1] -> marked = true;
-                                    Lvl -> map[i][j] = createSquare();
+                                    if(strcmp(Lvl -> map[i][j+1] -> type, "vacio") == 0){
+                                        Lvl -> map[i][j+1] = Lvl -> map[i][j];
+                                        Lvl -> map[i][j+1] -> marked = true;
+                                        Lvl -> map[i][j] = createSquare();
+                                    }
                                 }else{
-                                    Lvl -> map[i][j-1] = Lvl -> map[i][j];
-                                    Lvl -> map[i][j-1] -> marked = true;
-                                    Lvl -> map[i][j] = createSquare();
+                                    if(strcmp(Lvl -> map[i][j-1] -> type, "vacio") == 0){
+                                        Lvl -> map[i][j-1] = Lvl -> map[i][j];
+                                        Lvl -> map[i][j-1] -> marked = true;
+                                        Lvl -> map[i][j] = createSquare();
+                                    }
                                 }
                             }
                             
