@@ -420,6 +420,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
         Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
         Lvl -> posx += movementX(in);
         Lvl -> posy += movementY(in);
+        Stats -> steps ++;
     }
 
     //Ataque jugador
@@ -445,6 +446,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                     if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
                         experiencia(Lvl, Lvl->map[i][j]);
                         Lvl -> map[i][j] = createSquare();
+                        Stats->kills++;
                     }
                     //Comprobar si está en rango de ataque
                     if(strcmp(Lvl -> map[i+1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i-1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i][j+1] -> type, "player") == 0 || strcmp(Lvl -> map[i][j-1] -> type, "player") == 0){
@@ -505,6 +507,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
         showLvl(Lvl);
         updateLvl(Lvl, gameHistory, Stats);
     }else if(Lvl -> Player -> hp <= 0){
+        Stats -> maxLvl = Lvl -> Player ->lvl;
         listPushFront(gameHistory, Stats);
     }
 }
@@ -533,6 +536,7 @@ void showHistory(List *gameHistory, int num){
     if(num < max){
         printf("d- Siguiente");
     }
+    printf("\nIngrese su opcion: ");
 
     scanf("%c", &in);
     getchar();
