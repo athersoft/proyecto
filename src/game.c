@@ -513,6 +513,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
 }
 
 void showHistory(List *gameHistory, int num){
+    clrscr();
     char in;
     int max = 0;
     for(stats *i = listFirst(gameHistory); i!= NULL; i = listNext(gameHistory)){
@@ -520,31 +521,34 @@ void showHistory(List *gameHistory, int num){
     }
     stats *Stats = listFirst(gameHistory);
     if(max > 0){
-        printf("Partida numero %i\n\n", num);
-        printf("Pasos dados: %i\n", Stats->steps);
-        printf("Enemigos eliminados: %i\n", Stats->kills);
-        printf("Nivel alcanzado: %i\n\n", Stats->maxLvl);
-    }
-    if(num > 1){
-        printf("a- Anterior   ");
+            printf("Partida numero %i\n\n", num);
+            printf("Pasos dados: %i\n", Stats->steps);
+            printf("Enemigos eliminados: %i\n", Stats->kills);
+            printf("Nivel alcanzado: %i\n\n", Stats->maxLvl);
+        
+        if(num > 1){
+            printf("a- Anterior   ");
+        }else{
+            printf("              ");
+        }
+
+        printf("q- Salir al menu   ");
+
+        if(num < max){
+            printf("d- Siguiente");
+        }
+        printf("\n\nIngrese su opcion: ");
+
+        scanf("%c", &in);
+        getchar();
+        if(in == 'a' && num > 1){
+            showHistory(gameHistory, num-1);
+        }
+        if(in == 'd' && num < max){
+            showHistory(gameHistory, num+1);
+        }
     }else{
-        printf("              ");
-    }
-
-    printf("q- Salir al menu   ");
-
-    if(num < max){
-        printf("d- Siguiente");
-    }
-    printf("\nIngrese su opcion: ");
-
-    scanf("%c", &in);
-    getchar();
-    if(in == 'a' && num > 1){
-        showHistory(gameHistory, num-1);
-    }
-    if(in == 'd' && num < max){
-        showHistory(gameHistory, num+1);
+        printf("No hay partidas");
     }
     //if(in == 'q'){
 
