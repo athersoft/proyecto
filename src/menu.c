@@ -97,28 +97,29 @@ void pantallaMuerte(){
     printf("\nH:::::::H     H:::::::H a::::::::::aa:::as:::::::::::ss       m::::m   m::::m   m::::m  uu::::::::uu:::u  ee:::::::::::::e   r:::::r                    tt:::::::::::tt oo:::::::::::oo !!:!!        ");//       cc:::::::::::::::c
     printf("\n HHHHHHHHH     HHHHHHHHH  aaaaaaaaaa  aaaa sssssssssss         mmmmmm   mmmmmm   mmmmmm    uuuuuuuu  uuuu    eeeeeeeeeeeeee   rrrrrrr                      ttttttttttt     ooooooooooo    !!!        ");//          cccccccccccccccc
            */
-
-    system("Y_tu_te_vas.mp3 &");
     
+    
+    //system("Ytu.mp3 &");
+    Sleep(500);
     printf("\n##     ##    ###     ######    ##     ## ##     ## ######## ########  ########  #######    ####");   
-    Sleep(110);
+    Sleep(130);
     printf("\n##     ##   ## ##   ##    ##   ###   ### ##     ## ##       ##     ##    ##    ##     ##   ####   ");
-    Sleep(110);
+    Sleep(130);
     printf("\n##     ##  ##   ##  ##         #### #### ##     ## ##       ##     ##    ##    ##     ##   ####   ");
-    Sleep(110);
+    Sleep(130);
     printf("\n######### ##     ##  ######    ## ### ## ##     ## ######   ########     ##    ##     ##    ##    ");
-    Sleep(110);
+    Sleep(130);
     printf("\n##     ## #########       ##   ##     ## ##     ## ##       ##   ##      ##    ##     ##        ");
-    Sleep(110);
+    Sleep(130);
     printf("\n##     ## ##     ## ##    ##   ##     ## ##     ## ##       ##    ##     ##    ##     ##   ####   ");
-    Sleep(110);
+    Sleep(130);
     printf("\n##     ## ##     ##  ######    ##     ##  #######  ######## ##     ##    ##     #######    ####   ");
-    Sleep(110);
+    Sleep(130);
     printf("\n\n");
-    printf(PURPLE"Pero recuerda que este no es el final.\n sigue luchando y alcanza la victoria!!"COLOR_RESET);
+    Sleep(1000);
+    printf(PURPLE"Pero recuerda que este no es el final.\nSigue luchando y alcanza la victoria!!"COLOR_RESET);
 
-    system("Y_tu_te_vas.mp3 &");
-
+    printf(RED"\nPresiona 'enter' para volver al men%c\n"COLOR_RESET, 163);
     getchar();
 
 }

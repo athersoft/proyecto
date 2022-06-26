@@ -32,7 +32,7 @@ int main(){
     while(in != 0 ){
         //fullscreen();
         
-        system("Torero.mp3 &");
+        //system("Torero.mp3 &");
         Sleep(1000);
         mostrarMenu();
         fflush(stdin);
