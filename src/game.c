@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "game.h"
+#include "menu.h"
 #include <time.h>
 #include <conio.h>
 #include <windows.h>
@@ -59,6 +60,28 @@ player *createPlayer(){
     Player -> hpMax = 10;
     Player -> hp = 10;
     return Player;
+}
+
+enemy* createBoss(lvl* Lvl){
+    enemy* jefe = (enemy*) malloc(sizeof(enemy));
+    int valor;
+    if(Lvl->Player->lvl <=9){
+        valor = 5;
+    }else{
+        valor = (Lvl -> Player->lvl % 10) + (Lvl -> Player->lvl /10);
+    }
+    //int numero;
+
+    jefe->hpMax =  Lvl->Player->hpMax + valor;
+    jefe->hp = jefe->hpMax;
+
+    jefe->atk = Lvl->Player->atk + valor;
+
+    jefe->def = Lvl->Player->def + valor;
+
+    jefe->exp = Lvl->Player->expMax;
+
+    return jefe;
 }
 
 enemy *createEnemy(lvl *Lvl){
@@ -141,14 +164,18 @@ void showLvl(lvl *Lvl){
                 }
                 
             }else{
-                if (strcmp(Lvl->map[i][j]->type, "enemy")== 0){
-                    printf(COLOR_RED"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                if (strcmp(Lvl->map[i][j]->type, "enemy")== 0 && Lvl->map[i][j]->Enemy->jefe == true){
+                    printf(COLOR_PURPLE"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
                 }else{
-                    if (strcmp(Lvl->map[i][j]->type, "player")== 0){
-                        printf(COLOR_CYAN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                    if(strcmp(Lvl->map[i][j]->type, "enemy")== 0){
+                        printf(COLOR_RED"%c "COLOR_RESET, Lvl->map[i][j]->symbol);
                     }else{
-                        if (strcmp(Lvl->map[i][j]->type, "vacio")== 0){
-                            printf(COLOR_GREEN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                        if (strcmp(Lvl->map[i][j]->type, "player")== 0){
+                            printf(COLOR_CYAN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                        }else{
+                            if (strcmp(Lvl->map[i][j]->type, "vacio")== 0){
+                                printf(COLOR_GREEN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                            }
                         }
                     }
                 }
@@ -302,6 +329,18 @@ square *createItem(char *type, char symbol){
     return Square;
 }
 
+square* createSquareBoss(lvl* Lvl){
+    square* Square = createSquare();
+    Square->symbol = 234;
+    strcpy(Square->type, "enemy");
+    Square->colision = true;
+    //Square->Enemy->jefe = true;
+    Square->Enemy = createBoss(Lvl);
+    //strcpy(Square->Enemy->name, "Estigia");
+
+    return Square;
+}
+
 square *createSquareEnemy(lvl *Lvl){
     square *Square = createSquare();
     Square -> symbol = 21;
@@ -378,6 +417,11 @@ void initLvl(List *gameHistory){
     
     reps = 0;
     reps = rand() % 70;
+    
+    if(Lvl->jefes == false){
+        Lvl->map[x][y] = createSquareBoss(Lvl);
+        Lvl->jefes = true;
+    }
 
     for(int i = 0; i < reps; i++){
         while(1){
@@ -405,7 +449,8 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     char in;
     fflush(stdin);
     in =getch();
-    if (GetAsyncKeyState(VK_UP) ){
+
+    /*if (GetAsyncKeyState(VK_UP) ){
         in = 'w';
     }else{
         if(GetAsyncKeyState(VK_DOWN)){
@@ -420,7 +465,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                 }
             }
         }
-    }
+    }*/
     
     //getchar();
     clrscr();
@@ -441,7 +486,29 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     }
 
     //Ataque jugador
-    if(in == 'e'){
+    if(GetAsyncKeyState(VK_DOWN)){
+        if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }
+    }
+    if(GetAsyncKeyState(VK_UP)){
+        if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }
+        printf("\n no mueras\n");
+    }
+    if(GetAsyncKeyState(VK_RIGHT)){
+        if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }
+    }
+    if(GetAsyncKeyState(VK_LEFT)){
+        if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }
+    }
+    /*
+    if(in == 'e' || GetAsyncKeyState(VK_UP)){
         if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
         }else if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
@@ -451,7 +518,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
         }else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
         }
-    }
+    }*/
 
     //Recorrer mapa para hacer comprobaciones
     for(int i = 1; i < Lvl -> height-1; i++){
@@ -526,6 +593,8 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     }else if(Lvl -> Player -> hp <= 0){
         Stats -> maxLvl = Lvl -> Player ->lvl;
         listPushFront(gameHistory, Stats);
+        pantallaMuerte();
+        
     }
 }
 
