@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
+#include "map.h"
 #define COLOR_RESET   "\033[0m"
 #define COLOR_RED "\033[31m"      /* Red */
 #define COLOR_GREEN "\033[32m" 

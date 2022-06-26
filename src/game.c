@@ -246,6 +246,7 @@ void updateLvl(lvl *Lvl){
             if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
                 //Comprobar si sigue vivo
                 if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
+                    enemyToMap(Lvl -> map[i][j] -> Enemy);
                     Lvl -> map[i][j] = createSquare();
                 }
             }

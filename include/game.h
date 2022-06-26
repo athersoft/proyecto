@@ -10,6 +10,7 @@ typedef struct player{
     int def;
     int exp;
     int expMax;
+    Map * bestiario;
 }player;
 
 typedef struct enemy{
