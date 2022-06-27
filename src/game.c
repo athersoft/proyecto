@@ -483,7 +483,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     //Movimiento jugador
     if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
         if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "vida") == 0){
-//           listPushBack(text, "2 corazones recuperados");
+            listPushBack(text, "2 corazones recuperados");
             Lvl -> Player -> hp += 2;
             if(Lvl -> Player -> hpMax < Lvl -> Player -> hp){
                 Lvl -> Player -> hp = Lvl -> Player -> hpMax;
@@ -496,26 +496,65 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
         Stats -> steps ++;
     }
 
+    char *dmg = malloc(sizeof(char)*40);
     //Ataque jugador
     if(GetAsyncKeyState(VK_DOWN)){
         if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+
+            strcat(dmg, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*40);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            strcat(dmg, str);
+            strcat(dmg, " de dano a ");
+            strcat(dmg, Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> name);
+            listPushBack(text, dmg);
+
         }
     }
     if(GetAsyncKeyState(VK_UP)){
         if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+
+            strcat(dmg, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*40);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            strcat(dmg, str);
+            strcat(dmg, " de dano a ");
+            strcat(dmg, Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> name);
+            listPushBack(text, dmg);
+
         }
         //printf("\n no mueras\n");
     }
     if(GetAsyncKeyState(VK_RIGHT)){
         if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+
+            strcat(dmg, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*40);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            strcat(dmg, str);
+            strcat(dmg, " de dano a ");
+            strcat(dmg, Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> name);
+            listPushBack(text, dmg);
         }
     }
     if(GetAsyncKeyState(VK_LEFT)){
         if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+
+            strcat(dmg, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*40);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            strcat(dmg, str);
+            strcat(dmg, " de dano a ");
+            strcat(dmg, Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> name);
+            listPushBack(text, dmg);
         }
     }
     
