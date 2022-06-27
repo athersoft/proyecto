@@ -477,7 +477,20 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                     }else{
                     //Comprobar si está en rango de ataque
                     if(strcmp(Lvl -> map[i+1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i-1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i][j+1] -> type, "player") == 0 || strcmp(Lvl -> map[i][j-1] -> type, "player") == 0){
-                        Lvl -> Player -> hp -= Lvl -> map[i][j] -> Enemy ->atk;
+                        Lvl -> Player -> hp -= (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def);
+
+                        //Mostrar mensaje////////////
+                        char *dmg2;
+                        dmg2 = malloc(sizeof(char)*60);
+                        strcat(dmg2, "Has recibido ");
+
+                        char *str = malloc(sizeof(char)*6);
+                        sprintf(str, "%d", (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def));
+                        strcat(dmg2, str);
+                        strcat(dmg2, " de dano");
+                        listPushBack(text, dmg2);
+                        ////////////////////////
+                        
                     }else{
                         //Comprobar si está en rango de movimiento
                         if(abs(i - Lvl -> posy) < 5 && abs(i - Lvl -> posy) > 0){
