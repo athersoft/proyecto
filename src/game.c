@@ -167,12 +167,14 @@ void showLvl(lvl *Lvl){
     bool close = false;
     printf("\n._______________\n");
     printf("|Salud: \t\n|");
+    int heart = 1;
     for(int i = 0; i < Lvl->Player->hp; i++){
         printf(COLOR_RED"%c ", 3);
-        if (i > 1 && (i % 5) == 0){
-
+        if (heart == 5){
+            heart = 0;
             printf(COLOR_RESET"     \n|");
         }
+        heart++;
     }
     printf(COLOR_RESET"\t\n|Ataque: %i\t", Lvl->Player->atk);
 
@@ -319,7 +321,7 @@ square *createSquareEnemy(lvl *Lvl){
     }
     
 }*/
-void initLvl(List *gameHistory){
+void initLvl(List *gameHistory,Map *bestiary){
     lvl *Lvl;
     Lvl = createLvl();
 

@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
+#include "map.h"
 #define COLOR_RESET   "\033[0m"
 #define COLOR_RED "\033[31m"      /* Red */
 #define COLOR_GREEN "\033[32m" 
@@ -32,6 +33,9 @@ extern char buf[];
 void clrscr();
 
 char *_strdup(const char *str);
+
+int is_equal_string(void * key1, void * key2);  
+int lower_than_string(void * key1, void * key2);
 
 
 #endif

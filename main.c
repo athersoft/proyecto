@@ -25,15 +25,15 @@ keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
 /* main function */
 int main(){
     List *gameHistory = listCreate();
-    //map *bestiary = createMap();
+    Map *bestiary = createMap(is_equal_string,lower_than_string);
 
     int in=1;
     
     while(in != 0 ){
         //fullscreen();
         
-        system("Torero.mp3 &");
-        Sleep(1000);
+        //system("Torero.mp3 &");
+        //Sleep(1000);
         mostrarMenu();
         fflush(stdin);
         printf(WHITE COLOR_BLACK"Ingrese su seleccion: "COLOR_RESET);
@@ -55,7 +55,7 @@ int main(){
                 }
                 printf("\n");
                 Sleep(1000);
-                initLvl(gameHistory);
+                initLvl(gameHistory,bestiary);
                 break;
             case (2): // Cargar Partida
                 
