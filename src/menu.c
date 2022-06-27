@@ -6,7 +6,7 @@
 #include <conio.h>
 
 void mostrarMenu(){
-    clrscr();
+    system("cls");
     //printf("%s", buf);
     //strcpy(buf, "");
 
@@ -74,18 +74,36 @@ void mostrarMenu(){
     printf("\t0-Salir\n\n");
 }
 
-void mostrarMenuBuscar(){
-    clrscr();
-    printf("%s", buf);
-    strcpy(buf, "");
 
+void pantallaMuerte(){
+    system("cls");
 
-    printf(COLOR_CYAN"Menu de busqueda\n"COLOR_RESET);
-    printf("'n': Por Titulo\n");
-    printf("'t': Por Palabra\n");
-    printf("'e': Salir\n");
-    
-                
+                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                   
+
+    //system("Ytu.mp3 &");
+    Sleep(500);
+    printf("\n##     ##    ###     ######    ##     ## ##     ## ######## ########  ########  #######    ####");   
+    Sleep(130);
+    printf("\n##     ##   ## ##   ##    ##   ###   ### ##     ## ##       ##     ##    ##    ##     ##   ####   ");
+    Sleep(130);
+    printf("\n##     ##  ##   ##  ##         #### #### ##     ## ##       ##     ##    ##    ##     ##   ####   ");
+    Sleep(130);
+    printf("\n######### ##     ##  ######    ## ### ## ##     ## ######   ########     ##    ##     ##    ##    ");
+    Sleep(130);
+    printf("\n##     ## #########       ##   ##     ## ##     ## ##       ##   ##      ##    ##     ##        ");
+    Sleep(130);
+    printf("\n##     ## ##     ## ##    ##   ##     ## ##     ## ##       ##    ##     ##    ##     ##   ####   ");
+    Sleep(130);
+    printf("\n##     ## ##     ##  ######    ##     ##  #######  ######## ##     ##    ##     #######    ####   ");
+    Sleep(130);
+    printf("\n\n");
+    Sleep(1000);
+    printf(PURPLE"Pero recuerda que este no es el final.\nSigue luchando y alcanza la victoria!!"COLOR_RESET);
+
+    printf(RED"\nPresiona 'enter' para volver al men%c\n"COLOR_RESET, 163);
+    getchar();
+
 }
 
 
