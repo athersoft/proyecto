@@ -76,29 +76,11 @@ void mostrarMenu(){
 
 
 void pantallaMuerte(){
-    
+    system("cls");
 
                                                                                                                                                                                                                                    
                                                                                                                                                                                                                                    
-    /*printf("\nHHHHHHHHH     HHHHHHHHH                                                                                                                                  tttt                            !!!   ");                               
-    printf("\nH:::::::H     H:::::::H                                                                                                                               ttt:::t                           !!:!!     ");                            
-    printf("\nH:::::::H     H:::::::H                                                                                                                               t:::::t                           !:::!     ");                            
-    printf("\nHH::::::H     H::::::HH                                                                                                                               t:::::t                           !:::!      ");                           
-    printf("\n H:::::H     H:::::H    aaaaaaaaaaaaa      ssssssssss           mmmmmmm    mmmmmmm   uuuuuu    uuuuuu      eeeeeeeeeeee    rrrrr   rrrrrrrrr   ttttttt:::::ttttttt       ooooooooooo   !:::!      ");//           cccccccccccccccc
-    printf("\n H:::::H     H:::::H    a::::::::::::a   ss::::::::::s        mm:::::::m  m:::::::mm u::::u    u::::u    ee::::::::::::ee  r::::rrr:::::::::r  t:::::::::::::::::t     oo:::::::::::oo !:::!      ");//::::::   cc:::::::::::::::c
-    printf("\n H::::::HHHHH::::::H    aaaaaaaaa:::::ass:::::::::::::s      m::::::::::mm::::::::::mu::::u    u::::u   e::::::eeeee:::::eer:::::::::::::::::r t:::::::::::::::::t    o:::::::::::::::o!:::!      ");//::::::  c:::::::::::::::::c
-    printf("\n H:::::::::::::::::H             a::::as::::::ssss:::::s     m::::::::::::::::::::::mu::::u    u::::u  e::::::e     e:::::err::::::rrrrr::::::rtttttt:::::::tttttt    o:::::ooooo:::::o!:::!      ");//:::::: c:::::::cccccc:::::c
-    printf("\n H:::::::::::::::::H      aaaaaaa:::::a s:::::s  ssssss      m:::::mmm::::::mmm:::::mu::::u    u::::u  e:::::::eeeee::::::e r:::::r     r:::::r      t:::::t          o::::o     o::::o!:::!      ");//       c::::::c     ccccccc
-    printf("\n H::::::HHHHH::::::H    aa::::::::::::a   s::::::s           m::::m   m::::m   m::::mu::::u    u::::u  e:::::::::::::::::e  r:::::r     rrrrrrr      t:::::t          o::::o     o::::o!:::!     ");//        c:::::c             
-    printf("\n H:::::H     H:::::H   a::::aaaa::::::a      s::::::s        m::::m   m::::m   m::::mu::::u    u::::u  e::::::eeeeeeeeeee   r:::::r                  t:::::t          o::::o     o::::o!!:!!     ");//        c:::::c             
-    printf("\n H:::::H     H:::::H  a::::a    a:::::assssss   s:::::s      m::::m   m::::m   m::::mu:::::uuuu:::::u  e:::::::e            r:::::r                  t:::::t    tttttto::::o     o::::o !!!      ");// :::::: c::::::c     ccccccc
-    printf("\nHH::::::H     H::::::HHa::::a    a:::::as:::::ssss::::::s     m::::m   m::::m   m::::mu:::::::::::::::uue::::::::e           r:::::r                  t::::::tttt:::::to:::::ooooo:::::o           ");//:::::: c:::::::cccccc:::::c
-    printf("\nH:::::::H     H:::::::Ha:::::aaaa::::::as::::::::::::::s      m::::m   m::::m   m::::m u:::::::::::::::u e::::::::eeeeeeee   r:::::r                  tt::::::::::::::to:::::::::::::::o !!!       ");//::::::  c:::::::::::::::::c
-    printf("\nH:::::::H     H:::::::H a::::::::::aa:::as:::::::::::ss       m::::m   m::::m   m::::m  uu::::::::uu:::u  ee:::::::::::::e   r:::::r                    tt:::::::::::tt oo:::::::::::oo !!:!!        ");//       cc:::::::::::::::c
-    printf("\n HHHHHHHHH     HHHHHHHHH  aaaaaaaaaa  aaaa sssssssssss         mmmmmm   mmmmmm   mmmmmm    uuuuuuuu  uuuu    eeeeeeeeeeeeee   rrrrrrr                      ttttttttttt     ooooooooooo    !!!        ");//          cccccccccccccccc
-           */
-    
-    
+
     //system("Ytu.mp3 &");
     Sleep(500);
     printf("\n##     ##    ###     ######    ##     ## ##     ## ######## ########  ########  #######    ####");   

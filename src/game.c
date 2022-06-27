@@ -469,7 +469,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     }*/
     
     //getchar();
-    clrscr();
+    system("cls");
 
     //Movimiento jugador
     if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
