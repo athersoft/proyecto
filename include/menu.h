@@ -5,11 +5,10 @@
 #include "list.h"
 #include "util.h"
 #include "map.h"
+
 void mostrarMenu();
 
-void mostrarLista(List *lista, int repetida);
 
-
-void mostrarMenuBuscar();
+void pantallaMuerte();
 
 #endif

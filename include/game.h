@@ -26,6 +26,7 @@ typedef struct enemy{
     int atk;
     int def;
     int exp;
+    bool jefe;
     bool dead;
 }enemy;
 
@@ -46,6 +47,7 @@ typedef struct lvl{
     int width;
     int posx;
     int posy;
+    bool jefes;
     player *Player;
     square *map[100][100];
 }lvl;
