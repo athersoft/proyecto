@@ -246,7 +246,7 @@ void showLvl(lvl *Lvl, List *text){
     }
 
 
-
+    printf("\n");
     for(char *i = listFirst(text); i != NULL; i = listNext(text)){
         printf("%s", i);
     }
@@ -502,29 +502,29 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
         if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
 
-            // strcat(dmg, "Has hecho ");
-            // char *str;
-            // str = malloc(sizeof(char)*40);
-            // sprintf(str, "%d", Lvl -> Player -> atk);
-            // strcat(dmg, str);
-            // strcat(dmg, " de dano a ");
-            // strcat(dmg, Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> name);
-            // listPushBack(text, dmg);
-
+            listPushBack(text, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*3);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            listPushBack(text, str);
+            listPushBack(text, " de dano a ");
+            listPushBack(text, Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> name);
+            listPushBack(text, "\n");
+            
         }
     }
     if(GetAsyncKeyState(VK_UP)){
         if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
 
-            // strcat(dmg, "Has hecho ");
-            // char *str;
-            // str = malloc(sizeof(char)*40);
-            // sprintf(str, "%d", Lvl -> Player -> atk);
-            // strcat(dmg, str);
-            // strcat(dmg, " de dano a ");
-            // strcat(dmg, Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> name);
-            // listPushBack(text, dmg);
+            listPushBack(text, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*3);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            listPushBack(text, str);
+            listPushBack(text, " de dano a ");
+            listPushBack(text, Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> name);
+            listPushBack(text, "\n");
 
         }
         //printf("\n no mueras\n");
@@ -534,27 +534,28 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
             Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
 
             
-            // strcat(dmg, "Has hecho ");
-            // char *str = malloc(sizeof(char)*40);
-            // sprintf(str, "%d", Lvl -> Player -> atk);
-            // strcat(dmg, str);
-            // strcat(dmg, " de dano a ");
-            // strcat(dmg, Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> name);
-            // listPushBack(text, dmg);
+            listPushBack(text, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*3);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            listPushBack(text, str);
+            listPushBack(text, " de dano a ");
+            listPushBack(text, Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> name);
+            listPushBack(text, "\n");
         }
     }
     if(GetAsyncKeyState(VK_LEFT)){
         if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
 
-            // strcat(dmg, "Has hecho ");
-            // char *str;
-            // str = malloc(sizeof(char)*40);
-            // sprintf(str, "%d", Lvl -> Player -> atk);
-            // strcat(dmg, str);
-            // strcat(dmg, " de dano a ");
-            // strcat(dmg, Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> name);
-            // listPushBack(text, dmg);
+            listPushBack(text, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*3);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            listPushBack(text, str);
+            listPushBack(text, " de dano a ");
+            listPushBack(text, Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> name);
+            listPushBack(text, "\n");
         }
     }
     
@@ -592,17 +593,11 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                     if(strcmp(Lvl -> map[i+1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i-1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i][j+1] -> type, "player") == 0 || strcmp(Lvl -> map[i][j-1] -> type, "player") == 0){
                         Lvl -> Player -> hp -= (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def);
 
-                        //Mostrar mensaje////////////
-                        // char *dmg2;
-                        // dmg2 = malloc(sizeof(char)*60);
-                        // strcat(dmg2, "Has recibido ");
-
-                        // char *str = malloc(sizeof(char)*6);
-                        // sprintf(str, "%d", (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def));
-                        // strcat(dmg2, str);
-                        // strcat(dmg2, " de dano");
-                        // listPushBack(text, dmg2);
-                        ////////////////////////
+                        listPushBack(text, "Has recibido ");
+                        char *str = malloc(sizeof(char)*6);
+                        sprintf(str, "%d", (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def));
+                        listPushBack(text, str);
+                        listPushBack(text, " de dano\n");
 
                     }else{
                         //Comprobar si está en rango de movimiento
