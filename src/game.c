@@ -490,7 +490,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                         strcat(dmg2, " de dano");
                         listPushBack(text, dmg2);
                         ////////////////////////
-                        
+
                     }else{
                         //Comprobar si está en rango de movimiento
                         if(abs(i - Lvl -> posy) < 5 && abs(i - Lvl -> posy) > 0){
@@ -594,4 +594,24 @@ void showHistory(List *gameHistory, int num){
 
     //}
     
+}
+
+void showStats(List *gameHistory){
+    system("cls");
+    int steps = 0;
+    int kills = 0;
+    int maxLvl = 0;
+
+    for(stats *i = listFirst(gameHistory); i!= NULL; i = listNext(gameHistory)){
+        steps += i -> steps;
+        kills += i ->kills;
+        maxLvl += (i->maxLvl) -1;
+    }
+
+    printf("Pasos dados: %i\n", steps);
+    printf("Enemigos derrotados: %i\n", kills);
+    printf("Total de niveles conseguidos: %i\n\n", maxLvl);
+    printf("Presione cualquier boton para volver al menu");
+    getchar();
+
 }
