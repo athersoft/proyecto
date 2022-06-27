@@ -76,4 +76,6 @@ int movementY(char in);
 
 void showHistory(List *gameHistory, int num);
 
+void showStats(List *gameHistory);
+
 #endif
