@@ -63,7 +63,7 @@ enemy *createEnemy(lvl *Lvl);
 player *createPlayer();
 
 void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats);
-void showLvl(lvl *Lvl);
+void showLvl(lvl *Lvl, List *text);
 
 void UpLvl(lvl* Lvl, square* Square);
 void experiencia(lvl* LvL, square* Square);

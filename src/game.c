@@ -70,7 +70,7 @@ enemy *createEnemy(lvl *Lvl){
     int numero;
 
     //Enemy -> hp = 1;
-    numero = (rand() % Lvl -> Player->hp) + 1;
+    numero = (rand() % (Lvl -> Player->hp)/2) + 1;
     Enemy->hpMax = numero + valor;
     Enemy->hp = Enemy->hpMax;
     
@@ -121,7 +121,7 @@ enemy *createEnemy(lvl *Lvl){
     }
     */
 //}
-void showLvl(lvl *Lvl){
+void showLvl(lvl *Lvl, List *text){
     system("cls");
     //Mostrar camara
     for(int i = Lvl->posy-4; i<Lvl -> posy+4; i++){
@@ -163,6 +163,8 @@ void showLvl(lvl *Lvl){
         }
         printf("\n");    //printf("%c", Lvl -> map[i][j] ->symbol);
     }
+
+
     //printf("\ndebería estar al final\n");
     bool close = false;
     printf("\n._______________\n");
@@ -214,6 +216,12 @@ void showLvl(lvl *Lvl){
     if (close == true){
         printf("\nEnemigo fue detectado");
         
+    }
+
+
+
+    for(char *i = listFirst(text); i != NULL; i = listNext(text)){
+        printf("\n%s", i);
     }
 
     /*printf("\n\n'a'- mover a la izquierda\t");
@@ -395,13 +403,14 @@ void initLvl(List *gameHistory){
             }
         }
     }
-
+    List *text = listCreate();
     stats *Stats = createStats();
-    showLvl(Lvl);
+    showLvl(Lvl, text);
     updateLvl(Lvl, gameHistory, Stats);
 }
 
 void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
+    List *text = listCreate();
     char in;
     fflush(stdin);
     in =getch();
@@ -428,6 +437,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     //Movimiento jugador
     if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
         if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "vida") == 0){
+//           listPushBack(text, "2 corazones recuperados");
             Lvl -> Player -> hp += 2;
             if(Lvl -> Player -> hpMax < Lvl -> Player -> hp){
                 Lvl -> Player -> hp = Lvl -> Player -> hpMax;
@@ -464,10 +474,10 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                         experiencia(Lvl, Lvl->map[i][j]);
                         Lvl -> map[i][j] = createItem("vida", 'V');
                         Stats->kills++;
-                    }
+                    }else{
                     //Comprobar si está en rango de ataque
                     if(strcmp(Lvl -> map[i+1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i-1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i][j+1] -> type, "player") == 0 || strcmp(Lvl -> map[i][j-1] -> type, "player") == 0){
-                        Lvl -> Player -> hp -= 1;
+                        Lvl -> Player -> hp -= Lvl -> map[i][j] -> Enemy ->atk;
                     }else{
                         //Comprobar si está en rango de movimiento
                         if(abs(i - Lvl -> posy) < 5 && abs(i - Lvl -> posy) > 0){
@@ -507,7 +517,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                             
                         }
                     }
-                // }
+                 }
                 }
             }
         }
@@ -521,11 +531,11 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     }
     //Si se igresa un 0 se termina la partida
     if(in != '0' && Lvl -> Player -> hp > 0){
-        showLvl(Lvl);
+        showLvl(Lvl, text);
         updateLvl(Lvl, gameHistory, Stats);
     }else if(Lvl -> Player -> hp <= 0){
         Stats -> maxLvl = Lvl -> Player ->lvl;
-        listPushFront(gameHistory, Stats);
+        listPushBack(gameHistory, Stats);
     }
 }
 
