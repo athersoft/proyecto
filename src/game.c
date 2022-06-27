@@ -59,6 +59,8 @@ player *createPlayer(){
     Player -> expMax = 5;
     Player -> hpMax = 10;
     Player -> hp = 10;
+    Player->turnos = 0;
+    Player->otroturn = 0;
     return Player;
 }
 
@@ -207,6 +209,13 @@ void showLvl(lvl *Lvl, List *text){
 
     printf("\n|Exp: %i / %i\t", Lvl->Player->exp, Lvl->Player->expMax);
     printf("Nivel: %i", Lvl->Player->lvl);
+    if(Lvl->Player->turnos != 0){
+        printf("\n|Recarga 'E': %i", Lvl->Player->turnos);
+    }
+    if(Lvl->Player->otroturn != 0){
+        printf("\n|Recarga 'F': %i", Lvl->Player->otroturn);
+    }
+    
 
     printf("\n|_______________\n|");
     
@@ -298,25 +307,46 @@ void experiencia(lvl* Lvl, square* Square){
 
 
 
-int movementX(char in){
-    switch (in){
-        case 'a':
-            return -1;
-        case 'd':
-            return 1;
-    }       
+int movementX(char in, char last){
+    if (last == 'f'){
+        switch (in){
+            case 'a':
+                return -2;
+            case 'd':
+                return 2;
+        }       
+    }else{
+        switch (in){
+            case 'a':
+                return -1;
+            case 'd':
+                return 1;
+        }   
+    }
+        
     return 0;
 }
 
-int movementY(char in){
-    switch (in){
-        case 'w':
-            return -1;
+int movementY(char in, char last){
+    if (last == 'f'){
+       switch (in){
+            case 'w':
+                return -3;
+            case 's':
+                return 3;
+        }   
+    }else{
+        switch (in){
+            case 'w':
+                return -1;
 
-        case 's':
-            return 1;
+            case 's':
+                return 1;
 
-    }       
+        } 
+    }
+    
+      
     return 0;
 }
 
@@ -358,13 +388,9 @@ square *createSquareEnemy(lvl *Lvl){
 
     return Square;
 }
-/*void combate(){
 
-    if (enemy->def <= 0){
-        enemy->hp = enemy->hp - player->atk;
-    }
-    
-}*/
+
+
 void initLvl(List *gameHistory){
     lvl *Lvl;
     Lvl = createLvl();
@@ -454,12 +480,14 @@ void initLvl(List *gameHistory){
     updateLvl(Lvl, gameHistory, Stats);
 }
 
+
 void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     List *text = listCreate();
     char in = '\0';
+    char last = '\0';
     fflush(stdin);
     in = getch();
-
+    last = in;
     /*if (GetAsyncKeyState(VK_UP) ){
         in = 'w';
     }else{
@@ -481,20 +509,44 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     system("cls");
 
     //Movimiento jugador
-    if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
-        if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "vida") == 0){
+    if(Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] -> colision == false){
+        if(strcmp(Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] -> type, "vida") == 0){
 //           listPushBack(text, "2 corazones recuperados");
             Lvl -> Player -> hp += 2;
             if(Lvl -> Player -> hpMax < Lvl -> Player -> hp){
                 Lvl -> Player -> hp = Lvl -> Player -> hpMax;
             }
         }
-        Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
+        Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
         Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
-        Lvl -> posx += movementX(in);
-        Lvl -> posy += movementY(in);
+        Lvl -> posx += movementX(in, last);
+        Lvl -> posy += movementY(in, last);
         Stats -> steps ++;
     }
+
+    if(Lvl->Player->otroturn > 0){
+        Lvl->Player->otroturn--;
+    }
+
+    if(GetAsyncKeyState(0x46) && Lvl->Player->otroturn == 0){
+        if(Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] -> colision == false){
+            if(strcmp(Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] -> type, "vida") == 0){
+//           listPushBack(text, "2 corazones recuperados");
+                Lvl -> Player -> hp += 2;
+                if(Lvl -> Player -> hpMax < Lvl -> Player -> hp){
+                    Lvl -> Player -> hp = Lvl -> Player -> hpMax;
+                }
+        }
+        Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
+        Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
+        Lvl -> posx += movementX(in, last);
+        Lvl -> posy += movementY(in, last);
+        Stats -> steps ++;  
+        }
+        Lvl->Player->otroturn = 5;     
+        
+    }
+
 
     //Ataque jugador
     if(GetAsyncKeyState(VK_DOWN)){
@@ -518,18 +570,23 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
             Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
         }
     }
-    
-    /*if(GetAsyncKeyState(0x69)){
-       
-        for(int i = Lvl->posy-1; Lvl->posy+1; i++){
-            for(int j = Lvl->posx-1; Lvl->posx+1; j++){
-                if(strcmp(Lvl->map[i][j]->type, "enemy")){
+    if(Lvl->Player->turnos > 0){
+        Lvl->Player->turnos--;
+    }
+
+
+    if(GetAsyncKeyState(0x45) && Lvl->Player->turnos == 0){
+        
+        for(int i = Lvl->posy-1; i <= Lvl->posy+1; i++){
+            for(int j = Lvl->posx-1; j <=  Lvl->posx+1; j++){
+                if(strcmp(Lvl->map[i][j]->type, "enemy") == 0){
                     Lvl->map[i][j]->Enemy->hp -= Lvl->Player->atk + 2;
+                    Lvl->Player->turnos = 5;
                 }
             }
         }
 
-    }*/
+    }
 
     //Recorrer mapa para hacer comprobaciones
     for(int i = 1; i < Lvl -> height-1; i++){

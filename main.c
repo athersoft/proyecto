@@ -26,13 +26,13 @@ keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
 int main(){
     List *gameHistory = listCreate();
     //map *bestiary = createMap();
-
+    //system("Torero.mp3 &");
     int in=1;
     
     while(in != 0 ){
         //fullscreen();
         
-        //system("Torero.mp3 &");
+        
         Sleep(1000);
         mostrarMenu();
         fflush(stdin);
@@ -57,8 +57,8 @@ int main(){
                 Sleep(1000);
                 initLvl(gameHistory);
                 break;
-            case (2): // Cargar Partida
-                
+            case (2):
+                mostrarInstrucciones();
                 break;
             case(3): // Estadisticas
 

@@ -8,7 +8,7 @@
 
 void mostrarMenu();
 
-
+void mostrarInstrucciones();
 void pantallaMuerte();
 
 #endif

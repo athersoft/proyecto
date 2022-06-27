@@ -17,6 +17,8 @@ typedef struct player{
     int def;
     int exp;
     int expMax;
+    int turnos;
+    int otroturn;
 }player;
 
 typedef struct enemy{
@@ -71,8 +73,8 @@ void UpLvl(lvl* Lvl, square* Square);
 void experiencia(lvl* LvL, square* Square);
 
 
-int movementX(char in);
-int movementY(char in);
+int movementX(char in, char last);
+int movementY(char in, char last);
 
 void showHistory(List *gameHistory, int num);
 
