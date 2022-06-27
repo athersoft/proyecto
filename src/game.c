@@ -611,7 +611,7 @@ void showStats(List *gameHistory){
     printf("Pasos dados: %i\n", steps);
     printf("Enemigos derrotados: %i\n", kills);
     printf("Total de niveles conseguidos: %i\n\n", maxLvl);
-    printf("Presione cualquier boton para volver al menu");
+    printf("Presione cualquier boton para volver al menu\n");
     getchar();
 
 }
