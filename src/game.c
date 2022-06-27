@@ -468,10 +468,10 @@ void initLvl(List *gameHistory){
 void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     List *text = listCreate();
     char in = '\0';
-    char last = '\0';
+    //char last = '\0';
     fflush(stdin);
     in = getch();
-    last = in;
+    //last = in;
     /*if (GetAsyncKeyState(VK_UP) ){
         in = 'w';
     }else{
@@ -687,7 +687,7 @@ void showHistory(List *gameHistory, int num){
         max++;
     }
     stats *Stats = listFirst(gameHistory);
-    for(int i = 1; i < max; i++){
+    for(int i = 1; i < num; i++){
         Stats = listNext(gameHistory);
     }
     if(max > 0){
