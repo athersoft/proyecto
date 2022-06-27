@@ -55,7 +55,8 @@ int main(){
                 }
                 printf("\n");
                 Sleep(1000);
-                initLvl(gameHistory);
+                player *Player = createPlayer();
+                initLvl(gameHistory, 1, Player);
                 break;
             case (2):
                 mostrarInstrucciones();

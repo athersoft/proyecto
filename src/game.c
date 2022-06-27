@@ -37,6 +37,7 @@ lvl *createLvl(){
     Lvl -> width = 50;
     Lvl -> posx = 25;
     Lvl -> posy = 25;
+    Lvl -> dificulty = 1;
     for (int i = 0; i<50; i++){
         for (int j = 0; j<50; j++){
             Lvl -> map[i][j] = createSquare();
@@ -187,7 +188,10 @@ void showLvl(lvl *Lvl, List *text){
                     
                 }
                 if(strcmp(Lvl->map[i][j]->type, "vase")== 0 || strcmp(Lvl->map[i][j]->type, "chest")== 0){
-                    printf(COLOR_BLACK"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                    printf(COLOR_CYAN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                }
+                if(strcmp(Lvl->map[i][j]->type, "portal")== 0){
+                    printf(COLOR_YELLOW"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
                 }
             }
             
@@ -362,6 +366,7 @@ square* createSquareBoss(lvl* Lvl){
     Square->Enemy = createBoss(Lvl);
     strcpy(Square->Enemy->name, "Estigia");
     Square->Enemy->jefe = true;
+    Square->Enemy->hp = 1;
     return Square;
 }
 
@@ -394,10 +399,19 @@ square *createChest(){
 
 }
 
+square *createPortal(){
+    square *Square = createSquare();
+    Square -> symbol = 'O';
+    strcpy(Square -> type, "portal");
+    Square -> colision = false;
+    return Square;
+}
 
-void initLvl(List *gameHistory){
+void initLvl(List *gameHistory, int dificulty, player *Player){
     lvl *Lvl;
     Lvl = createLvl();
+    Lvl -> dificulty = dificulty;
+    Lvl -> Player = Player;
 
     //Generacion de bordes
     for(int i = 0; i < Lvl -> width; i++){ //Borde superior
@@ -501,7 +515,7 @@ void initLvl(List *gameHistory){
     }
 
     //Repartir cofres
-    reps = rand() % 70;
+    reps = (rand() % 10) +1;
     x = rand() % Lvl->width-1;
     y = rand() % Lvl->height-1;
     for(int i = 0; i < reps; i++){
@@ -539,8 +553,14 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     //getchar();
     system("cls");
 
+    bool changeLvl = false;
+
     //Movimiento jugador
     if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
+        if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "portal") == 0){
+            changeLvl = true;
+        }
+
         if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "vida") == 0){
             listPushBack(text, "2 corazones recuperados");
             Lvl -> Player -> hp += 2;
@@ -674,11 +694,17 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                     //Comprobar si sigue vivo
                     if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
                         experiencia(Lvl, Lvl->map[i][j]);
-                        listPushBack(text, Lvl -> map[i][j] -> Enemy -> name);
-                        listPushBack(text, " derrotado\n");
-                        Lvl -> map[i][j] = createItem("vida", 3);
-                        Stats->kills++;
+                        if(Lvl -> map[i][j] -> Enemy ->jefe == false){
+                            listPushBack(text, Lvl -> map[i][j] -> Enemy -> name);
+                            listPushBack(text, " derrotado\n");
+                            Lvl -> map[i][j] = createItem("vida", 3);
+                        }else{
+                            listPushBack(text, "Has derrotado al jefe del nivel!\n");
+                            Lvl -> map[i][j] = createPortal(Lvl);
+                            //Lvl -> map[i][j] = createItem("vida", 3);
+                        }
                         
+                        Stats->kills++;
 
                     }else{
                     //Comprobar si está en rango de ataque
@@ -744,8 +770,12 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     }
     //Si se igresa un 0 se termina la partida
     if(in != '0' && Lvl -> Player -> hp > 0){
-        showLvl(Lvl, text);
-        updateLvl(Lvl, gameHistory, Stats);
+        if(changeLvl == false){
+            showLvl(Lvl, text);
+            updateLvl(Lvl, gameHistory, Stats);
+        }else{
+            initLvl(gameHistory, Lvl -> dificulty+1, Lvl -> Player);
+        }
     }else if(Lvl -> Player -> hp <= 0){
         Stats -> maxLvl = Lvl -> Player ->lvl;
         listPushBack(gameHistory, Stats);

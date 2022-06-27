@@ -50,6 +50,7 @@ typedef struct lvl{
     int posx;
     int posy;
     bool jefes;
+    int dificulty;
     player *Player;
     square *map[100][100];
 }lvl;
@@ -57,7 +58,7 @@ typedef struct lvl{
 stats *createStats();
 
 lvl *createLvl();
-void initLvl(List *gameHistory);
+void initLvl(List *gameHistory, int dificulty, player *Player);
 
 square *createSquare();
 square *createObstacle();
