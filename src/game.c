@@ -573,14 +573,24 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     //Recorrer mapa para hacer comprobaciones
     for(int i = 1; i < Lvl -> height-1; i++){
         for(int j = 1; j < Lvl -> width-1; j++){
+            
             //Comprobacion enemigos
             if(Lvl -> map[i][j] -> marked == false){
                 if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
+
                     //Comprobar si sigue vivo
                     if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
                         experiencia(Lvl, Lvl->map[i][j]);
                         Lvl -> map[i][j] = createItem("vida", 'V');
                         Stats->kills++;
+
+                        //Mostrar mensaje
+                        char *str = malloc(sizeof(char)*40);
+                        strcat(str, Lvl -> map[i][j] -> Enemy -> name);
+                        strcat(str, " derrotado");
+                        listPushBack(text, str);
+                        ///////////////////////////////
+
                     }else{
                     //Comprobar si está en rango de ataque
                     if(strcmp(Lvl -> map[i+1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i-1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i][j+1] -> type, "player") == 0 || strcmp(Lvl -> map[i][j-1] -> type, "player") == 0){
