@@ -181,12 +181,12 @@ void showLvl(lvl *Lvl, List *text){
                             }
                         }
                     }
-                    if(strcmp(Lvl->map[i][j]->type, "vida")== 0){
+                    if(strcmp(Lvl->map[i][j]->type, "vida")== 0 || strcmp(Lvl->map[i][j]->type, "atk")== 0 || strcmp(Lvl->map[i][j]->type, "def")== 0){
                         printf(COLOR_PURPLE"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
                     }
                     
                 }
-                if(strcmp(Lvl->map[i][j]->type, "vase")== 0){
+                if(strcmp(Lvl->map[i][j]->type, "vase")== 0 || strcmp(Lvl->map[i][j]->type, "chest")== 0){
                     printf(COLOR_BLACK"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
                 }
             }
@@ -348,7 +348,7 @@ square *createObstacle(){ //Crea un obstaculo estandar
 
 square *createItem(char *type, char symbol){
     square *Square = createSquare();
-    Square -> symbol = 3;
+    Square -> symbol = symbol;
     strcpy(Square -> type, type);
 
     return Square;
@@ -385,6 +385,14 @@ square *createVase(){
 
 }
 
+square *createChest(){
+    square *Square = createSquare();
+    Square -> symbol = 'M';
+    strcpy(Square -> type, "chest");
+    Square -> colision = true;
+    return Square;
+
+}
 
 
 void initLvl(List *gameHistory){
@@ -492,7 +500,26 @@ void initLvl(List *gameHistory){
         }
     }
 
+    //Repartir cofres
+    reps = rand() % 70;
+    x = rand() % Lvl->width-1;
+    y = rand() % Lvl->height-1;
+    for(int i = 0; i < reps; i++){
+        while(1){
+            if(strcmp(Lvl -> map[x][y] -> type, "vacio") == 0){
+                Lvl -> map[x][y] = createChest(Lvl);
+                break;
+            }else{
+                do{
+                    x = rand() % Lvl->width;
+                }while(x >= Lvl -> width);
 
+                do{
+                    y = rand() % Lvl->height;
+                }while(y >= Lvl -> height);
+            }
+        }
+    }
 
     List *text = listCreate();
     stats *Stats = createStats();
@@ -521,6 +548,14 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                 Lvl -> Player -> hp = Lvl -> Player -> hpMax;
             }
         }
+        if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "atk") == 0){
+            Lvl -> Player -> atk += 1;
+            listPushBack(text, "Ataque +1\n");
+        }
+        if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "def") == 0){
+            Lvl -> Player -> def += 1;
+            listPushBack(text, "Defensa +1\n");
+        }
         Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
         Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
         Lvl -> posx += movementX(in);
@@ -534,16 +569,16 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     int sumY = 0;
     int sumX = 0;
     if(in == 'q'){
-        if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0 || strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "vase") == 0){
+        if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0 || strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "vase") == 0 || strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "chest") == 0){
             atk = true;
             sumY = 1;
-        }else if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0 || strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "vase") == 0){
+        }else if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0 || strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "vase") == 0 || strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "chest") == 0){
             atk = true;
             sumY = -1;
-        }else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0 || strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "vase") == 0){
+        }else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0 || strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "vase") == 0 || strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "chest") == 0){
             atk = true;
             sumX = 1;
-        }else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0 || strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "vase") == 0){
+        }else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0 || strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "vase") == 0 || strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "chest") == 0){
             atk = true;
             sumX = -1;
         }
@@ -589,8 +624,24 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
             listPushBack(text, "\n");
         }
         if(strcmp(Lvl ->map[Lvl ->posy+sumY][Lvl -> posx + sumX] -> type, "vase") == 0){
-            Lvl -> map[Lvl ->posy+sumY][Lvl -> posx + sumX] = createItem("vida", 'V');
+            Lvl -> map[Lvl ->posy+sumY][Lvl -> posx + sumX] = createItem("vida", 3);
+            listPushBack(text, "El jarron deja caer salud\n");
         }
+        
+        if(strcmp(Lvl ->map[Lvl ->posy+sumY][Lvl -> posx + sumX] -> type, "chest") == 0){
+            int op = rand()%100;
+            listPushBack(text, "Cofre abierto\n");
+            if(op > 50){
+                Lvl -> map[Lvl ->posy+sumY][Lvl -> posx + sumX] = createItem("atk", '!');
+                listPushBack(text, "El cofre deja caer un arma\n");
+            }else{
+                Lvl -> map[Lvl ->posy+sumY][Lvl -> posx + sumX] = createItem("def", '#');
+                listPushBack(text, "El cofre deja caer armadura\n");
+            }
+            
+        }
+        
+
     }
 
 
@@ -625,7 +676,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                         experiencia(Lvl, Lvl->map[i][j]);
                         listPushBack(text, Lvl -> map[i][j] -> Enemy -> name);
                         listPushBack(text, " derrotado\n");
-                        Lvl -> map[i][j] = createItem("vida", 'V');
+                        Lvl -> map[i][j] = createItem("vida", 3);
                         Stats->kills++;
                         
 
