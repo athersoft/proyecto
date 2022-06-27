@@ -73,9 +73,11 @@ void UpLvl(lvl* Lvl, square* Square);
 void experiencia(lvl* LvL, square* Square);
 
 
-int movementX(char in, char last);
-int movementY(char in, char last);
+int movementX(char in);
+int movementY(char in);
 
 void showHistory(List *gameHistory, int num);
+
+void showStats(List *gameHistory);
 
 #endif

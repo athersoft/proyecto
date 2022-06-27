@@ -61,7 +61,7 @@ int main(){
                 mostrarInstrucciones();
                 break;
             case(3): // Estadisticas
-
+                showStats(gameHistory);
                 break;
             case(4): // Historial de partidas
                 showHistory(gameHistory, 1);

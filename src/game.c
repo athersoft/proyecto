@@ -255,9 +255,9 @@ void showLvl(lvl *Lvl, List *text){
     }
 
 
-
+    printf("\n");
     for(char *i = listFirst(text); i != NULL; i = listNext(text)){
-        printf("\n%s", i);
+        printf("%s", i);
     }
 
     /*printf("\n\n'a'- mover a la izquierda\t");
@@ -307,35 +307,20 @@ void experiencia(lvl* Lvl, square* Square){
 
 
 
-int movementX(char in, char last){
-    if (last == 'f'){
-        switch (in){
-            case 'a':
-                return -2;
-            case 'd':
-                return 2;
-        }       
-    }else{
+int movementX(char in){
+
         switch (in){
             case 'a':
                 return -1;
             case 'd':
                 return 1;
         }   
-    }
         
     return 0;
 }
 
-int movementY(char in, char last){
-    if (last == 'f'){
-       switch (in){
-            case 'w':
-                return -3;
-            case 's':
-                return 3;
-        }   
-    }else{
+int movementY(char in){
+
         switch (in){
             case 'w':
                 return -1;
@@ -344,8 +329,7 @@ int movementY(char in, char last){
                 return 1;
 
         } 
-    }
-    
+
       
     return 0;
 }
@@ -509,65 +493,81 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     system("cls");
 
     //Movimiento jugador
-    if(Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] -> colision == false){
-        if(strcmp(Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] -> type, "vida") == 0){
-//           listPushBack(text, "2 corazones recuperados");
+    if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
+        if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "vida") == 0){
+            listPushBack(text, "2 corazones recuperados");
             Lvl -> Player -> hp += 2;
             if(Lvl -> Player -> hpMax < Lvl -> Player -> hp){
                 Lvl -> Player -> hp = Lvl -> Player -> hpMax;
             }
         }
-        Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
+        Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
         Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
-        Lvl -> posx += movementX(in, last);
-        Lvl -> posy += movementY(in, last);
+        Lvl -> posx += movementX(in);
+        Lvl -> posy += movementY(in);
         Stats -> steps ++;
     }
 
-    if(Lvl->Player->otroturn > 0){
-        Lvl->Player->otroturn--;
-    }
-
-    if(GetAsyncKeyState(0x46) && Lvl->Player->otroturn == 0){
-        if(Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] -> colision == false){
-            if(strcmp(Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] -> type, "vida") == 0){
-//           listPushBack(text, "2 corazones recuperados");
-                Lvl -> Player -> hp += 2;
-                if(Lvl -> Player -> hpMax < Lvl -> Player -> hp){
-                    Lvl -> Player -> hp = Lvl -> Player -> hpMax;
-                }
-        }
-        Lvl -> map[Lvl -> posy + movementY(in, last)][Lvl -> posx + movementX(in, last)] = Lvl -> map[Lvl -> posy][Lvl -> posx];
-        Lvl -> map[Lvl ->posy][Lvl ->posx] = createSquare();
-        Lvl -> posx += movementX(in, last);
-        Lvl -> posy += movementY(in, last);
-        Stats -> steps ++;  
-        }
-        Lvl->Player->otroturn = 5;     
-        
-    }
-
-
+    //char *dmg = malloc(sizeof(char)*40);
     //Ataque jugador
     if(GetAsyncKeyState(VK_DOWN)){
         if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+
+            listPushBack(text, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*3);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            listPushBack(text, str);
+            listPushBack(text, " de dano a ");
+            listPushBack(text, Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> name);
+            listPushBack(text, "\n");
+            
         }
     }
     if(GetAsyncKeyState(VK_UP)){
         if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+
+            listPushBack(text, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*3);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            listPushBack(text, str);
+            listPushBack(text, " de dano a ");
+            listPushBack(text, Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> name);
+            listPushBack(text, "\n");
+
         }
         //printf("\n no mueras\n");
     }
     if(GetAsyncKeyState(VK_RIGHT)){
         if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+
+            
+            listPushBack(text, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*3);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            listPushBack(text, str);
+            listPushBack(text, " de dano a ");
+            listPushBack(text, Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> name);
+            listPushBack(text, "\n");
         }
     }
     if(GetAsyncKeyState(VK_LEFT)){
         if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+
+            listPushBack(text, "Has hecho ");
+            char *str;
+            str = malloc(sizeof(char)*3);
+            sprintf(str, "%d", Lvl -> Player -> atk);
+            listPushBack(text, str);
+            listPushBack(text, " de dano a ");
+            listPushBack(text, Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> name);
+            listPushBack(text, "\n");
         }
     }
     if(Lvl->Player->turnos > 0){
@@ -591,31 +591,31 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     //Recorrer mapa para hacer comprobaciones
     for(int i = 1; i < Lvl -> height-1; i++){
         for(int j = 1; j < Lvl -> width-1; j++){
+
             //Comprobacion enemigos
             if(Lvl -> map[i][j] -> marked == false){
                 if(strcmp(Lvl -> map[i][j] -> type, "enemy") == 0){
+
                     //Comprobar si sigue vivo
                     if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
                         experiencia(Lvl, Lvl->map[i][j]);
+                        listPushBack(text, Lvl -> map[i][j] -> Enemy -> name);
+                        listPushBack(text, " derrotado\n");
                         Lvl -> map[i][j] = createItem("vida", 'V');
                         Stats->kills++;
+                        
+
                     }else{
                     //Comprobar si está en rango de ataque
                     if(strcmp(Lvl -> map[i+1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i-1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i][j+1] -> type, "player") == 0 || strcmp(Lvl -> map[i][j-1] -> type, "player") == 0){
                         Lvl -> Player -> hp -= (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def);
 
-                        //Mostrar mensaje////////////
-                        char *dmg2;
-                        dmg2 = malloc(sizeof(char)*60);
-                        strcat(dmg2, "Has recibido ");
-
+                        listPushBack(text, "Has recibido ");
                         char *str = malloc(sizeof(char)*6);
                         sprintf(str, "%d", (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def));
-                        strcat(dmg2, str);
-                        strcat(dmg2, " de dano");
-                        listPushBack(text, dmg2);
-                        ////////////////////////
-                        
+                        listPushBack(text, str);
+                        listPushBack(text, " de dano\n");
+
                     }else{
                         //Comprobar si está en rango de movimiento
                         if(abs(i - Lvl -> posy) < 5 && abs(i - Lvl -> posy) > 0){
@@ -687,6 +687,9 @@ void showHistory(List *gameHistory, int num){
         max++;
     }
     stats *Stats = listFirst(gameHistory);
+    for(int i = 1; i < max; i++){
+        Stats = listNext(gameHistory);
+    }
     if(max > 0){
             printf("Partida numero %i\n\n", num);
             printf("Pasos dados: %i\n", Stats->steps);
@@ -728,4 +731,24 @@ void showHistory(List *gameHistory, int num){
 
     //}
     
+}
+
+void showStats(List *gameHistory){
+    system("cls");
+    int steps = 0;
+    int kills = 0;
+    int maxLvl = 0;
+
+    for(stats *i = listFirst(gameHistory); i!= NULL; i = listNext(gameHistory)){
+        steps += i -> steps;
+        kills += i ->kills;
+        maxLvl += (i->maxLvl) -1;
+    }
+
+    printf("Pasos dados: %i\n", steps);
+    printf("Enemigos derrotados: %i\n", kills);
+    printf("Total de niveles conseguidos: %i\n\n", maxLvl);
+    printf("Presione cualquier boton para volver al menu\n");
+    getchar();
+
 }
