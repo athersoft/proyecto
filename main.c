@@ -21,6 +21,26 @@ keybd_event(VK_RETURN,0x1c,KEYEVENTF_KEYUP,0);
 keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
 }
 
+void mostrarBestiario(Map *bestiary){
+    clrscr();
+
+    printf(COLOR_CYAN"Bestiario\n"COLOR_RESET);
+    if(firstMap(bestiary) == NULL ){
+        printf("No hay enemigos en el bestiario");
+    }else{
+        printf("Nombre de la bestia\tDerrotados\n");
+        for(enemy *i = firstMap(bestiary); i!= NULL; i = nextMap(bestiary)){
+            printf("%s\t%d\n",i ->name,i-> deadCount);
+        }
+    }
+
+    printf("\nPresione cualquier boton para volver al menu\n");
+
+    char in;
+    scanf("%c", &in);
+    getchar();
+}
+
 List *load(List *list){
     FILE *save = fopen("save.txt","r");
     char c;
