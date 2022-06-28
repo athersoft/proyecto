@@ -188,7 +188,7 @@ void showLvl(lvl *Lvl, List *text){
                     
                 }
                 if(strcmp(Lvl->map[i][j]->type, "vase")== 0 || strcmp(Lvl->map[i][j]->type, "chest")== 0){
-                    printf(COLOR_CYAN"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
+                    printf(COLOR_BLACK"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
                 }
                 if(strcmp(Lvl->map[i][j]->type, "portal")== 0){
                     printf(COLOR_YELLOW"%c  "COLOR_RESET, Lvl -> map[i][j] ->symbol);
@@ -779,6 +779,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     }else if(Lvl -> Player -> hp <= 0){
         Stats -> maxLvl = Lvl -> Player ->lvl;
         listPushBack(gameHistory, Stats);
+        save(Stats);
         pantallaMuerte();
         
     }
@@ -856,4 +857,12 @@ void showStats(List *gameHistory){
     printf("Presione cualquier boton para volver al menu\n");
     getchar();
 
+}
+
+void save(stats *Stats){
+    FILE *save = fopen("save.txt","a");
+    fprintf(save, "%d", Stats->steps);
+    fprintf(save, "%d", Stats->kills);
+    fprintf(save, "%d", Stats->maxLvl);
+    fclose(save);
 }

@@ -80,5 +80,6 @@ int movementY(char in);
 void showHistory(List *gameHistory, int num);
 
 void showStats(List *gameHistory);
+void save(stats *Stats);
 
 #endif
