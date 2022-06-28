@@ -6,6 +6,9 @@ typedef struct stats{
     int steps;
     int kills;
     int interaction;
+    int hearts;
+    int chests;
+    int lvls;
     int maxLvl;
 }stats;
 

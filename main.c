@@ -36,6 +36,12 @@ List *load(List *list){
         Stats->kills = c- '0';
         c = fgetc(save);
         Stats->maxLvl = c- '0';
+        c = fgetc(save);
+        Stats->chests = c- '0';
+        c = fgetc(save);
+        Stats->hearts = c- '0';
+        c = fgetc(save);
+        Stats->lvls = c- '0';
         listPushBack(list, Stats);
        
     }
