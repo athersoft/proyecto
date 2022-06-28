@@ -7,7 +7,7 @@
 #include "map.h"
 
 void mostrarMenu();
-
+void intro();
 void mostrarInstrucciones();
 void pantallaMuerte();
 void mostrarBestiario(Map *bestiary);
