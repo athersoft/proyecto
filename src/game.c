@@ -468,10 +468,10 @@ void initLvl(List *gameHistory){
 void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     List *text = listCreate();
     char in = '\0';
-    char last = '\0';
+
     fflush(stdin);
     in = getch();
-    last = in;
+
     /*if (GetAsyncKeyState(VK_UP) ){
         in = 'w';
     }else{
