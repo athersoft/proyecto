@@ -149,22 +149,23 @@ void showLvl(lvl * Lvl, List * text) {
                     }
 
                 } else {
-                    if (strcmp(Lvl -> map[i][j] -> type, "enemy") == 0 && Lvl -> map[i][j] -> Enemy -> jefe == true) {
-                        printf(COLOR_PURPLE "%c  "
+                    if (strcmp(Lvl -> map[i][j] -> type, "enemy") == 0) {
+                        if(Lvl -> map[i][j] -> Enemy -> jefe == true){
+                            printf(COLOR_PURPLE "%c  "
                             COLOR_RESET, Lvl -> map[i][j] -> symbol);
-                    } else {
-                        if (strcmp(Lvl -> map[i][j] -> type, "enemy") == 0 && Lvl -> map[i][j] -> Enemy -> jefe == false) {
+                        }else{
                             printf(COLOR_RED "%c  "
                                 COLOR_RESET, Lvl -> map[i][j] -> symbol);
+                        }
+                        
+                    } else {
+                        if (strcmp(Lvl -> map[i][j] -> type, "player") == 0) {
+                            printf(COLOR_CYAN "%c  "
+                                COLOR_RESET, Lvl -> map[i][j] -> symbol);
                         } else {
-                            if (strcmp(Lvl -> map[i][j] -> type, "player") == 0) {
-                                printf(COLOR_CYAN "%c  "
+                            if (strcmp(Lvl -> map[i][j] -> type, "vacio") == 0) {
+                                printf(COLOR_GREEN "%c  "
                                     COLOR_RESET, Lvl -> map[i][j] -> symbol);
-                            } else {
-                                if (strcmp(Lvl -> map[i][j] -> type, "vacio") == 0) {
-                                    printf(COLOR_GREEN "%c  "
-                                        COLOR_RESET, Lvl -> map[i][j] -> symbol);
-                                }
                             }
                         }
                     }
@@ -337,6 +338,7 @@ square * createSquareEnemy(lvl * Lvl) {
     strcpy(Square -> type, "enemy");
     Square -> colision = true;
     Square -> Enemy = createEnemy(Lvl);
+    Square -> Enemy ->jefe = false;
     if (Square -> Enemy -> hpMax < 3) {
         strcpy(Square -> Enemy -> name, "Goblin");
     } else {
