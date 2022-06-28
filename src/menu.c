@@ -184,4 +184,17 @@ void pantallaMuerte(){
 }
 
 
+void mostrarBestiario(Map *bestiary){
+    clrscr();
 
+    printf(COLOR_CYAN"Bestiario\n"COLOR_RESET);
+    if(firstMap(bestiary) == NULL ){
+        printf("No hay enemigos en el bestiario");
+    }else{
+        printf("Nombre de la bestia\tDerrotados\n");
+        for(enemy *i = firstMap(bestiary); i!= NULL; i = nextMap(bestiary)){
+            printf("%s\t%d\n",i ->name,i-> deadCount);
+        }
+    }
+
+}
