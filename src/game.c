@@ -577,52 +577,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
             sumX = -1;
         }
     }
-    
-    /*if(in == 'e'){
-        if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
-            Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
-        }else if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
-            Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
-        } else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0){
-            Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
-        }else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
-            Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
-        }
-    }*/
-    
-    /*if(GetAsyncKeyState(VK_DOWN)){
-        if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
-            //Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
-            atk = true;
-            sumY = 1;
-        }
-        Sleep(150);
-    }
-    if(GetAsyncKeyState(VK_UP)){
-        if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
-            //Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
-            atk = true;
-            sumY = -1;
-        }
-        //printf("\n no mueras\n");
-        Sleep(150);
-    }
-    if(GetAsyncKeyState(VK_RIGHT)){
-        if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0){
-            //Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
-            atk = true;
-            sumX = 1;
-        }
-        Sleep(150);
-    }
-    if(GetAsyncKeyState(VK_LEFT)){
-        if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
-            //Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
-            atk = true;
-            sumX = -1;
-        }
-        Sleep(150);
-    }*/
+
     
     if(atk){
         if(strcmp(Lvl ->map[Lvl ->posy+sumY][Lvl -> posx + sumX] -> type, "enemy") == 0){
@@ -833,15 +788,17 @@ void showHistory(List * gameHistory, int num) {
         in = getch();
         //getchar();
 
-        if ( in == 'a' && num > 1) {
-            showHistory(gameHistory, num - 1);
-        }
-        if ( in == 'd' && num < max) {
-            showHistory(gameHistory, num + 1);
-        }
-        if ( in == 'q') {
+        if(in != 'q'){
+            if ( in == 'a' && num > 1) {
+                return(showHistory(gameHistory, num - 1));
+            }
+            if ( in == 'd' && num < max) {
+                return(showHistory(gameHistory, num + 1));
+            }
+        }else{
             return;
         }
+
         getchar();
 
     } else {
