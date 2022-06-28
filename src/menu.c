@@ -124,7 +124,7 @@ void mostrarInstrucciones(){
         getchar();
         return;
     case (2):
-        printf(COLOR_GREEN"Bueno... Adi%s, suerte en tu aventura"COLOR_RESET, 162);
+        printf(COLOR_GREEN"Bueno... Adi%cs, suerte en tu aventura"COLOR_RESET, 162);
         getchar();
         return;
     case (3):
