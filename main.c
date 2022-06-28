@@ -81,6 +81,7 @@ int main(){
 
     
     Map *bestiary = createMap(is_equal_string,lower_than_string);
+    loadBestiary(bestiary);
     //system("Torero.mp3 &");
     int in=1;
     

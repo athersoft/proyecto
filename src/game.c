@@ -747,6 +747,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
         Stats -> maxLvl = Lvl -> Player -> lvl;
         listPushBack(gameHistory, Stats);
         save(Stats);
+        saveBestiary(bestiary);
         pantallaMuerte();
 
     }
@@ -851,4 +852,57 @@ void save(stats * Stats) {
     fprintf(save, "%d", Stats -> hearts);
     fprintf(save, "%d", Stats -> lvls);
     fclose(save);
+}
+
+
+void loadBestiary(Map *bestiary,lvl *Lvl){
+    FILE *file = fopen("Bestiary.txt","r");
+    enemy *aux = createEnemy(Lvl);
+    if (file == NULL){
+        fclose(file);
+        return;
+    }
+    char bufer[100];
+    while (fgets(bufer, 100, file)){
+        bool num = false;
+        strtok(bufer, "\n");
+        char *token = strtok(bufer, ",");
+
+        if(token != NULL){
+            while(token != NULL){
+
+            if(num == false){
+                strcpy(aux ->name, token);
+                num = true;
+            }else{
+                int value = atoi(token);
+                aux -> deadCount = value;
+                num = false;
+                enemy *aux = createEnemy(Lvl);
+
+            }
+            insertMap(bestiary,aux -> name,aux);
+            token = strtok(NULL, ",");
+            }
+        }
+    }
+
+
+
+    fclose(file);
+    return;
+
+}
+
+void saveBestiary(Map *bestiary) {
+    FILE *file = fopen("Bestiary.txt", "a");
+
+    for(enemy *enemy =firstMap(bestiary); 
+            enemy != NULL;
+            enemy = nextMap(bestiary)) {
+
+        fprintf(file, "%s,", enemy->name);
+        fprintf(file, "%d\n", enemy->deadCount);
+    }
+    fclose(file);
 }
