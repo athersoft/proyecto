@@ -58,7 +58,7 @@ int main(){
                 initLvl(gameHistory,bestiary);
                 break;
             case (2): // Cargar Partida
-                
+                mostrarBestiario(bestiary);
                 break;
             case(3): // Estadisticas
 

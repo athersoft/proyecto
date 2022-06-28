@@ -4,6 +4,7 @@
 #include "map.h"
 #include <windows.h>
 #include <conio.h>
+#include "game.h"
 
 void mostrarMenu(){
     clrscr();
@@ -89,4 +90,16 @@ void mostrarMenuBuscar(){
 }
 
 
+void mostrarBestiario(Map *bestiary){
+    clrscr();
 
+    printf(COLOR_CYAN"Bestiario\n"COLOR_RESET);
+    if(firstMap(bestiary) == NULL ){
+        printf("No hay enemigos en el bestiario");
+    }else{
+        for(enemy *i = firstMap(bestiary); i!= NULL; i = nextMap(bestiary)){
+        printf("%s\n",i ->name);
+    }
+    }
+
+}

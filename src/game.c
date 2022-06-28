@@ -310,7 +310,13 @@ square *createSquareEnemy(lvl *Lvl){
     strcpy(Square -> type, "enemy");
     Square -> colision = true;
     Square -> Enemy = createEnemy(Lvl);
-    strcpy(Square->Enemy-> name, "Enemigo prueba");
+    int num = rand() % 100;
+    if(num%2 == 0){
+        strcpy(Square->Enemy-> name, "Enemigo Par");
+    }else{
+        strcpy(Square->Enemy-> name, "Enemigo Impar");
+    }
+
 
     return Square;
 }
@@ -400,10 +406,10 @@ void initLvl(List *gameHistory,Map *bestiary){
 
     stats *Stats = createStats();
     showLvl(Lvl);
-    updateLvl(Lvl, gameHistory, Stats);
+    updateLvl(Lvl, gameHistory, Stats,bestiary);
 }
 
-void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
+void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats, Map *bestiary){
     char in;
     fflush(stdin);
     in =getch();
@@ -464,6 +470,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
                     //Comprobar si sigue vivo
                     if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
                         experiencia(Lvl, Lvl->map[i][j]);
+                        insertMap(bestiary,Lvl -> map[i][j] -> Enemy -> name,Lvl -> map[i][j] -> Enemy);
                         Lvl -> map[i][j] = createItem("vida", 'V');
                         Stats->kills++;
                     }
@@ -524,7 +531,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     //Si se igresa un 0 se termina la partida
     if(in != '0' && Lvl -> Player -> hp > 0){
         showLvl(Lvl);
-        updateLvl(Lvl, gameHistory, Stats);
+        updateLvl(Lvl, gameHistory, Stats,bestiary);
     }else if(Lvl -> Player -> hp <= 0){
         Stats -> maxLvl = Lvl -> Player ->lvl;
         listPushFront(gameHistory, Stats);

@@ -8,6 +8,7 @@
 void mostrarMenu();
 
 void mostrarLista(List *lista, int repetida);
+void mostrarBestiario(Map *bestiary);
 
 
 void mostrarMenuBuscar();
