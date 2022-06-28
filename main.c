@@ -45,6 +45,7 @@ List *load(List *list){
 
 /* main function */
 int main(){
+    srand(time(NULL));
     List *gameHistory = listCreate();
     //FILE *save;
 
@@ -53,7 +54,7 @@ int main(){
     }
 
     
-    //map *bestiary = createMap();
+    Map *bestiary = createMap(is_equal_string,lower_than_string);
     //system("Torero.mp3 &");
     int in=1;
     
@@ -83,7 +84,7 @@ int main(){
                 printf("\n");
                 Sleep(1000);
                 player *Player = createPlayer();
-                initLvl(gameHistory, 1, Player);
+                initLvl(gameHistory, 1, Player,bestiary);
                 break;
             case (2):
                 mostrarInstrucciones();
@@ -94,6 +95,8 @@ int main(){
             case(4): // Historial de partidas
                 showHistory(gameHistory, 1);
                 break;
+            case(5): //Bestiario
+                mostrarBestiario(bestiary);
             default:
                 break;
           } 
