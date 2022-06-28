@@ -545,6 +545,14 @@ void initLvl(List *gameHistory, int dificulty, player *Player, Map *bestiary){
 
     List *text = listCreate();
     stats *Stats = createStats();
+
+    listPushBack(text, "Bienvenido al nivel ");
+    char *str;
+    str = malloc(sizeof(char)*3);
+    sprintf(str, "%d", Lvl -> dificulty);
+    listPushBack(text, str);
+    listPushBack(text, "\n");
+
     showLvl(Lvl, text);
     updateLvl(Lvl, gameHistory, Stats,bestiary);
 }
@@ -566,6 +574,7 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats,Map *bestiary){
     //Movimiento jugador
     if(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> colision == false){
         if(strcmp(Lvl -> map[Lvl -> posy + movementY(in)][Lvl -> posx + movementX(in)] -> type, "portal") == 0){
+            listPushBack(text, "Has avanzado al siguiente nivel\n");
             changeLvl = true;
         }
 
@@ -679,12 +688,21 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats,Map *bestiary){
 
 
     if(GetAsyncKeyState(0x45) && Lvl->Player->turnos == 0){
-        
+        listPushBack(text, "Has realizado un ataque de area\n");
         for(int i = Lvl->posy-1; i <= Lvl->posy+1; i++){
             for(int j = Lvl->posx-1; j <=  Lvl->posx+1; j++){
                 if(strcmp(Lvl->map[i][j]->type, "enemy") == 0){
                     Lvl->map[i][j]->Enemy->hp -= Lvl->Player->atk + 2;
                     Lvl->Player->turnos = 5;
+
+                    listPushBack(text, "Has hecho ");
+                    char *str;
+                    str = malloc(sizeof(char)*3);
+                    sprintf(str, "%d", Lvl -> Player -> atk+2);
+                    listPushBack(text, str);
+                    listPushBack(text, " de dano a ");
+                    listPushBack(text, Lvl -> map[i][j] -> Enemy -> name);
+                    listPushBack(text, "\n");
                 }
             }
         }
@@ -723,11 +741,18 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats,Map *bestiary){
                     }else{
                     //Comprobar si está en rango de ataque
                     if(strcmp(Lvl -> map[i+1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i-1][j] -> type, "player") == 0 || strcmp(Lvl -> map[i][j+1] -> type, "player") == 0 || strcmp(Lvl -> map[i][j-1] -> type, "player") == 0){
-                        Lvl -> Player -> hp -= (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def);
+                        int dmg = 0;
+                        if((Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def) > 0){
+                            dmg = (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def);
+                            Lvl -> Player -> hp -= dmg;
+                        }else{
+                            Lvl -> Player -> hp -= 1;
+                            dmg = 1;
+                        }
 
                         listPushBack(text, "Has recibido ");
                         char *str = malloc(sizeof(char)*6);
-                        sprintf(str, "%d", (Lvl -> map[i][j] -> Enemy ->atk) - (Lvl ->Player->def));
+                        sprintf(str, "%d", dmg);
                         listPushBack(text, str);
                         listPushBack(text, " de dano\n");
 
