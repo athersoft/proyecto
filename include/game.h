@@ -30,6 +30,7 @@ typedef struct enemy{
     int exp;
     bool jefe;
     bool dead;
+    int deadCount;
 }enemy;
 
 typedef struct square{ //Casilla

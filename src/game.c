@@ -89,7 +89,6 @@ enemy* createBoss(lvl* Lvl){
 
 enemy *createEnemy(lvl *Lvl){
     
-    srand(time(NULL));
     //player* jugador = Lvl -> Player;
     enemy *Enemy = (enemy *) malloc(sizeof(enemy));
     int valor = (Lvl -> Player->lvl % 10) + (Lvl -> Player->lvl /10);
@@ -114,6 +113,7 @@ enemy *createEnemy(lvl *Lvl){
     }
     Enemy -> name = malloc(sizeof(char) * 20);
     //strcpy(Enemy -> name, "Enemigo prueba");
+    Enemy -> deadCount = 1;
 
     Enemy -> dead = false;
 
@@ -376,7 +376,16 @@ square *createSquareEnemy(lvl *Lvl){
     strcpy(Square -> type, "enemy");
     Square -> colision = true;
     Square -> Enemy = createEnemy(Lvl);
-    strcpy(Square->Enemy-> name, "Enemigo prueba");
+    if(Square -> Enemy -> hpMax < 3){
+        strcpy(Square->Enemy-> name, "Goblin");
+    }else{
+        strcpy(Square->Enemy-> name, "Enemigo Impar");
+        if(Square -> Enemy -> hpMax < 6){
+            strcpy(Square->Enemy-> name, "Skeleton"); 
+        }else{
+            strcpy(Square->Enemy-> name, "Golem");
+        }
+    }
 
     return Square;
 }
@@ -428,7 +437,6 @@ void initLvl(List *gameHistory, int dificulty, player *Player, Map *bestiary){
     }
 
     //Repartir obstaculos de forma aleatoria
-    srand((unsigned) __TIME__);
 
     int x;
     int y;
@@ -694,6 +702,12 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats,Map *bestiary){
                     //Comprobar si sigue vivo
                     if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
                         experiencia(Lvl, Lvl->map[i][j]);
+                        enemy *aux = searchMap(bestiary,Lvl -> map[i][j] -> Enemy -> name);
+                        if(aux == NULL){
+                            insertMap(bestiary,Lvl -> map[i][j] -> Enemy -> name,Lvl -> map[i][j] -> Enemy);
+                        }else{
+                            aux -> deadCount++;
+                        }
                         if(Lvl -> map[i][j] -> Enemy ->jefe == false){
                             listPushBack(text, Lvl -> map[i][j] -> Enemy -> name);
                             listPushBack(text, " derrotado\n");
