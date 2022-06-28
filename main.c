@@ -68,7 +68,6 @@ int main(){
         scanf("%i", &in );
         //getchar();
         int i = 0;
-
         if (in == 0){
             printf(COLOR_RESET"Bye bye\n"COLOR_RESET);
             return 0;

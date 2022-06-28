@@ -603,49 +603,68 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
             sumX = -1;
         }
     }
-    /*
-    if(GetAsyncKeyState(VK_DOWN) == 0){
+    
+    /*if(in == 'e'){
         if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }else if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        } else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }else if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
+            Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
+        }
+    }*/
+    
+    /*if(GetAsyncKeyState(VK_DOWN)){
+        if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
+            //Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
             atk = true;
             sumY = 1;
         }
+        Sleep(150);
     }
     if(GetAsyncKeyState(VK_UP)){
         if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
+            //Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
             atk = true;
             sumY = -1;
-
         }
         //printf("\n no mueras\n");
+        Sleep(150);
     }
     if(GetAsyncKeyState(VK_RIGHT)){
         if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0){
+            //Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
             atk = true;
             sumX = 1;
         }
+        Sleep(150);
     }
     if(GetAsyncKeyState(VK_LEFT)){
         if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
+            //Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
             atk = true;
             sumX = -1;
         }
-    }
-    */
+        Sleep(150);
+    }*/
+    
     if(atk){
         if(strcmp(Lvl ->map[Lvl ->posy+sumY][Lvl -> posx + sumX] -> type, "enemy") == 0){
             Lvl -> map[Lvl ->posy+sumY][Lvl -> posx + sumX] -> Enemy -> hp -= (Lvl -> Player -> atk);
-            listPushBack(text, "Has hecho ");
+            listPushBack(text, "Has quitado ");
             char *str;
             str = malloc(sizeof(char)*3);
             sprintf(str, "%d", Lvl -> Player -> atk);
             listPushBack(text, str);
-            listPushBack(text, " de dano a ");
+            listPushBack(text, " puntos de vida a ");
             listPushBack(text, Lvl -> map[Lvl ->posy+sumY][Lvl -> posx +sumX] -> Enemy -> name);
             listPushBack(text, "\n");
         }
         if(strcmp(Lvl ->map[Lvl ->posy+sumY][Lvl -> posx + sumX] -> type, "vase") == 0){
             Lvl -> map[Lvl ->posy+sumY][Lvl -> posx + sumX] = createItem("vida", 3);
-            listPushBack(text, "El jarron deja caer salud\n");
+            listPushBack(text, "El vasija deja caer salud\n");
         }
         
         if(strcmp(Lvl ->map[Lvl ->posy+sumY][Lvl -> posx + sumX] -> type, "chest") == 0){
