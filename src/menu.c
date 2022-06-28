@@ -97,8 +97,9 @@ void mostrarBestiario(Map *bestiary){
     if(firstMap(bestiary) == NULL ){
         printf("No hay enemigos en el bestiario");
     }else{
+        printf("Nombre de la bestia\tDerrotadas\n");
         for(enemy *i = firstMap(bestiary); i!= NULL; i = nextMap(bestiary)){
-        printf("%s\n",i ->name);
+        printf("%s\t\t%d\n",i ->name,i ->repetidos);
     }
     }
 

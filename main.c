@@ -24,6 +24,8 @@ keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
 
 /* main function */
 int main(){
+    
+    srand((unsigned) __TIME__);
     List *gameHistory = listCreate();
     Map *bestiary = createMap(is_equal_string,lower_than_string);
 

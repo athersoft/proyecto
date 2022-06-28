@@ -52,7 +52,7 @@ lvl *createLvl(){
 player *createPlayer(){
     player *Player = (player *) malloc(sizeof(player));
     Player -> lvl = 1;
-    Player -> atk = 1;
+    Player -> atk = 3;
     Player -> def = 1;
     Player -> exp = 0;
     Player -> expMax = 5;
@@ -63,7 +63,7 @@ player *createPlayer(){
 
 enemy *createEnemy(lvl *Lvl){
     
-    srand(time(NULL));
+    //srand(time(NULL));
     //player* jugador = Lvl -> Player;
     enemy *Enemy = (enemy *) malloc(sizeof(enemy));
     int valor = (Lvl -> Player->lvl % 10) + (Lvl -> Player->lvl /10);
@@ -90,6 +90,7 @@ enemy *createEnemy(lvl *Lvl){
     //strcpy(Enemy -> name, "Enemigo prueba");
 
     Enemy -> dead = false;
+    Enemy -> repetidos = 1;
 
     return Enemy;
     
@@ -203,7 +204,7 @@ void showLvl(lvl *Lvl){
                     close = true;
                     cont++;
                     //printf("\n|%s", Lvl->map[i][j]->Enemy->name);
-                    printf("Vida restante: %i%c\t", (((Lvl->map[i][j]->Enemy->hp)*100)/Lvl->map[i][j]->Enemy->hpMax), 37);
+                    printf("Vida restante: %i%c\t",(((Lvl->map[i][j]->Enemy->hp)*100)/Lvl->map[i][j]->Enemy->hpMax) , 37);
                 }
             }
         }
@@ -310,13 +311,15 @@ square *createSquareEnemy(lvl *Lvl){
     strcpy(Square -> type, "enemy");
     Square -> colision = true;
     Square -> Enemy = createEnemy(Lvl);
-    int num = rand() % 100;
-    if(num%2 == 0){
-        strcpy(Square->Enemy-> name, "Enemigo Par");
+    if(Square -> Enemy -> hpMax < 3){
+        strcpy(Square->Enemy-> name, "Goblin");
     }else{
-        strcpy(Square->Enemy-> name, "Enemigo Impar");
+        if(Square -> Enemy -> hpMax < 6){
+            strcpy(Square->Enemy-> name, "Skeleton"); 
+        }else{
+            strcpy(Square->Enemy-> name, "Golem");
+        }
     }
-
 
     return Square;
 }
@@ -346,7 +349,7 @@ void initLvl(List *gameHistory,Map *bestiary){
     }
 
     //Repartir obstaculos de forma aleatoria
-    srand((unsigned) __TIME__);
+
 
     int x;
     int y;
@@ -470,7 +473,13 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats, Map *bestiary){
                     //Comprobar si sigue vivo
                     if(Lvl -> map[i][j] -> Enemy -> hp <= 0){
                         experiencia(Lvl, Lvl->map[i][j]);
-                        insertMap(bestiary,Lvl -> map[i][j] -> Enemy -> name,Lvl -> map[i][j] -> Enemy);
+                        enemy *aux = searchMap(bestiary,Lvl -> map[i][j] -> Enemy -> name);
+                        if(aux == NULL){
+                            insertMap(bestiary,Lvl -> map[i][j] -> Enemy -> name,Lvl -> map[i][j] -> Enemy);
+                        }else{
+                            aux -> repetidos ++;
+                        }
+
                         Lvl -> map[i][j] = createItem("vida", 'V');
                         Stats->kills++;
                     }

@@ -27,6 +27,7 @@ typedef struct enemy{
     int def;
     int exp;
     bool dead;
+    int repetidos;
 }enemy;
 
 typedef struct square{ //Casilla
