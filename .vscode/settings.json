@@ -2,6 +2,7 @@
     "makefile.extensionOutputFolder": "./.vscode",
     "files.associations": {
         "game.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "map.h": "c"
     }
 }

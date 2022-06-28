@@ -407,7 +407,7 @@ square *createPortal(){
     return Square;
 }
 
-void initLvl(List *gameHistory, int dificulty, player *Player){
+void initLvl(List *gameHistory, int dificulty, player *Player, Map *bestiary){
     lvl *Lvl;
     Lvl = createLvl();
     Lvl -> dificulty = dificulty;
@@ -538,11 +538,11 @@ void initLvl(List *gameHistory, int dificulty, player *Player){
     List *text = listCreate();
     stats *Stats = createStats();
     showLvl(Lvl, text);
-    updateLvl(Lvl, gameHistory, Stats);
+    updateLvl(Lvl, gameHistory, Stats,bestiary);
 }
 
 
-void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
+void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats,Map *bestiary){
     List *text = listCreate();
     char in = '\0';
     //char last = '\0';
@@ -772,9 +772,9 @@ void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats){
     if(in != '0' && Lvl -> Player -> hp > 0){
         if(changeLvl == false){
             showLvl(Lvl, text);
-            updateLvl(Lvl, gameHistory, Stats);
+            updateLvl(Lvl, gameHistory, Stats,bestiary);
         }else{
-            initLvl(gameHistory, Lvl -> dificulty+1, Lvl -> Player);
+            initLvl(gameHistory, Lvl -> dificulty+1, Lvl -> Player,bestiary);
         }
     }else if(Lvl -> Player -> hp <= 0){
         Stats -> maxLvl = Lvl -> Player ->lvl;

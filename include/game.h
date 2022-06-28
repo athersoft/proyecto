@@ -57,7 +57,7 @@ typedef struct lvl{
 stats *createStats();
 
 lvl *createLvl();
-void initLvl(List *gameHistory, int dificulty, player *Player);
+void initLvl(List *gameHistory, int dificulty, player *Player,Map *bestiary);
 
 square *createSquare();
 square *createObstacle();
@@ -66,7 +66,7 @@ enemy *createEnemy(lvl *Lvl);
 
 player *createPlayer();
 
-void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats);
+void updateLvl(lvl *Lvl, List *gameHistory, stats *Stats,Map *bestiary);
 void showLvl(lvl *Lvl, List *text);
 
 void UpLvl(lvl* Lvl, square* Square);
