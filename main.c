@@ -21,10 +21,38 @@ keybd_event(VK_RETURN,0x1c,KEYEVENTF_KEYUP,0);
 keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
 }
 
+List *load(List *list){
+    FILE *save = fopen("save.txt","r");
+    char c;
+    while(1){
+        
+        stats *Stats = createStats();
+        c = fgetc(save);
+        if(feof(save)){
+            break;
+        }
+        Stats->steps = c- '0';
+        c = fgetc(save);
+        Stats->kills = c- '0';
+        c = fgetc(save);
+        Stats->maxLvl = c- '0';
+        listPushBack(list, Stats);
+       
+    }
+    fclose(save);
+    return list;
+}
 
 /* main function */
 int main(){
     List *gameHistory = listCreate();
+    //FILE *save;
+
+    if(fopen("save.txt","r")){
+        gameHistory = load(gameHistory);
+    }
+
+    
     //map *bestiary = createMap();
     //system("Torero.mp3 &");
     int in=1;
@@ -55,7 +83,8 @@ int main(){
                 }
                 printf("\n");
                 Sleep(1000);
-                initLvl(gameHistory);
+                player *Player = createPlayer();
+                initLvl(gameHistory, 1, Player);
                 break;
             case (2):
                 mostrarInstrucciones();
