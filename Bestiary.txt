@@ -1,2 +1,0 @@
-Golem,1
-Skeleton,2

@@ -233,9 +233,9 @@ void mostrarInstrucciones(){
         Sleep(150);
     }
     Sleep(300);
+    printf("Puedes atacar a un enemigo con la tecla 'q'\n");
     printf("\nTambi%cn puedes dar un %cgil giro 'e' con el que te puedes defender con m%cs potencia\n",130, 160, 160);
-    printf("O dar un exagerado salto en direcci%cn de tu %cltimo paso 'f'\n", 162, 163);
-    printf("Pero no te emociones tanto, que estos %cltimos te tomaran un tiempo en recuperarte", 163);
+    printf("Pero no te emociones tanto, que esto %cltimo te tomaran un tiempo en recuperarte", 163);
     printf("\n\n");
     for(int i = 0; i < 5; i++){
         printf(".");

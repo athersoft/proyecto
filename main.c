@@ -22,7 +22,7 @@ keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
 }
 
 void mostrarBestiario(Map *bestiary){
-    clrscr();
+    system("cls");
 
     printf(COLOR_CYAN"Bestiario\n"COLOR_RESET);
     if(firstMap(bestiary) == NULL ){
@@ -83,7 +83,7 @@ int main(){
     Map *bestiary = createMap(is_equal_string,lower_than_string);
     lvl *Lvl = createLvl();
     loadBestiary(bestiary, Lvl);
-    //system("Torero.mp3 &");
+    system("Torero.mp3 &");
     int in=1;
     
     while(in != 0 ){

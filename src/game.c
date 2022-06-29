@@ -179,7 +179,7 @@ void showLvl(lvl * Lvl, List * text) {
 
                 }
                 if (strcmp(Lvl -> map[i][j] -> type, "vase") == 0 || strcmp(Lvl -> map[i][j] -> type, "chest") == 0) {
-                    printf(COLOR_BLACK "%c  "
+                    printf(COLOR_YELLOW "%c  "
                         COLOR_RESET, Lvl -> map[i][j] -> symbol);
                 }
                 if (strcmp(Lvl -> map[i][j] -> type, "portal") == 0) {
@@ -379,7 +379,7 @@ square * createSquareEnemy(lvl * Lvl) {
 
 square * createVase() {
     square * Square = createSquare();
-    Square -> symbol = 'I';
+    Square -> symbol = 73;
     strcpy(Square -> type, "vase");
     Square -> colision = true;
     return Square;
@@ -560,7 +560,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
         }
 
         if (strcmp(Lvl -> map[Lvl -> posy + movementY( in )][Lvl -> posx + movementX( in )] -> type, "vida") == 0) {
-            listPushBack(text, " 2 punto de salud recuperados");
+            listPushBack(text, " 2 punto de salud recuperados\n");
             Lvl -> Player -> hp += 2;
             Stats -> hearts++;
             if (Lvl -> Player -> hpMax < Lvl -> Player -> hp) {
@@ -778,7 +778,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
 }
 
 void showHistory(List * gameHistory, int num) {
-    clrscr();
+    system("cls");
     char in = '\0';
     int max = 0;
     for (stats * i = listFirst(gameHistory); i != NULL; i = listNext(gameHistory)) {
@@ -828,6 +828,10 @@ void showHistory(List * gameHistory, int num) {
 
     } else {
         printf("No hay partidas");
+        printf("Presione cualquier boton para volver al menu\n");
+        char in;
+        scanf("%c", &in);
+        getchar();
     }
     //if(in == 'q'){
 
