@@ -68,12 +68,12 @@ lvl * createLvl() {
 player * createPlayer() {
     player * Player = (player * ) malloc(sizeof(player));
     Player -> lvl = 1;
-    Player -> atk = 1;
-    Player -> def = 1;
+    Player -> atk = 100;
+    Player -> def = 10;
     Player -> exp = 0;
     Player -> expMax = 5;
-    Player -> hpMax = 10;
-    Player -> hp = 10;
+    Player -> hpMax = 100;
+    Player -> hp = 100;
     Player -> turnos = 0;
     Player -> otroturn = 0;
     return Player;
@@ -92,8 +92,8 @@ enemy * createBoss(lvl * Lvl) {
     jefe -> hpMax = Lvl -> Player -> hpMax + valor;
     jefe -> hp = jefe -> hpMax;
 
-    jefe -> atk = Lvl -> Player -> atk + valor;
-
+    //jefe -> atk = Lvl -> Player -> atk + valor;
+    jefe->atk = 1;
     jefe -> def = Lvl -> Player -> def + valor;
 
     jefe -> exp = Lvl -> Player -> expMax;
@@ -113,8 +113,8 @@ enemy * createEnemy(lvl * Lvl) {
     Enemy -> hp = (Enemy -> hpMax);
 
     numero = (rand() % Lvl -> Player -> atk) + 1;
-    Enemy -> atk = (numero + valor)+(Lvl->dificulty);
-
+    //Enemy -> atk = (numero + valor)+(Lvl->dificulty);
+    Enemy->atk = 1;
     numero = (rand() % Lvl -> Player -> def) + 1;
     Enemy -> def = numero + valor;
 
@@ -462,8 +462,13 @@ void initLvl(List * gameHistory, int dificulty, player * Player, Map * bestiary)
 
     //Repartir enemigos de forma aleatoria
 
-    x = rand() % Lvl -> width - 1;
-    y = rand() % Lvl -> height - 1;
+    do {
+        x = rand() % Lvl -> width;
+    } while (x >= Lvl -> width);
+
+    do {
+        y = rand() % Lvl -> height;
+    } while (y >= Lvl -> height);
 
     Lvl -> map[x][y] = createSquareBoss(Lvl);
     Lvl -> jefes = true;
@@ -490,8 +495,13 @@ void initLvl(List * gameHistory, int dificulty, player * Player, Map * bestiary)
 
     //Repartir jarrones
 
-    x = rand() % Lvl -> width - 1;
-    y = rand() % Lvl -> height - 1;
+    do {
+        x = rand() % Lvl -> width;
+    } while (x >= Lvl -> width);
+
+    do {
+        y = rand() % Lvl -> height;
+    } while (y >= Lvl -> height);
     for (int i = 0; i < reps; i++) {
         while (1) {
             if (strcmp(Lvl -> map[x][y] -> type, "vacio") == 0) {
@@ -628,7 +638,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
             listPushBack(text, " Cofre abierto\n");
             Stats ->chests++;
             if (op > 50) {
-                Lvl -> map[Lvl -> posy + sumY][Lvl -> posx + sumX] = createItem("atk", 13);
+                Lvl -> map[Lvl -> posy + sumY][Lvl -> posx + sumX] = createItem("atk", '!');
                 listPushBack(text, " El cofre deja caer un arma\n");
             } else {
                 Lvl -> map[Lvl -> posy + sumY][Lvl -> posx + sumX] = createItem("def", '#');
