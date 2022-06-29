@@ -83,7 +83,7 @@ int main(){
     Map *bestiary = createMap(is_equal_string,lower_than_string);
     lvl *Lvl = createLvl();
     loadBestiary(bestiary, Lvl);
-    system("Torero.mp3 &");
+    
     int in=1;
     
     while(in != 0 ){
@@ -112,6 +112,7 @@ int main(){
                     system("cls");
                     intro();
                 }
+                system("Torero.mp3 &");
 
                 printf("\nCargando nivel, por favor espere");
                 while(i != 7){

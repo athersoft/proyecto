@@ -58,6 +58,7 @@ void intro(){
     char *texto;
     char* caracter;
     texto = (char*) malloc(sizeof(char) * 20);
+    system("Ytu.mp3 &");
     strcpy(texto, "Cada siglo, centenares de personas lo suficientemente valientes, vienen a estos dominios\n");
     caracter = texto;
     while(*caracter != '\0'){
@@ -277,7 +278,7 @@ void pantallaMuerte(){
     system("cls");
 
     system("Ytu.mp3 &");
-    
+
     Sleep(500);
     printf("\n##     ##    ###     ######    ##     ## ##     ## ######## ########  ########  #######    ####");   
     Sleep(130);
