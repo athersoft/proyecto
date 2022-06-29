@@ -140,7 +140,7 @@ int main(){
                 break;
           } 
 
-    } // while (in != q)
+    } 
     printf(COLOR_RESET"Bye bye\n"COLOR_RESET);
     return 0;
 }

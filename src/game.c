@@ -16,6 +16,7 @@
 
 #include <math.h>
 
+//Creacion de la estructura Stats
 stats * createStats() {
     stats * Stats = (stats * ) malloc(sizeof(stats));
     Stats -> kills = 0;
@@ -26,7 +27,7 @@ stats * createStats() {
     Stats -> chests = 0;
     return Stats;
 }
-
+//Creacion de la estructura de las casillas
 square * createSquare() {
     square * Square = (square * ) malloc(sizeof(square));
     Square -> type = (char * ) malloc(sizeof(char) * 20);
@@ -41,7 +42,7 @@ square * createSquare() {
 
     return Square;
 }
-
+//Creacion de la estructura del nivel
 lvl * createLvl() {
     lvl * Lvl = (lvl * ) malloc(sizeof(lvl));
     Lvl -> height = 50;
@@ -49,11 +50,13 @@ lvl * createLvl() {
     Lvl -> posx = 25;
     Lvl -> posy = 25;
     Lvl -> dificulty = 1;
+    //Llenar el mapa de casillas vacías
     for (int i = 0; i < 50; i++) {
         for (int j = 0; j < 50; j++) {
             Lvl -> map[i][j] = createSquare();
         }
     }
+    //Inicializar la posición del jugador
     strcpy(Lvl -> map[Lvl -> posx][Lvl -> posy] -> type, "player");
 
     Lvl -> map[Lvl -> posx][Lvl -> posy] -> symbol = 'J';
@@ -61,7 +64,7 @@ lvl * createLvl() {
     Lvl -> Player = createPlayer();
     return Lvl;
 }
-
+//Creacion de la estructura del jugador
 player * createPlayer() {
     player * Player = (player * ) malloc(sizeof(player));
     Player -> lvl = 1;
@@ -75,7 +78,7 @@ player * createPlayer() {
     Player -> otroturn = 0;
     return Player;
 }
-
+//Creacion de la estructura del jefe del nivel
 enemy * createBoss(lvl * Lvl) {
     enemy * jefe = (enemy * ) malloc(sizeof(enemy));
     int valor;
@@ -97,24 +100,21 @@ enemy * createBoss(lvl * Lvl) {
     jefe -> name = malloc(sizeof(char) * 20);
     return jefe;
 }
-
+//Creacion de la estructura de los enemigos
 enemy * createEnemy(lvl * Lvl) {
 
-    //player* jugador = Lvl -> Player;
     enemy * Enemy = (enemy * ) malloc(sizeof(enemy));
+    //Escalada de las stats
     int valor = (Lvl -> Player -> lvl % 10) + (Lvl -> Player -> lvl / 10);
     int numero;
 
-    //Enemy -> hp = 1;
     numero = (rand() % (Lvl -> Player -> hp) / 2) + 1;
     Enemy -> hpMax = (numero + valor)+(Lvl->dificulty);
     Enemy -> hp = (Enemy -> hpMax);
 
-    //Enemy -> atk = 1;
     numero = (rand() % Lvl -> Player -> atk) + 1;
     Enemy -> atk = (numero + valor)+(Lvl->dificulty);
 
-    //Enemy -> def = 0;
     numero = (rand() % Lvl -> Player -> def) + 1;
     Enemy -> def = numero + valor;
 
@@ -131,6 +131,7 @@ enemy * createEnemy(lvl * Lvl) {
 
 }
 
+//Función para mostrar el escenario
 void showLvl(lvl * Lvl, List * text) {
     system("cls");
     //Mostrar camara
@@ -139,9 +140,7 @@ void showLvl(lvl * Lvl, List * text) {
             if (i >= Lvl -> height || j >= Lvl -> width) {
                 break;
             }
-            /*if(i >= 0 && j >= 0){
-                printf("%c", Lvl->map[i][j]->symbol);
-            }*/
+        //Mostrar elementos con sus distintos colores
             if (i >= 0 && j >= 0) {
                 if (strcmp(Lvl -> map[i][j] -> type, "colision") == 0) {
                     if (Lvl -> map[i][j] -> isText) {
@@ -189,10 +188,9 @@ void showLvl(lvl * Lvl, List * text) {
             }
 
         }
-        printf("\n"); //printf("%c", Lvl -> map[i][j] ->symbol);
+        printf("\n"); 
     }
-
-    //printf("\ndebería estar al final\n");
+    //Mostrar interfaz
     bool close = false;
     printf("\n._______________\n");
     printf("|Salud: \t\n|");
@@ -235,7 +233,6 @@ void showLvl(lvl * Lvl, List * text) {
                 if (strcmp(Lvl -> map[i][j] -> type, "enemy") == 0) {
                     close = true;
                     cont++;
-                    //printf("\n|%s", Lvl->map[i][j]->Enemy->name);
                     printf("Vida restante: %i%c\t", (((Lvl -> map[i][j] -> Enemy -> hp) * 100) / Lvl -> map[i][j] -> Enemy -> hpMax), 37);
                 }
             }
@@ -251,6 +248,7 @@ void showLvl(lvl * Lvl, List * text) {
 
     }
 
+    //Mostrar lista de mensajes
     printf("\n");
     for (char * i = listFirst(text); i != NULL; i = listNext(text)) {
         printf("%s", i);
@@ -258,14 +256,15 @@ void showLvl(lvl * Lvl, List * text) {
 
 }
 
+//Subida de nivel
 void UpLvl(lvl * Lvl, square * Square) {
     Lvl -> Player -> atk += 1;
     Lvl -> Player -> hpMax += 2;
     Lvl -> Player -> hp = Lvl -> Player -> hpMax;
     Lvl -> Player -> def += 1;
 }
+//Agregar experiencia al jugador
 void experiencia(lvl * Lvl, square * Square) {
-    //player* jugador = Lvl->Player;
     Lvl -> Player -> exp += Square -> Enemy -> exp;
     if (Lvl -> Player -> exp == Lvl -> Player -> expMax) {
         Lvl -> Player -> lvl += 1;
@@ -281,6 +280,7 @@ void experiencia(lvl * Lvl, square * Square) {
     }
 }
 
+//Funciones de movimiento
 int movementX(char in ) {
 
     switch ( in ) {
@@ -316,6 +316,7 @@ square * createObstacle() { //Crea un obstaculo estandar
     return Square;
 }
 
+//Crea un item
 square * createItem(char * type, char symbol) {
     square * Square = createSquare();
     Square -> symbol = symbol;
@@ -323,7 +324,7 @@ square * createItem(char * type, char symbol) {
 
     return Square;
 }
-
+//Crea casilla del jefe de nivel
 square * createSquareBoss(lvl * Lvl) {
     square * Square = createSquare();
     Square -> symbol = 237;
@@ -350,7 +351,7 @@ square * createSquareBoss(lvl * Lvl) {
     Square -> Enemy -> jefe = true;
     return Square;
 }
-
+//Crea casilla de tipo enemigo
 square * createSquareEnemy(lvl * Lvl) {
     square * Square = createSquare();
     Square -> symbol = 21;
@@ -376,7 +377,7 @@ square * createSquareEnemy(lvl * Lvl) {
 
     return Square;
 }
-
+//Crea casilla de tipo vasija
 square * createVase() {
     square * Square = createSquare();
     Square -> symbol = 73;
@@ -385,7 +386,7 @@ square * createVase() {
     return Square;
 
 }
-
+//Crea casilla de tipo cofre
 square * createChest() {
     square * Square = createSquare();
     Square -> symbol = 'M';
@@ -394,7 +395,7 @@ square * createChest() {
     return Square;
 
 }
-
+//Crea casilla de tipo portal
 square * createPortal() {
     square * Square = createSquare();
     Square -> symbol = 'O';
@@ -403,6 +404,7 @@ square * createPortal() {
     return Square;
 }
 
+//Inicializa el nivel
 void initLvl(List * gameHistory, int dificulty, player * Player, Map * bestiary) {
     lvl * Lvl;
     Lvl = createLvl();
@@ -542,6 +544,7 @@ void initLvl(List * gameHistory, int dificulty, player * Player, Map * bestiary)
     updateLvl(Lvl, gameHistory, Stats, bestiary);
 }
 
+//Actualización del nivel
 void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
     List * text = listCreate();
     char in = '\0';
@@ -639,7 +642,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
     if (Lvl -> Player -> turnos > 0) {
         Lvl -> Player -> turnos--;
     }
-
+    //Ataque de área
     if (GetAsyncKeyState(0x45) && Lvl -> Player -> turnos == 0) {
         listPushBack(text, " Has realizado un ataque de area\n");
         for (int i = Lvl -> posy - 1; i <= Lvl -> posy + 1; i++) {
@@ -777,6 +780,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
     }
 }
 
+//Mostrar historial de partidas
 void showHistory(List * gameHistory, int num) {
     system("cls");
     char in = '\0';
@@ -833,12 +837,10 @@ void showHistory(List * gameHistory, int num) {
         scanf("%c", &in);
         getchar();
     }
-    //if(in == 'q'){
-
-    //}
 
 }
 
+//Mostrar estadísticas generales
 void showStats(List * gameHistory) {
     system("cls");
     int steps = 0;
@@ -871,6 +873,7 @@ void showStats(List * gameHistory) {
 
 }
 
+//Guardar stats
 void save(stats * Stats) {
     FILE * save = fopen("save.txt", "a");
     fprintf(save, "%d", Stats -> steps);
@@ -882,7 +885,7 @@ void save(stats * Stats) {
     fclose(save);
 }
 
-
+//Cargar el bestiario
 void loadBestiary(Map *bestiary,lvl *Lvl){
     FILE *file = fopen("Bestiary.txt","r");
     enemy *aux = createEnemy(Lvl);
@@ -924,6 +927,7 @@ void loadBestiary(Map *bestiary,lvl *Lvl){
 
 }
 
+//Guardar bestiario
 void saveBestiary(Map *bestiary) {
     FILE *file = fopen("Bestiary.txt", "a");
 
