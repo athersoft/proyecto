@@ -7,30 +7,6 @@
 
 void mostrarMenu(){
     system("cls");
-    //printf("%s", buf);
-    //strcpy(buf, "");
-
-    //printf("Chayanne Quest\n");
-    /*for(int i = 0; i< 33; i++ ){
-        printf(COLOR_BLACK"%c", 219);
-        Sleep(15);
-    }*/
-    /*printf("\n%c", 219);
-    printf(PURPLE"\tChayanne Quest"COLOR_RESET);
-    printf(COLOR_BLACK"\t\t%c\n", 219);*/
-    //printf("%c\t----------------\n\t%c", 219, 219);
-    /*for(int i = 0; i< 33; i++ ){
-        printf(COLOR_BLACK"%c", 219);
-        Sleep(15);
-    }*/
-
-    /*printf("_____________\n");
-    printf("| __________|\n");
-    for (int i = 0; i < 4; i++){
-        printf("| |\n");
-    }
-    printf("| |_________\n");
-    printf("|___________|\n");}*/
 
     printf(RED);
     printf(NEGRITA" _____  _                                           \n");      
@@ -77,6 +53,7 @@ void mostrarMenu(){
 
     printf("\t0-Salir\n\n");
 }
+
 void intro(){
     char *texto;
     char* caracter;
@@ -235,7 +212,7 @@ void mostrarInstrucciones(){
     Sleep(300);
     printf("Puedes atacar a un enemigo con la tecla 'q'\n");
     printf("\nTambi%cn puedes dar un %cgil giro 'e' con el que te puedes defender con m%cs potencia\n",130, 160, 160);
-    printf("Pero no te emociones tanto, que esto %cltimo te tomaran un tiempo en recuperarte", 163);
+    printf("Pero no te emociones tanto, que esto %cltimo te tomara un tiempo en recuperarte", 163);
     printf("\n\n");
     for(int i = 0; i < 5; i++){
         printf(".");
@@ -299,10 +276,8 @@ void mostrarInstrucciones(){
 void pantallaMuerte(){
     system("cls");
 
-                                                                                                                                                                                                                                   
-                                                                                                                                                                                                                                   
-
-    //system("Ytu.mp3 &");
+    system("Ytu.mp3 &");
+    
     Sleep(500);
     printf("\n##     ##    ###     ######    ##     ## ##     ## ######## ########  ########  #######    ####");   
     Sleep(130);
