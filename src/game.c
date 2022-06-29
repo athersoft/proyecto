@@ -521,8 +521,13 @@ void initLvl(List * gameHistory, int dificulty, player * Player, Map * bestiary)
 
     //Repartir cofres
     reps = (rand() % 10) + 1;
-    x = rand() % Lvl -> width - 1;
-    y = rand() % Lvl -> height - 1;
+    do {
+        x = rand() % Lvl -> width;
+    } while (x >= Lvl -> width);
+
+    do {
+        y = rand() % Lvl -> height;
+    } while (y >= Lvl -> height);
     for (int i = 0; i < reps; i++) {
         while (1) {
             if (strcmp(Lvl -> map[x][y] -> type, "vacio") == 0) {

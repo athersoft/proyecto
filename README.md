@@ -31,7 +31,7 @@ Para jugar solo hace falta ejecutar el archivo game.exe
 
 Para compilar es necesario GitBash y la herramienta "make", la cual puede ser instalada en el sig. sitio : [Descargar Make](https://sourceforge.net/projects/ezwinports/files/make-4.3-without-guile-w32-bin.zip/download).
      
-El comando para compilar la tarea es el siguiente
+El comando para compilar el proyecto es el siguiente
 ```
 make
 ```
