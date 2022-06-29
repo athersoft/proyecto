@@ -21,6 +21,9 @@ stats * createStats() {
     Stats -> kills = 0;
     Stats -> maxLvl = 1;
     Stats -> steps = 0;
+    Stats -> hearts = 0;
+    Stats -> lvls = 1;
+    Stats -> chests = 0;
     return Stats;
 }
 
@@ -551,6 +554,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
     //Movimiento jugador
     if (Lvl -> map[Lvl -> posy + movementY( in )][Lvl -> posx + movementX( in )] -> colision == false) {
         if (strcmp(Lvl -> map[Lvl -> posy + movementY( in )][Lvl -> posx + movementX( in )] -> type, "portal") == 0) {
+            Stats -> lvls++;
             listPushBack(text, " Has avanzado al siguiente nivel\n");
             changeLvl = true;
         }
@@ -558,6 +562,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
         if (strcmp(Lvl -> map[Lvl -> posy + movementY( in )][Lvl -> posx + movementX( in )] -> type, "vida") == 0) {
             listPushBack(text, " 2 punto de salud recuperados");
             Lvl -> Player -> hp += 2;
+            Stats -> hearts++;
             if (Lvl -> Player -> hpMax < Lvl -> Player -> hp) {
                 Lvl -> Player -> hp = Lvl -> Player -> hpMax;
             }
@@ -596,41 +601,6 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
             sumX = -1;
         }
     }
-
-    
-    /*if(GetAsyncKeyState(VK_DOWN)){
-        if(strcmp(Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> type, "enemy") == 0){
-            //Lvl -> map[Lvl ->posy+1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
-            atk = true;
-            sumY = 1;
-        }
-        Sleep(150);
-    }
-    if(GetAsyncKeyState(VK_UP)){
-        if(strcmp(Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> type, "enemy") == 0){
-            //Lvl -> map[Lvl ->posy-1][Lvl -> posx] -> Enemy -> hp -= (Lvl -> Player -> atk);
-            atk = true;
-            sumY = -1;
-        }
-        //printf("\n no mueras\n");
-        Sleep(150);
-    }
-    if(GetAsyncKeyState(VK_RIGHT)){
-        if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> type, "enemy") == 0){
-            //Lvl -> map[Lvl ->posy][Lvl -> posx+1] -> Enemy -> hp -= (Lvl -> Player -> atk);
-            atk = true;
-            sumX = 1;
-        }
-        Sleep(150);
-    }
-    if(GetAsyncKeyState(VK_LEFT)){
-        if(strcmp(Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> type, "enemy") == 0){
-            //Lvl -> map[Lvl ->posy][Lvl -> posx-1] -> Enemy -> hp -= (Lvl -> Player -> atk);
-            atk = true;
-            sumX = -1;
-        }
-        Sleep(150);
-    }*/
     
     if(atk){
         if(strcmp(Lvl ->map[Lvl ->posy+sumY][Lvl -> posx + sumX] -> type, "enemy") == 0){
@@ -651,7 +621,9 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
 
         if (strcmp(Lvl -> map[Lvl -> posy + sumY][Lvl -> posx + sumX] -> type, "chest") == 0) {
             int op = rand() % 100;
+
             listPushBack(text, " Cofre abierto\n");
+            Stats ->chests++;
             if (op > 50) {
                 Lvl -> map[Lvl -> posy + sumY][Lvl -> posx + sumX] = createItem("atk", 13);
                 listPushBack(text, " El cofre deja caer un arma\n");
@@ -799,6 +771,7 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
         Stats -> maxLvl = Lvl -> Player -> lvl;
         listPushBack(gameHistory, Stats);
         save(Stats);
+        saveBestiary(bestiary);
         pantallaMuerte();
 
     }
@@ -819,7 +792,10 @@ void showHistory(List * gameHistory, int num) {
         printf("Partida numero %i\n\n", num);
         printf("Pasos dados: %i\n", Stats -> steps);
         printf("Enemigos eliminados: %i\n", Stats -> kills);
-        printf("Nivel alcanzado: %i\n\n", Stats -> maxLvl);
+        printf("Nivel alcanzado: %i\n", Stats -> maxLvl);
+        printf("Corazones recogidos: %i\n", Stats ->hearts);
+        printf("Cofres abiertos: %i\n", Stats ->chests);
+        printf("Escenario alcanzado: %i\n\n", Stats -> lvls);
 
         if (num > 1) {
             printf("a- Anterior   ");
@@ -837,15 +813,17 @@ void showHistory(List * gameHistory, int num) {
         scanf("%c", &in);
         getchar();
 
-        if (in == 'a' && num > 1) {
-            showHistory(gameHistory, num - 1);
-        }
-        if ( in == 'd' && num < max) {
-            showHistory(gameHistory, num + 1);
-        }
-        if ( in == 'q') {
+        if(in != 'q'){
+            if ( in == 'a' && num > 1) {
+                return(showHistory(gameHistory, num - 1));
+            }
+            if ( in == 'd' && num < max) {
+                return(showHistory(gameHistory, num + 1));
+            }
+        }else{
             return;
         }
+
         getchar();
 
     } else {
@@ -862,17 +840,29 @@ void showStats(List * gameHistory) {
     int steps = 0;
     int kills = 0;
     int maxLvl = 0;
+    int chests = 0;
+    int heart = 0;
+    int lvls = 0;
 
     for (stats * i = listFirst(gameHistory); i != NULL; i = listNext(gameHistory)) {
         steps += i -> steps;
         kills += i -> kills;
         maxLvl += (i -> maxLvl) - 1;
+        chests += i -> chests;
+        heart += i -> hearts;
+        lvls += i -> lvls;
     }
 
     printf("Pasos dados: %i\n", steps);
     printf("Enemigos derrotados: %i\n", kills);
-    printf("Total de niveles conseguidos: %i\n\n", maxLvl);
+    printf("Total de niveles conseguidos: %i\n", maxLvl);
+    printf("Cofres abiertos: %i\n", chests);
+    printf("Corazones recogidos: %i\n", heart);
+    printf("Total de niveles jugados: %i\n\n", lvls);
     printf("Presione cualquier boton para volver al menu\n");
+
+    char in;
+    scanf("%c", &in);
     getchar();
 
 }
@@ -882,5 +872,63 @@ void save(stats * Stats) {
     fprintf(save, "%d", Stats -> steps);
     fprintf(save, "%d", Stats -> kills);
     fprintf(save, "%d", Stats -> maxLvl);
+    fprintf(save, "%d", Stats -> chests);
+    fprintf(save, "%d", Stats -> hearts);
+    fprintf(save, "%d", Stats -> lvls);
     fclose(save);
+}
+
+
+void loadBestiary(Map *bestiary,lvl *Lvl){
+    FILE *file = fopen("Bestiary.txt","r");
+    enemy *aux = createEnemy(Lvl);
+    if (file == NULL){
+        fclose(file);
+        return;
+    }
+    char bufer[100];
+    while (fgets(bufer, 100, file)){
+        
+        bool num = false;
+        strtok(bufer, "\n");
+        char *token = strtok(bufer, ",");
+
+        if(token != NULL){
+            while(token != NULL){
+
+            if(num == false){
+                strcpy(aux ->name, token);
+                num = true;
+            }else{
+                int value = atoi(token);
+                aux -> deadCount = value;
+                num = false;
+                aux = createEnemy(Lvl);
+
+            }
+            insertMap(bestiary,aux -> name,aux);
+            token = strtok(NULL, ",");
+            }
+            
+        }
+    }
+
+
+
+    fclose(file);
+    return;
+
+}
+
+void saveBestiary(Map *bestiary) {
+    FILE *file = fopen("Bestiary.txt", "a");
+
+    for(enemy *enemy =firstMap(bestiary); 
+            enemy != NULL;
+            enemy = nextMap(bestiary)) {
+
+        fprintf(file, "%s,", enemy->name);
+        fprintf(file, "%d\n", enemy->deadCount);
+    }
+    fclose(file);
 }

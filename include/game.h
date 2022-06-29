@@ -6,6 +6,9 @@ typedef struct stats{
     int steps;
     int kills;
     int interaction;
+    int hearts;
+    int chests;
+    int lvls;
     int maxLvl;
 }stats;
 
@@ -81,5 +84,8 @@ void showHistory(List *gameHistory, int num);
 
 void showStats(List *gameHistory);
 void save(stats *Stats);
+
+void saveBestiary(Map *bestiary);
+void loadBestiary(Map *bestiary,lvl *Lvl);
 
 #endif

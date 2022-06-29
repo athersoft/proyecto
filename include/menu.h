@@ -10,6 +10,5 @@ void mostrarMenu();
 void intro();
 void mostrarInstrucciones();
 void pantallaMuerte();
-void mostrarBestiario(Map *bestiary);
 
 #endif

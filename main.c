@@ -21,6 +21,26 @@ keybd_event(VK_RETURN,0x1c,KEYEVENTF_KEYUP,0);
 keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
 }
 
+void mostrarBestiario(Map *bestiary){
+    clrscr();
+
+    printf(COLOR_CYAN"Bestiario\n"COLOR_RESET);
+    if(firstMap(bestiary) == NULL ){
+        printf("No hay enemigos en el bestiario");
+    }else{
+        printf("Nombre de la bestia\tDerrotados\n");
+        for(enemy *i = firstMap(bestiary); i!= NULL; i = nextMap(bestiary)){
+            printf("%s\t%d\n",i ->name,i-> deadCount);
+        }
+    }
+
+    printf("\nPresione cualquier boton para volver al menu\n");
+
+    char in;
+    scanf("%c", &in);
+    getchar();
+}
+
 List *load(List *list){
     FILE *save = fopen("save.txt","r");
     char c;
@@ -36,6 +56,12 @@ List *load(List *list){
         Stats->kills = c- '0';
         c = fgetc(save);
         Stats->maxLvl = c- '0';
+        c = fgetc(save);
+        Stats->chests = c- '0';
+        c = fgetc(save);
+        Stats->hearts = c- '0';
+        c = fgetc(save);
+        Stats->lvls = c- '0';
         listPushBack(list, Stats);
        
     }
@@ -55,6 +81,8 @@ int main(){
 
     
     Map *bestiary = createMap(is_equal_string,lower_than_string);
+    lvl *Lvl = createLvl();
+    loadBestiary(bestiary, Lvl);
     //system("Torero.mp3 &");
     int in=1;
     
