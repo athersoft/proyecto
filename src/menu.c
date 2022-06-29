@@ -197,6 +197,28 @@ void intro(){
     getchar();
 }
 
+void outro(){
+    char *texto;
+    char* caracter;
+    texto = (char*) malloc(sizeof(char) * 20);
+    strcpy(texto, "Y esa fue la historia de que como este guerreo vencio a Arjona, una ardua batalla por el futuro del universo...\nFelicidades por sobrevivir tanto por tu cuenta");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_CYAN"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+
+    strcpy(texto, "\nAhora puedes volver, con tus ansias de conocimiento satisfechas\nY recuerda que puedes volver cuando quieras");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_CYAN"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+
+}
+
 void mostrarInstrucciones(){
     system("cls");
     int in;

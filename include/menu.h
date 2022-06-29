@@ -8,6 +8,7 @@
 
 void mostrarMenu();
 void intro();
+void outro();
 void mostrarInstrucciones();
 void pantallaMuerte();
 

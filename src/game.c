@@ -697,6 +697,10 @@ void updateLvl(lvl * Lvl, List * gameHistory, stats * Stats, Map * bestiary) {
                             listPushBack(text, " derrotado\n");
                             Lvl -> map[i][j] = createItem("vida", 3);
                         } else {
+                            if(Lvl->map[i][j]->Enemy->jefe == true && Lvl->dificulty == 5){
+                                outro();
+                                return;
+                            }
                             listPushBack(text, " Has derrotado al jefe del nivel!\n");
                             Lvl -> map[i][j] = createPortal(Lvl);
                             //Lvl -> map[i][j] = createItem("vida", 3);
