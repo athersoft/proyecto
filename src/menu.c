@@ -63,6 +63,10 @@ void mostrarMenu(){
     Sleep(110);
     printf("\n                                                    \n"COLOR_RESET);
     Sleep(1000);
+    
+
+
+
 
     printf("\n\n1-Nuevo Juego\t");
     printf("\t2-Instrucciones\n");
@@ -73,6 +77,146 @@ void mostrarMenu(){
 
     printf("\t0-Salir\n\n");
 }
+void intro(){
+    char *texto;
+    char* caracter;
+    texto = (char*) malloc(sizeof(char) * 20);
+    strcpy(texto, "Cada siglo, centenares de personas lo suficientemente valientes, vienen a estos dominios\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_RED"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "a desafiar a su regente...\nMuchos intentos son en vanos, algunos a penas logran sobrevivir...\nY otros hacen historia!\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_RED"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+
+    strcpy(texto, "Ah, si como ese papucho que su rostro fue tallado por las mismisimas musas\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_YELLOW"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "Oye tu!, te he dicho que no vengas aqui cuando estoy contando una historia!!\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_RED"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+
+    strcpy(texto, "Y te he dicho que no me interesa lo que digas!!\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_YELLOW"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+
+    strcpy(texto, "Y eso!?\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_YELLOW"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "Es alguien que se encuentra en este lugar, para presenciar una buena historia, no como tu cabeza hueca\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_RED"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "A quien le dices cabeza hueca!? Ya veras...\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_YELLOW"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "Ustedes 2, silencio maldita sea!!\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_CYAN"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "Con ustedes cacareando como gallinas no se puede ni dormir\nY encima alejan los clientes!\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_CYAN"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "Hola turista, perdona a las incompetentes de mis hermanas, supongo que ya te dijeron a quien veras...\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_CYAN"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "Bueno, el guerrero de hoy, no hay quien se le compare, ni siquiera el regente del Hades...\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_CYAN"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "Ni Zeus!\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_YELLOW"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+
+    printf(COLOR_YELLOW"Es el inigualable...\n");
+    printf(COLOR_RED"Es el inigualable...\n");
+    Sleep(200);
+    printf(COLOR_RED"CHAYANNE!!\n");
+    printf(COLOR_YELLOW"CHAYANNE!!\n");
+    Sleep(190);
+
+    strcpy(texto, "hmm... Ahora tu tomaras el control de su cuerpo y vas a sentir la historia en su cuerpo\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_CYAN"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "Bueno, hasta luegoo!!\n");
+
+    printf(COLOR_YELLOW"Bueno, hasta luegoo!!\n");
+    printf(COLOR_RED"Bueno, hasta luegoo!!\n");
+    Sleep(110);
+
+    strcpy(texto, "Hasta que se callaron...\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_CYAN"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+    strcpy(texto, "Bueno, buena suerte turista, que tengas lindo viaje...\n");
+    caracter = texto;
+    while(*caracter != '\0'){
+        printf(COLOR_CYAN"%c", *caracter);
+        caracter++;
+        Sleep(110);
+    }
+
+
+    printf(COLOR_RESET"\n");
+    getchar();
+    getchar();
+}
+
 void mostrarInstrucciones(){
     system("cls");
     int in;

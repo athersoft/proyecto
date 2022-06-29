@@ -97,18 +97,29 @@ int main(){
         scanf("%i", &in );
         //getchar();
         int i = 0;
+        char val;
         if (in == 0){
             printf(COLOR_RESET"Bye bye\n"COLOR_RESET);
             return 0;
         }
         switch(in) {
             case (1): ; // Nuevo Juego
-                printf("Cargando nivel, por favor espere");
+
+                printf("%cHas jugado la aventura antes?\n", 168);
+                printf("'a'. Si\t 'b'. No\n");
+                val = getch();
+                if(val == 'b'){
+                    system("cls");
+                    intro();
+                }
+
+                printf("\nCargando nivel, por favor espere");
                 while(i != 7){
                     Sleep(100);
                     printf(".");
                     i++;
                 }
+
                 printf("\n");
                 Sleep(1000);
                 player *Player = createPlayer();
