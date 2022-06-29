@@ -68,12 +68,12 @@ lvl * createLvl() {
 player * createPlayer() {
     player * Player = (player * ) malloc(sizeof(player));
     Player -> lvl = 1;
-    Player -> atk = 100;
-    Player -> def = 10;
+    Player -> atk = 1;
+    Player -> def = 1;
     Player -> exp = 0;
     Player -> expMax = 5;
-    Player -> hpMax = 100;
-    Player -> hp = 100;
+    Player -> hpMax = 5;
+    Player -> hp = 5;
     Player -> turnos = 0;
     Player -> otroturn = 0;
     return Player;
