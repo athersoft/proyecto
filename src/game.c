@@ -864,6 +864,7 @@ void loadBestiary(Map *bestiary,lvl *Lvl){
     }
     char bufer[100];
     while (fgets(bufer, 100, file)){
+        
         bool num = false;
         strtok(bufer, "\n");
         char *token = strtok(bufer, ",");
@@ -878,12 +879,13 @@ void loadBestiary(Map *bestiary,lvl *Lvl){
                 int value = atoi(token);
                 aux -> deadCount = value;
                 num = false;
-                enemy *aux = createEnemy(Lvl);
+                aux = createEnemy(Lvl);
 
             }
             insertMap(bestiary,aux -> name,aux);
             token = strtok(NULL, ",");
             }
+            
         }
     }
 
